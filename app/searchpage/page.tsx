@@ -62,9 +62,11 @@ export default function Home() {
         requestData
       );
       const result = response.data;
-      const id = result.results.map((item: any) => item.container.id);
+      const id = result.results.map((item: any) => item.container);
       console.log("서버 응답:", result);
-      router.push(`/resultPage?ids=${encodeURIComponent(JSON.stringify(id))}`);
+      console.log("ID:", id);
+      router.push(`/resultpage?id=${encodeURIComponent(JSON.stringify(id))}`);
+
     } catch (error) {
       console.error("POST 요청 실패:", error);
     }

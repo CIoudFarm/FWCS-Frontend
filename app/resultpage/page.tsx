@@ -51,235 +51,50 @@ type CompatibilityType =
 
 // 컨테이너 타입을 정의합니다
 interface Container {
-  id: number;
+  id: string; // 컨테이너의 고유 ID
   name: string;
-  creator: string;
-  type: string;
-  scale: string;
-  temperature: string;
-  humidity: string;
-  power: string;
-  rating: number;
-  downloads: number;
-  lastUpdated: string;
-  description: string;
-  features: string[];
-  compatibility: CompatibilityType[];
-  certifications: string[];
-  imageUrl: string;
+  creator: string; // 컨테이너 제작자
+  scale: string; // 컨테이너 크기 (예: "중형")
+  hit_range: string; // 작동 범위 (예: "5-10m")
+  electricity: string; // 전력 사양 (예: "220V")
+  humid: string; // 습도 (예: "70%")
+  functions: string[]; // 기능 설명 배열
+  setting_file: {
+    env: string; // 환경 설정 (예: "greenhouse")
+    temp: number; // 온도 설정 (예: 24.5)
+  };
+  added_at: string; // 추가된 날짜 (ISO 8601 형식)
+  updated_at: string; // 업데이트된 날짜 (ISO 8601 형식)
+  download_count: number; // 다운로드 횟수
+  stars: number; // 평점 (예: 4.7)
 }
 
 // 샘플 컨테이너 데이터의 타입을 Container[]로 변경합니다
-const containers: Container[] = [
-  {
-    id: 1,
-    name: "Advanced Temperature Sensor",
-    creator: "SmartFarm Inc.",
-    type: "cotton",
-    scale: "medium",
-    temperature: "high",
-    humidity: "normal",
-    power: "low",
-    rating: 4.8,
-    downloads: 1245,
-    lastUpdated: "2025-03-15",
-    description:
-      "High-precision temperature monitoring system with real-time alerts and historical data tracking. Ideal for greenhouse environments and sensitive crops.",
-    features: [
-      "±0.1°C 정확도",
-      "실시간 알림 기능",
-      "데이터 기록 및 분석",
-      "저전력 설계",
-      "무선 연결 지원",
-      "방수 케이스 포함",
-    ],
-    compatibility: ["greenhouse", "vertical_farm", "hydroponic_system"],
-    certifications: ["ISO 9001", "CE", "RoHS"],
-    imageUrl: "/temperature-sensor.png",
-  },
-  {
-    id: 2,
-    name: "Smart Irrigation Controller",
-    creator: "AquaTech Solutions",
-    type: "polyester",
-    scale: "large",
-    temperature: "medium",
-    humidity: "high",
-    power: "medium",
-    rating: 4.6,
-    downloads: 987,
-    lastUpdated: "2025-04-02",
-    description:
-      "AI-powered irrigation system that optimizes water usage based on soil moisture, weather forecasts, and plant needs. Reduces water consumption by up to 40%.",
-    features: [
-      "AI 기반 급수 최적화",
-      "토양 수분 모니터링",
-      "날씨 예보 통합",
-      "물 사용량 분석",
-      "모바일 앱 제어",
-      "다중 구역 지원",
-    ],
-    compatibility: ["field_crops", "orchard", "greenhouse"],
-    certifications: ["WaterSense", "ISO 14001"],
-    imageUrl: "/placeholder.svg?key=p0t2v",
-  },
-  {
-    id: 3,
-    name: "Crop Health Monitor",
-    creator: "GreenVision Technologies",
-    type: "nylon",
-    scale: "small",
-    temperature: "medium",
-    humidity: "normal",
-    power: "low",
-    rating: 4.9,
-    downloads: 1567,
-    lastUpdated: "2025-03-28",
-    description:
-      "Advanced imaging system that detects early signs of plant diseases, nutrient deficiencies, and pest infestations. Uses spectral analysis and machine learning.",
-    features: [
-      "질병 조기 감지",
-      "영양소 결핍 분석",
-      "해충 모니터링",
-      "고해상도 이미징",
-      "자동 진단 보고서",
-      "처방 권장사항",
-    ],
-    compatibility: ["greenhouse", "vertical_farm", "indoor_garden"],
-    certifications: ["ISO 9001", "CE"],
-    imageUrl: "/plant-health-monitor.png",
-  },
-  {
-    id: 4,
-    name: "Automated Harvesting Robot",
-    creator: "RoboFarm Innovations",
-    type: "hemp",
-    scale: "industrial",
-    temperature: "low",
-    humidity: "dry",
-    power: "high",
-    rating: 4.5,
-    downloads: 432,
-    lastUpdated: "2025-02-10",
-    description:
-      "Autonomous harvesting robot that uses computer vision and precise manipulators to identify and harvest ripe crops. Increases efficiency and reduces labor costs.",
-    features: [
-      "자율 수확 기능",
-      "작물 성숙도 감지",
-      "정밀 매니퓰레이터",
-      "다양한 작물 지원",
-      "24시간 운영 가능",
-      "원격 모니터링",
-    ],
-    compatibility: ["field_crops", "orchard", "greenhouse"],
-    certifications: ["ISO 9001", "CE", "UL"],
-    imageUrl: "/futuristic-harvesting-robot.png",
-  },
-  {
-    id: 5,
-    name: "Soil Nutrient Analyzer",
-    creator: "EcoSoil Labs",
-    type: "cotton",
-    scale: "medium",
-    temperature: "medium",
-    humidity: "normal",
-    power: "low",
-    rating: 4.7,
-    downloads: 876,
-    lastUpdated: "2025-04-10",
-    description:
-      "Portable soil analysis system that provides real-time data on nutrient levels, pH, and microbial activity. Helps optimize fertilizer application and soil health.",
-    features: [
-      "실시간 토양 분석",
-      "영양소 수준 측정",
-      "pH 모니터링",
-      "미생물 활동 평가",
-      "비료 권장사항",
-      "데이터 기록 및 추적",
-    ],
-    compatibility: ["field_crops", "orchard", "greenhouse", "vertical_farm"],
-    certifications: ["ISO 14001", "CE"],
-    imageUrl: "/soil-analyzer.png",
-  },
-  {
-    id: 6,
-    name: "Climate Control System",
-    creator: "ClimaTech Agricultural",
-    type: "polyester",
-    scale: "large",
-    temperature: "extreme",
-    humidity: "very-humid",
-    power: "high",
-    rating: 4.8,
-    downloads: 1023,
-    lastUpdated: "2025-03-05",
-    description:
-      "Comprehensive climate control system for greenhouses and indoor farms. Manages temperature, humidity, CO2 levels, and air circulation for optimal growing conditions.",
-    features: [
-      "통합 기후 제어",
-      "온도 및 습도 관리",
-      "CO2 수준 조절",
-      "공기 순환 최적화",
-      "에너지 효율 알고리즘",
-      "원격 제어 및 모니터링",
-    ],
-    compatibility: ["greenhouse", "vertical_farm", "indoor_garden"],
-    certifications: ["ISO 9001", "CE", "Energy Star"],
-    imageUrl: "/placeholder.svg?key=ewj0a",
-  },
-  {
-    id: 7,
-    name: "Precision Seeding Drone",
-    creator: "AeroDrone Farming",
-    type: "nylon",
-    scale: "large",
-    temperature: "medium",
-    humidity: "normal",
-    power: "medium",
-    rating: 4.6,
-    downloads: 567,
-    lastUpdated: "2025-02-20",
-    description:
-      "Autonomous drone system for precision seeding and planting. Uses GPS mapping and AI to optimize seed placement and spacing for maximum yield.",
-    features: [
-      "정밀 파종 기능",
-      "GPS 매핑",
-      "AI 최적화 배치",
-      "다양한 종자 호환성",
-      "자동 경로 계획",
-      "작업 보고서 생성",
-    ],
-    compatibility: ["field_crops", "reforestation"],
-    certifications: ["ISO 9001", "CE", "FAA Approved"],
-    imageUrl: "/seeding-drone.png",
-  },
-  {
-    id: 8,
-    name: "Livestock Monitoring System",
-    creator: "AnimalTech Solutions",
-    type: "wool",
-    scale: "medium",
-    temperature: "low",
-    humidity: "dry",
-    power: "medium",
-    rating: 4.7,
-    downloads: 789,
-    lastUpdated: "2025-03-22",
-    description:
-      "Comprehensive monitoring system for livestock health and behavior. Tracks vital signs, movement patterns, and feeding habits to detect health issues early.",
-    features: [
-      "건강 상태 모니터링",
-      "행동 패턴 분석",
-      "급식 습관 추적",
-      "위치 추적",
-      "자동 알림 시스템",
-      "데이터 기반 인사이트",
-    ],
-    compatibility: ["dairy_farm", "cattle_ranch", "poultry_farm"],
-    certifications: ["ISO 9001", "CE", "Animal Welfare Approved"],
-    imageUrl: "/livestock-monitor.png",
-  },
-];
+// const containers: Container[] = [
+//   {
+//     id: "1",
+//     name: "asd",
+//     creator: "asd",
+//     scale: "medium",
+//     hit_range: "5-10m",
+//     electricity: "220V",
+//     humid: "70%",
+//     functions: [
+//       "온도 모니터링",
+//       "습도 조절",
+//       "전력 소비 분석",
+//       "환경 데이터 기록",
+//     ],
+//     setting_file: {
+//       env: "greenhouse",
+//       temp: 24.5,
+//     },
+//     added_at: "2025-03-15",
+//     updated_at: "2025-03-15",
+//     download_count: 1245,
+//     stars: 4.8,
+//   },
+// ];
 
 // 상태 관리 부분도 타입을 명시합니다
 export default function ResultsPage() {
@@ -302,47 +117,58 @@ export default function ResultsPage() {
 
   const [containerData, setContainerData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [containerId, setContainerId] = useState<string | null>(null);
+  const [containers, setContainerList] = useState<Container[]>([]);
+  const [containerId, setContainerId] = useState<string>("");
 
   const [selectedContainer, setSelectedContainer] = useState<Container | null>(
     containers[0]
   );
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
-
-
-  // containerId를 기반으로 데이터 가져오기
+  // containerId를 기반으로 컨테이너 리스트 가져오기
   useEffect(() => {
-    const fetchContainerData = async () => {
-      if (!containerId) return;
-
+    const fetchContainerListById = async (id: string): Promise<void> => {
       try {
-        const response = await axios.get(
-          `http://3.39.205.6:8300/crops/${containerId}`
+        const response = await axios.get<Container[]>(
+          `http://3.39.205.6:8300/containers/${id}`
         );
-        setContainerData(response.data);
+        console.log("컨테이너 리스트 가져오기 성공:", response.data);
+        setContainerList(response.data); // 컨테이너 리스트 저장
+        console.log("컨테이너 리스트:", containers);
       } catch (error) {
-        console.error("데이터 가져오기 실패:", error);
+        console.error("컨테이너 리스트 가져오기 실패:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchContainerData();
+    if (containerId) {
+      fetchContainerListById(containerId);
+      console.log("컨테이너 ID:", containerId);
+    }
   }, [containerId]);
 
+  // if (loading) {
+  //   return <div>로딩 중...</div>;
+  // }
+  // if (containerList.length === 0) {
+  //   return <div>검색 결과가 없습니다.</div>;
+  // }
+  const handleClick = (id: string) => {
+    router.push(`/modifypage?id=${id}`);
+  };
 
   // 컨테이너 선택 처리 함수도 타입을 명시합니다
   const handleSelectContainer = (container: Container) => {
     setSelectedContainer(container);
   };
 
-  // 필터링된 컨테이너 목록
+  // 필터링된 컨테이너 목록 이건쓸듯듯
   const filteredContainers = containers.filter((container) =>
     container.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // 호환성 표시 함수를 수정합니다
+  // 호환성 표시 함수를 수정합니다 아마 안쓸듯듯
   const renderCompatibility = (compatibility: CompatibilityType[]) => {
     const compatibilityMap: Record<CompatibilityType, string> = {
       greenhouse: "온실",
@@ -364,7 +190,7 @@ export default function ResultsPage() {
     ));
   };
 
-  // 등급 표시 함수
+  // 등급 표시 함수 이건쓸듯듯
   const renderRating = (rating: any) => {
     return (
       <div className="flex items-center">
@@ -612,7 +438,7 @@ export default function ResultsPage() {
                         <div
                           className="w-16 h-16 rounded-md bg-muted shrink-0 overflow-hidden shadow-sm"
                           style={{
-                            backgroundImage: `url(${container.imageUrl})`,
+                            // backgroundImage: `url(${container.imageUrl})`,
                             backgroundSize: "cover",
                             backgroundPosition: "center",
                           }}
@@ -630,23 +456,23 @@ export default function ResultsPage() {
                             <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
                           </div>
                           <div className="mt-2 flex flex-wrap gap-1">
-                            <Badge variant="secondary" className="text-xs">
+                            {/* <Badge variant="secondary" className="text-xs">
                               {container.type}
-                            </Badge>
+                            </Badge> */}
                             <Badge variant="secondary" className="text-xs">
                               {container.scale}
                             </Badge>
                             <Badge variant="secondary" className="text-xs">
-                              {container.temperature}
+                              {container.hit_range}
                             </Badge>
                           </div>
                           <div className="mt-2 flex items-center justify-between">
                             <div className="flex items-center text-sm text-muted-foreground">
                               <Download className="h-3 w-3 mr-1" />
-                              {container.downloads}
+                              {container.download_count}
                             </div>
                             <div className="flex items-center">
-                              {renderRating(container.rating)}
+                              {renderRating(container.stars)}
                             </div>
                           </div>
                         </div>
@@ -670,10 +496,10 @@ export default function ResultsPage() {
                         </CardDescription>
                       </div>
                       <div className="flex items-center gap-2">
-                        {renderRating(selectedContainer.rating)}
+                        {renderRating(selectedContainer.stars)}
                         <Badge variant="outline" className="ml-2">
                           <Download className="h-3 w-3 mr-1" />
-                          {selectedContainer.downloads}
+                          {selectedContainer.download_count}
                         </Badge>
                       </div>
                     </div>
@@ -683,7 +509,7 @@ export default function ResultsPage() {
                       <div
                         className="w-full md:w-1/3 h-48 rounded-md bg-muted overflow-hidden shadow-md"
                         style={{
-                          backgroundImage: `url(${selectedContainer.imageUrl})`,
+                          // backgroundImage: `url(${selectedContainer.imageUrl})`,
                           backgroundSize: "cover",
                           backgroundPosition: "center",
                         }}
@@ -691,7 +517,7 @@ export default function ResultsPage() {
                       <div className="w-full md:w-2/3">
                         <h3 className="text-lg font-medium mb-2">설명</h3>
                         <p className="text-muted-foreground mb-4">
-                          {selectedContainer.description}
+                          {/* {selectedContainer.description} */}
                         </p>
 
                         <div className="grid grid-cols-2 gap-4">
@@ -699,7 +525,7 @@ export default function ResultsPage() {
                             <h4 className="text-sm font-medium mb-1">
                               직물 종류
                             </h4>
-                            <p className="text-sm">{selectedContainer.type}</p>
+                            {/* <p className="text-sm">{selectedContainer.type}</p> */}
                           </div>
                           <div>
                             <h4 className="text-sm font-medium mb-1">규모</h4>
@@ -710,29 +536,29 @@ export default function ResultsPage() {
                               온도 범위
                             </h4>
                             <p className="text-sm">
-                              {selectedContainer.temperature}
+                              {selectedContainer.hit_range}
                             </p>
                           </div>
                           <div>
                             <h4 className="text-sm font-medium mb-1">
                               습도 범위
                             </h4>
-                            <p className="text-sm">
-                              {selectedContainer.humidity}
-                            </p>
+                            <p className="text-sm">{selectedContainer.humid}</p>
                           </div>
                           <div>
                             <h4 className="text-sm font-medium mb-1">
                               전력 소비
                             </h4>
-                            <p className="text-sm">{selectedContainer.power}</p>
+                            <p className="text-sm">
+                              {selectedContainer.electricity}
+                            </p>
                           </div>
                           <div>
                             <h4 className="text-sm font-medium mb-1">
                               최종 업데이트
                             </h4>
                             <p className="text-sm">
-                              {selectedContainer.lastUpdated}
+                              {selectedContainer.updated_at}
                             </p>
                           </div>
                         </div>
@@ -756,21 +582,23 @@ export default function ResultsPage() {
                       </TabsList>
                       <TabsContent value="features" className="pt-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                          {selectedContainer.features.map((feature, index) => (
-                            <div
-                              key={index}
-                              className="flex items-center gap-2"
-                            >
-                              <div className="h-2 w-2 rounded-full bg-green-500" />
-                              <span>{feature}</span>
-                            </div>
-                          ))}
+                          {selectedContainer.functions.map(
+                            (functions, index) => (
+                              <div
+                                key={index}
+                                className="flex items-center gap-2"
+                              >
+                                <div className="h-2 w-2 rounded-full bg-green-500" />
+                                <span>{functions}</span>
+                              </div>
+                            )
+                          )}
                         </div>
                       </TabsContent>
                       <TabsContent value="compatibility" className="pt-4">
                         <h3 className="text-sm font-medium mb-2">호환 환경</h3>
                         <div className="flex flex-wrap">
-                          {renderCompatibility(selectedContainer.compatibility)}
+                          {/* {renderCompatibility(selectedContainer.compatibility)} */}
                         </div>
 
                         <h3 className="text-sm font-medium mt-4 mb-2">
@@ -793,7 +621,7 @@ export default function ResultsPage() {
                                     {container.creator}
                                   </div>
                                   <div className="mt-1">
-                                    {renderRating(container.rating)}
+                                    {renderRating(container.stars)}
                                   </div>
                                 </CardContent>
                               </Card>
@@ -804,13 +632,13 @@ export default function ResultsPage() {
                         <div className="space-y-4">
                           <div>
                             <h3 className="text-sm font-medium mb-2">인증</h3>
-                            <div className="flex flex-wrap gap-1">
+                            {/* <div className="flex flex-wrap gap-1">
                               {selectedContainer.certifications.map((cert) => (
                                 <Badge key={cert} variant="outline">
                                   {cert}
                                 </Badge>
                               ))}
-                            </div>
+                            </div> */}
                           </div>
 
                           <div>
@@ -875,7 +703,7 @@ export default function ResultsPage() {
                     <div className="flex flex-col md:flex-row gap-4 pt-4 justify-end">
                       <Button
                         className="bg-green-600 hover:bg-green-700 gap-2"
-                        onClick={() => router.push("/modifypage")}
+                        onClick={() => handleClick(selectedContainer.id)}
                       >
                         AI 에디터로 수정
                         <ArrowRight className="h-4 w-4" />
