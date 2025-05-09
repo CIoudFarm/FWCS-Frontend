@@ -400,7 +400,7 @@ export default function PredictPage() {
           </div>
         </div>
 
-        <Tabs defaultValue="environment" className="space-y-6">
+        <Tabs defaultValue="growth" className="space-y-6">
           <TabsList className="grid grid-cols-3 w-full">
             {/* <TabsTrigger
               value="environment"
