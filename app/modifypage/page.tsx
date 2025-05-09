@@ -53,11 +53,11 @@ export default function AIEditorPage() {
 
   // 샘플 JSON 데이터 (이전 화면에서 선택한 파일)
   const [fileContent, setFileContent] = useState(`{
-  "name": "Advanced Temperature Sensor",
-  "type": "cotton",
+  "name": "Standard greenhouse type container",
+  "type": "tomato, lettuce, pepper",
   "scale": "medium",
-  "temperature": "high",
-  "humidity": "normal",
+  "temperature": "medium",
+  "humidity": "60%",
   "power": "low",
   "description": "High-precision temperature monitoring system with real-time alerts and historical data tracking."
 }`);
@@ -102,7 +102,7 @@ export default function AIEditorPage() {
         response =
           "온도 설정을 'very-high'로 변경했습니다. 다른 수정이 필요하신가요?";
         updatedContent = fileContent.replace(
-          '"temperature": "high"',
+          '"temperature": "medium"',
           '"temperature": "very-high"'
         );
       } else if (
@@ -112,8 +112,8 @@ export default function AIEditorPage() {
         response =
           "습도 설정을 'high'로 변경했습니다. 다른 수정이 필요하신가요?";
         updatedContent = fileContent.replace(
-          '"humidity": "normal"',
-          '"humidity": "high"'
+          '"humidity": "60%"',
+          '"humidity": "80%"'
         );
       } else if (
         inputValue.toLowerCase().includes("설명") ||
@@ -279,8 +279,9 @@ export default function AIEditorPage() {
             <Button variant="outline" onClick={() => router.push("/mypage")}>
               이전
             </Button>
-            <Button className="bg-green-600 hover:bg-green-700">마이페이지</Button>
-
+            <Button className="bg-green-600 hover:bg-green-700">
+              마이페이지
+            </Button>
           </div>
         </div>
       </header>
@@ -307,16 +308,18 @@ export default function AIEditorPage() {
                     {messages.map((message) => (
                       <div
                         key={message.id}
-                        className={`flex ${message.role === "user"
+                        className={`flex ${
+                          message.role === "user"
                             ? "justify-end"
                             : "justify-start"
-                          }`}
+                        }`}
                       >
                         <div
-                          className={`flex gap-3 max-w-[80%] ${message.role === "user"
+                          className={`flex gap-3 max-w-[80%] ${
+                            message.role === "user"
                               ? "flex-row-reverse"
                               : "flex-row"
-                            }`}
+                          }`}
                         >
                           <Avatar
                             className={
@@ -334,18 +337,20 @@ export default function AIEditorPage() {
                           </Avatar>
                           <div>
                             <div
-                              className={`rounded-lg p-3 ${message.role === "user"
+                              className={`rounded-lg p-3 ${
+                                message.role === "user"
                                   ? "bg-green-600 text-white"
                                   : "bg-white dark:bg-gray-800 shadow-sm"
-                                }`}
+                              }`}
                             >
                               {message.content}
                             </div>
                             <div
-                              className={`text-xs text-gray-500 mt-1 ${message.role === "user"
+                              className={`text-xs text-gray-500 mt-1 ${
+                                message.role === "user"
                                   ? "text-right"
                                   : "text-left"
-                                }`}
+                              }`}
                             >
                               {formatTime(message.timestamp)}
                             </div>
