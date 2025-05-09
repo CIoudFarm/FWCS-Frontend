@@ -15,6 +15,7 @@ import { Leaf, X, Upload, Tag, Plus, ArrowRight, FileText, Cloud, Sprout, Drople
 export default function FileUploadPage() {
   const router = useRouter()
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [file, setFile] = useState<File | null>(null)
   const [fileName, setFileName] = useState<string>("")
   const [fileSize, setFileSize] = useState<string>("")
   const [tags, setTags] = useState<string[]>([])
@@ -22,20 +23,28 @@ export default function FileUploadPage() {
   const [description, setDescription] = useState<string>("")
 
   // 파일 업로드 처리
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      setFileName(file.name)
+ const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const uploadedFile = e.target.files?.[0]
+  if (!uploadedFile) return
 
-      // 파일 크기 포맷팅 (KB 또는 MB)
-      const size = file.size
-      if (size < 1024 * 1024) {
-        setFileSize(`${(size / 1024).toFixed(2)} KB`)
-      } else {
-        setFileSize(`${(size / (1024 * 1024)).toFixed(2)} MB`)
-      }
-    }
+  // 확장자 및 MIME 타입 확인
+  const isJson = uploadedFile.name.endsWith(".json") && uploadedFile.type === "application/json"
+  if (!isJson) {
+    alert("JSON 파일만 업로드 가능합니다.")
+    return
   }
+
+  setFile(uploadedFile)
+  setFileName(uploadedFile.name)
+
+  const size = uploadedFile.size
+  if (size < 1024 * 1024) {
+    setFileSize(`${(size / 1024).toFixed(2)} KB`)
+  } else {
+    setFileSize(`${(size / (1024 * 1024)).toFixed(2)} MB`)
+  }
+}
+
 
   // 파일 업로드 버튼 클릭
   const handleUploadClick = () => {
@@ -63,21 +72,30 @@ export default function FileUploadPage() {
     }
   }
 
-  // 제출 처리
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault()
+  if (!file) return
 
-    // 여기서 파일, 태그, 설명을 서버에 제출하는 로직을 구현할 수 있습니다.
-    console.log({
-      fileName,
-      fileSize,
-      tags,
-      description,
+  const formData = new FormData()
+  formData.append("jsonFile", file)
+  formData.append("tags", JSON.stringify(tags))
+  formData.append("description", description)
+
+  try {
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
     })
 
-    // 다음 페이지로 이동
-    router.push("/ai-editor")
+    const result = await res.json()
+    console.log("서버 응답:", result)
+
+    // 다음 페이지로 이동 예시:
+    // router.push("/next-step")
+  } catch (error) {
+    console.error("업로드 실패:", error)
   }
+}
 
   return (
     <div className="flex min-h-screen flex-col relative overflow-hidden">
