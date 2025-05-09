@@ -59,7 +59,7 @@ export default function Home() {
 
     try {
       const response = await axios.post(
-        "http://3.39.205.6:8300/crops/search/",
+        "https://devcjs.co.kr/crops/search/",
         requestData
       );
       const result = response.data;
@@ -78,12 +78,9 @@ export default function Home() {
         <div className="w-full flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 ml-5">
             <BrandIcon className="h-6 w-6 text-green-600" />
-            <span className="text-xl font-bold">FWCS Hub</span>
+            <span className="text-xl font-bold" onClick={() => router.push("/")}>FWCS Hub</span>
           </div>
           <div className="flex items-center gap-4 mr-5">
-            <Button variant="outline">
-              이전
-            </Button>
             <Button className="bg-green-600 hover:bg-green-700" onClick={() => router.push("/mypage")}>마이페이지</Button>
           </div>
         </div>
@@ -108,7 +105,7 @@ export default function Home() {
               <form className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="crop-type">작작물 종류</Label>
+                    <Label htmlFor="crop-type">작물 종류</Label>
                     <Input
                       type="string"
                       placeholder="작물 종류를 입력하세요..."

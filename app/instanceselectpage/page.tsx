@@ -1,8 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
-import Image from "next/image"
+import { useRouter } from "next/navigation"
+import axios from "axios"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -14,7 +15,6 @@ import { Switch } from "@/components/ui/switch"
 import { Badge } from "@/components/ui/badge"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
-  Leaf,
   Server,
   Cpu,
   Thermometer,
@@ -32,29 +32,54 @@ import {
   BarChart,
 } from "lucide-react"
 import { BrandIcon } from "@/components/ui/brand-icon"
-import { useRouter } from "next/navigation"
 
-// 시스템 타입 정의
-interface SystemItem {
-  id: number
+// 컨테이너 타입 정의
+interface Container {
+  id: string
   name: string
-  creator: string
-  type: string
+  creater: string
   scale: string
-  temperature: string
-  humidity: string
-  power: string
-  rating: number
-  downloads: number
-  lastUpdated: string
-  description: string
-  features: string[]
-  compatibility: string[]
-  certifications: string[]
-  imageUrl: string
+  hit_range: string
+  electricity: string
+  humid: string
+  functions: string[]
+  setting_file: {
+    env?: string
+    temp?: number
+    name?: string
+    description?: string
+    hardware?: {
+      layers: number
+      beds_per_layer: number
+      sensors: { type: string; x: number; y: number }[]
+      actuators: { type: string; x: number; y: number }[]
+    }
+    dimensions?: {
+      width: string
+      length: string
+      height: string
+    }
+    plants?: {
+      type: string
+      name: string
+      minTemp: number
+      maxTemp: number
+      minHumidity: number
+      maxHumidity: number
+      positions: { x: number; y: number; layer: number }[]
+      growthStage: number
+    }[]
+  }
+  added_at: string
+  updated_at: string
+  download_count: number
+  stars: number
+  imageUrl?: string
 }
 
 export default function IaaSPage() {
+  const router = useRouter()
+
   // 탭 상태 관리
   const [activeTab, setActiveTab] = useState("instance")
 
@@ -71,235 +96,46 @@ export default function IaaSPage() {
   const [selectedScale, setSelectedScale] = useState<string | null>(null)
 
   // 시스템 선택 상태
-  const [selectedSystem, setSelectedSystem] = useState<SystemItem | null>(null)
+  const [selectedContainer, setSelectedContainer] = useState<Container | null>(null)
 
-  // 시스템 데이터
-  const systemItems: SystemItem[] = [
-    {
-      id: 1,
-      name: "Smart Irrigation Controller",
-      creator: "AquaTech Solutions",
-      type: "irrigation",
-      scale: "medium",
-      temperature: "normal",
-      humidity: "normal",
-      power: "medium",
-      rating: 4.5,
-      downloads: 2345,
-      lastUpdated: "2025-04-12",
-      description:
-        "Advanced irrigation controller that optimizes water usage based on soil moisture, weather forecasts, and plant needs. Reduces water consumption by up to 40%.",
-      features: [
-        "스마트 물 관리",
-        "토양 수분 모니터링",
-        "날씨 기반 일정 조정",
-        "구역별 제어",
-        "물 사용량 보고서",
-        "모바일 앱 제어",
-      ],
-      compatibility: ["field_crops", "orchards", "greenhouse"],
-      certifications: ["WaterSense", "ISO 14001"],
-      imageUrl: "/agricultural-irrigation.png",
-    },
-    {
-      id: 2,
-      name: "Precision Seeding System",
-      creator: "FarmTech Innovations",
-      type: "planting",
-      scale: "large",
-      temperature: "normal",
-      humidity: "normal",
-      power: "high",
-      rating: 4.7,
-      downloads: 1876,
-      lastUpdated: "2025-03-28",
-      description:
-        "High-precision seeding system that ensures optimal seed placement, spacing, and depth. Increases germination rates and crop uniformity.",
-      features: ["정밀 종자 배치", "가변 속도 제어", "자동 깊이 조정", "종자 모니터링", "GPS 매핑", "데이터 로깅"],
-      compatibility: ["row_crops", "vegetables", "small_grains"],
-      certifications: ["ISO 9001", "CE"],
-      imageUrl: "/precision-seeding.png",
-    },
-    {
-      id: 3,
-      name: "Automated Harvesting Robot",
-      creator: "RoboFarm Systems",
-      type: "harvesting",
-      scale: "large",
-      temperature: "normal",
-      humidity: "normal",
-      power: "high",
-      rating: 4.6,
-      downloads: 1243,
-      lastUpdated: "2025-02-15",
-      description:
-        "Autonomous harvesting robot that uses computer vision and AI to identify and harvest crops at optimal ripeness. Reduces labor costs and increases harvest efficiency.",
-      features: ["AI 작물 인식", "정밀 수확", "자율 주행", "수확량 추적", "품질 분류", "24/7 작동"],
-      compatibility: ["fruits", "vegetables", "specialty_crops"],
-      certifications: ["ISO 9001", "CE", "UL"],
-      imageUrl: "/futuristic-harvesting-robot.png",
-    },
-    {
-      id: 4,
-      name: "Soil Health Monitoring System",
-      creator: "TerraSense Technologies",
-      type: "monitoring",
-      scale: "small",
-      temperature: "normal",
-      humidity: "normal",
-      power: "low",
-      rating: 4.8,
-      downloads: 3210,
-      lastUpdated: "2025-04-05",
-      description:
-        "Comprehensive soil monitoring system that tracks nutrients, pH, moisture, and microbial activity. Provides actionable insights for soil management.",
-      features: [
-        "실시간 토양 분석",
-        "영양소 매핑",
-        "pH 모니터링",
-        "미생물 활동 추적",
-        "토양 건강 점수",
-        "개선 권장사항",
-      ],
-      compatibility: ["all_crops", "research", "precision_agriculture"],
-      certifications: ["ISO 14001", "USDA Approved"],
-      imageUrl: "/soil-monitoring.png",
-    },
-    {
-      id: 5,
-      name: "Drone Crop Monitoring",
-      creator: "SkyView Agricultural",
-      type: "monitoring",
-      scale: "medium",
-      temperature: "normal",
-      humidity: "normal",
-      power: "medium",
-      rating: 4.4,
-      downloads: 1987,
-      lastUpdated: "2025-03-10",
-      description:
-        "Drone-based crop monitoring system that captures multispectral imagery to assess crop health, detect pests, and identify irrigation issues.",
-      features: [
-        "다중 스펙트럼 이미징",
-        "작물 건강 지수",
-        "해충 및 질병 감지",
-        "자동 비행 경로",
-        "데이터 분석 대시보드",
-        "처방 맵 생성",
-      ],
-      compatibility: ["field_crops", "orchards", "vineyards"],
-      certifications: ["FAA Compliant", "ISO 9001"],
-      imageUrl: "/agricultural-drone.png",
-    },
-    {
-      id: 6,
-      name: "Climate Control System",
-      creator: "ClimaTech Agricultural",
-      type: "environmental",
-      scale: "large",
-      temperature: "extreme",
-      humidity: "very-humid",
-      power: "high",
-      rating: 4.8,
-      downloads: 1023,
-      lastUpdated: "2025-03-05",
-      description:
-        "Comprehensive climate control system for greenhouses and indoor farms. Manages temperature, humidity, CO2 levels, and air circulation for optimal growing conditions.",
-      features: [
-        "통합 기후 제어",
-        "온도 및 습도 관리",
-        "CO2 수준 조절",
-        "공기 순환 최적화",
-        "에너지 효율 알고리즘",
-        "원격 제어 및 모니터링",
-      ],
-      compatibility: ["greenhouse", "vertical_farm", "indoor_garden"],
-      certifications: ["ISO 9001", "CE", "Energy Star"],
-      imageUrl: "/greenhouse-climate-control.png",
-    },
-    {
-      id: 7,
-      name: "Livestock Monitoring System",
-      creator: "AnimalTech Solutions",
-      type: "livestock",
-      scale: "medium",
-      temperature: "normal",
-      humidity: "normal",
-      power: "medium",
-      rating: 4.6,
-      downloads: 1456,
-      lastUpdated: "2025-02-20",
-      description:
-        "IoT-based livestock monitoring system that tracks animal health, behavior, and location. Provides early detection of health issues and optimizes herd management.",
-      features: ["건강 모니터링", "행동 분석", "위치 추적", "자동 급이 통합", "번식 관리", "질병 조기 경보"],
-      compatibility: ["cattle", "dairy", "swine", "poultry"],
-      certifications: ["ISO 9001", "Animal Welfare Approved"],
-      imageUrl: "/livestock-monitoring.png",
-    },
-    {
-      id: 8,
-      name: "Automated Nutrient Delivery",
-      creator: "NutriGrow Systems",
-      type: "fertilization",
-      scale: "medium",
-      temperature: "normal",
-      humidity: "normal",
-      power: "medium",
-      rating: 4.7,
-      downloads: 1789,
-      lastUpdated: "2025-04-01",
-      description:
-        "Precision nutrient delivery system that automatically adjusts fertilizer application based on crop needs, soil conditions, and growth stage.",
-      features: ["정밀 영양소 투여", "실시간 조정", "작물별 레시피", "영양소 사용 효율화", "폐기물 감소", "원격 관리"],
-      compatibility: ["hydroponic", "greenhouse", "precision_agriculture"],
-      certifications: ["ISO 14001", "Organic Certified"],
-      imageUrl: "/nutrient-delivery-system.png",
-    },
-  ]
+  // 컨테이너 데이터
+  const [containers, setContainers] = useState<Container[]>([])
+  const [loading, setLoading] = useState(true)
 
-  // 필터링된 시스템 목록
-  const filteredSystems = systemItems.filter((item) => {
+  // 데이터 가져오기
+  useEffect(() => {
+    const fetchContainers = async () => {
+      try {
+        const response = await axios.get("https://devcjs.co.kr/containers")
+        console.log("컨테이너 데이터:", response.data)
+        setContainers(response.data)
+      } catch (error) {
+        console.error("데이터 가져오기 실패:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchContainers()
+  }, [])
+
+  // 필터링된 컨테이너 목록
+  const filteredContainers = containers.filter((container) => {
     const matchesSearch =
-      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.description.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesType = !selectedType || item.type === selectedType
-    const matchesScale = !selectedScale || item.scale === selectedScale
+      container.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (container.setting_file.description &&
+        container.setting_file.description.toLowerCase().includes(searchQuery.toLowerCase()))
+    const matchesType = !selectedType || container.creater === selectedType
+    const matchesScale = !selectedScale || container.scale === selectedScale
 
     return matchesSearch && matchesType && matchesScale
   })
 
-  // 시스템 유형 목록
-  const systemTypes = [...new Set(systemItems.map((item) => item.type))]
+  // 컨테이너 제작자 목록
+  const containerCreators = [...new Set(containers.map((container) => container.creater))]
 
   // 규모 목록
-  const scaleOptions = [...new Set(systemItems.map((item) => item.scale))]
-
-  // 호환성 표시 함수
-  const getCompatibilityLabel = (compatibility: string) => {
-    const labels: Record<string, string> = {
-      field_crops: "밭작물",
-      orchards: "과수원",
-      greenhouse: "온실",
-      row_crops: "줄작물",
-      vegetables: "채소",
-      small_grains: "소립종",
-      fruits: "과일",
-      specialty_crops: "특용작물",
-      all_crops: "모든 작물",
-      research: "연구용",
-      precision_agriculture: "정밀농업",
-      vineyards: "포도원",
-      vertical_farm: "수직농장",
-      indoor_garden: "실내정원",
-      cattle: "소",
-      dairy: "낙농",
-      swine: "돼지",
-      poultry: "가금류",
-      hydroponic: "수경재배",
-    }
-
-    return labels[compatibility] || compatibility
-  }
+  const scaleOptions = [...new Set(containers.map((container) => container.scale))]
 
   // 규모 표시 함수
   const getScaleLabel = (scale: string) => {
@@ -307,29 +143,15 @@ export default function IaaSPage() {
       small: "소규모",
       medium: "중규모",
       large: "대규모",
+      industrial: "산업용",
     }
 
     return labels[scale] || scale
   }
 
-  // 유형 표시 함수
-  const getTypeLabel = (type: string) => {
-    const labels: Record<string, string> = {
-      irrigation: "관개",
-      planting: "파종",
-      harvesting: "수확",
-      monitoring: "모니터링",
-      environmental: "환경제어",
-      livestock: "축산",
-      fertilization: "시비",
-    }
-
-    return labels[type] || type
-  }
-
-  // 시스템 선택 처리
-  const handleSystemSelect = (system: SystemItem) => {
-    setSelectedSystem(system)
+  // 컨테이너 선택 처리
+  const handleContainerSelect = (container: Container) => {
+    setSelectedContainer(container)
   }
 
   // 인스턴스 생성 처리
@@ -339,7 +161,7 @@ export default function IaaSPage() {
       return
     }
 
-    if (activeTab === "configuration" && !selectedSystem) {
+    if (activeTab === "configuration" && !selectedContainer) {
       alert("시스템을 선택해주세요.")
       return
     }
@@ -362,10 +184,40 @@ export default function IaaSPage() {
     )
   }
 
-  const router = useRouter();
-
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col relative overflow-hidden">
+      {/* 배경 요소들 */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        {/* 그라데이션 배경 */}
+        <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-white to-blue-50 dark:from-green-950/20 dark:via-background dark:to-blue-950/10"></div>
+
+        {/* 왼쪽 상단 장식 */}
+        <div className="absolute -top-20 -left-20 w-96 h-96 bg-green-100 dark:bg-green-900/20 rounded-full blur-3xl opacity-60"></div>
+
+        {/* 오른쪽 하단 장식 */}
+        <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-blue-100 dark:bg-blue-900/20 rounded-full blur-3xl opacity-60"></div>
+
+        {/* 중앙 장식 */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-32 bg-green-50 dark:bg-green-900/10 blur-3xl opacity-40"></div>
+
+        {/* 작은 아이콘 패턴 */}
+        <div className="absolute top-1/4 left-1/5 opacity-10">
+          <Thermometer className="h-12 w-12 text-red-600 dark:text-red-500" />
+        </div>
+        <div className="absolute top-2/3 right-1/5 opacity-10">
+          <Droplet className="h-10 w-10 text-blue-600 dark:text-blue-500" />
+        </div>
+        <div className="absolute bottom-1/4 left-1/3 opacity-10">
+          <Sun className="h-14 w-14 text-yellow-600 dark:text-yellow-500" />
+        </div>
+        <div className="absolute top-1/3 right-1/4 opacity-10">
+          <Wind className="h-16 w-16 text-blue-600 dark:text-blue-500" />
+        </div>
+
+        {/* 격자 패턴 */}
+        <div className="absolute inset-0 bg-[url('/grid-pattern.png')] bg-center opacity-5"></div>
+      </div>
+
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="w-full flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 ml-5">
@@ -376,10 +228,9 @@ export default function IaaSPage() {
           </div>
 
           <div className="flex items-center gap-4 mr-5">
-            <Button variant="outline">
-              이전
+            <Button className="bg-green-600 hover:bg-green-700" onClick={() => router.push("/mypage")}>
+              마이페이지
             </Button>
-            <Button className="bg-green-600 hover:bg-green-700" onClick={() => router.push("/mypage")}>마이페이지</Button>
           </div>
         </div>
       </header>
@@ -408,8 +259,9 @@ export default function IaaSPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* 기본형 인스턴스 */}
                   <Card
-                    className={`cursor-pointer transition-all ${selectedPlan === "basic" ? "border-green-500 shadow-lg" : "hover:border-green-200"
-                      }`}
+                    className={`cursor-pointer transition-all ${
+                      selectedPlan === "basic" ? "border-green-500 shadow-lg" : "hover:border-green-200"
+                    }`}
                     onClick={() => setSelectedPlan("basic")}
                   >
                     <CardHeader>
@@ -441,10 +293,11 @@ export default function IaaSPage() {
                     </CardContent>
                     <CardFooter>
                       <Button
-                        className={`w-full ${selectedPlan === "basic"
+                        className={`w-full ${
+                          selectedPlan === "basic"
                             ? "bg-green-600 hover:bg-green-700"
                             : "bg-gray-200 hover:bg-gray-300 text-gray-800"
-                          }`}
+                        }`}
                         onClick={() => setSelectedPlan("basic")}
                       >
                         {selectedPlan === "basic" ? "선택됨" : "선택"}
@@ -454,8 +307,9 @@ export default function IaaSPage() {
 
                   {/* 표준형 인스턴스 */}
                   <Card
-                    className={`cursor-pointer transition-all ${selectedPlan === "standard" ? "border-green-500 shadow-lg" : "hover:border-green-200"
-                      }`}
+                    className={`cursor-pointer transition-all ${
+                      selectedPlan === "standard" ? "border-green-500 shadow-lg" : "hover:border-green-200"
+                    }`}
                     onClick={() => setSelectedPlan("standard")}
                   >
                     <CardHeader>
@@ -491,10 +345,11 @@ export default function IaaSPage() {
                     </CardContent>
                     <CardFooter>
                       <Button
-                        className={`w-full ${selectedPlan === "standard"
+                        className={`w-full ${
+                          selectedPlan === "standard"
                             ? "bg-green-600 hover:bg-green-700"
                             : "bg-gray-200 hover:bg-gray-300 text-gray-800"
-                          }`}
+                        }`}
                         onClick={() => setSelectedPlan("standard")}
                       >
                         {selectedPlan === "standard" ? "선택됨" : "선택"}
@@ -504,8 +359,9 @@ export default function IaaSPage() {
 
                   {/* 고급형 인스턴스 */}
                   <Card
-                    className={`cursor-pointer transition-all ${selectedPlan === "premium" ? "border-green-500 shadow-lg" : "hover:border-green-200"
-                      }`}
+                    className={`cursor-pointer transition-all ${
+                      selectedPlan === "premium" ? "border-green-500 shadow-lg" : "hover:border-green-200"
+                    }`}
                     onClick={() => setSelectedPlan("premium")}
                   >
                     <CardHeader>
@@ -541,10 +397,11 @@ export default function IaaSPage() {
                     </CardContent>
                     <CardFooter>
                       <Button
-                        className={`w-full ${selectedPlan === "premium"
+                        className={`w-full ${
+                          selectedPlan === "premium"
                             ? "bg-green-600 hover:bg-green-700"
                             : "bg-gray-200 hover:bg-gray-300 text-gray-800"
-                          }`}
+                        }`}
                         onClick={() => setSelectedPlan("premium")}
                       >
                         {selectedPlan === "premium" ? "선택됨" : "선택"}
@@ -635,7 +492,7 @@ export default function IaaSPage() {
                           </div>
 
                           <div className="space-y-2">
-                            <Label>시스템 유형</Label>
+                            <Label>제작자</Label>
                             <div className="space-y-2">
                               <div className="flex items-center space-x-2">
                                 <Checkbox
@@ -644,18 +501,18 @@ export default function IaaSPage() {
                                   onCheckedChange={() => setSelectedType(null)}
                                 />
                                 <Label htmlFor="all-types" className="text-sm font-normal">
-                                  모든 유형
+                                  모든 제작자
                                 </Label>
                               </div>
-                              {systemTypes.map((type) => (
-                                <div key={type} className="flex items-center space-x-2">
+                              {containerCreators.map((creator) => (
+                                <div key={creator} className="flex items-center space-x-2">
                                   <Checkbox
-                                    id={`type-${type}`}
-                                    checked={selectedType === type}
-                                    onCheckedChange={() => setSelectedType(type)}
+                                    id={`type-${creator}`}
+                                    checked={selectedType === creator}
+                                    onCheckedChange={() => setSelectedType(creator)}
                                   />
-                                  <Label htmlFor={`type-${type}`} className="text-sm font-normal">
-                                    {getTypeLabel(type)}
+                                  <Label htmlFor={`type-${creator}`} className="text-sm font-normal">
+                                    {creator}
                                   </Label>
                                 </div>
                               ))}
@@ -726,65 +583,70 @@ export default function IaaSPage() {
                   <div className="flex-1">
                     <div className="flex flex-col md:flex-row gap-6">
                       {/* 시스템 목록 */}
-                      <div className={`w-full ${selectedSystem ? "md:w-1/2" : ""}`}>
+                      <div className={`w-full ${selectedContainer ? "md:w-1/2" : ""}`}>
                         <div className="mb-4">
-                          <h2 className="text-xl font-bold">사용 가능한 시스템 ({filteredSystems.length})</h2>
+                          <h2 className="text-xl font-bold">사용 가능한 시스템 ({filteredContainers.length})</h2>
                           <p className="text-muted-foreground">원하는 시스템을 선택하세요</p>
                         </div>
 
                         <div className="grid grid-cols-1 gap-4">
-                          {filteredSystems.map((system) => (
-                            <Card
-                              key={system.id}
-                              className={`cursor-pointer transition-all hover:border-green-500 shadow-sm hover:shadow-md ${selectedSystem?.id === system.id
-                                  ? "border-green-500 bg-green-50 dark:bg-green-950/20"
-                                  : ""
+                          {loading ? (
+                            <div className="text-center py-8">데이터를 불러오는 중...</div>
+                          ) : filteredContainers.length > 0 ? (
+                            filteredContainers.map((container) => (
+                              <Card
+                                key={container.id}
+                                className={`cursor-pointer transition-all hover:border-green-500 shadow-sm hover:shadow-md ${
+                                  selectedContainer?.id === container.id
+                                    ? "border-green-500 bg-green-50 dark:bg-green-950/20"
+                                    : ""
                                 }`}
-                              onClick={() => handleSystemSelect(system)}
-                            >
-                              <CardContent className="p-4">
-                                <div className="flex items-start gap-4">
-                                  <div className="w-16 h-16 rounded-md bg-muted shrink-0 overflow-hidden shadow-sm relative">
-                                    <Image
-                                      src={system.imageUrl || "/placeholder.svg"}
-                                      alt={system.name}
-                                      fill
-                                      className="object-cover"
-                                    />
-                                  </div>
-                                  <div className="flex-1 min-w-0">
-                                    <div className="flex justify-between items-start">
-                                      <div>
-                                        <h3 className="font-medium truncate">{system.name}</h3>
-                                        <p className="text-sm text-muted-foreground">{system.creator}</p>
+                                onClick={() => handleContainerSelect(container)}
+                              >
+                                <CardContent className="p-4">
+                                  <div className="flex items-start gap-4">
+                                    <div className="w-16 h-16 rounded-md bg-muted shrink-0 overflow-hidden shadow-sm relative">
+                                      <div
+                                        className="w-full h-full"
+                                        style={{
+                                          backgroundImage: `url(${container.imageUrl || "/smart-farm.png"})`,
+                                          backgroundSize: "cover",
+                                          backgroundPosition: "center",
+                                        }}
+                                      />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                      <div className="flex justify-between items-start">
+                                        <div>
+                                          <h3 className="font-medium truncate">{container.name}</h3>
+                                          <p className="text-sm text-muted-foreground">{container.creater}</p>
+                                        </div>
+                                        <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
                                       </div>
-                                      <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
-                                    </div>
-                                    <div className="mt-2 flex flex-wrap gap-1">
-                                      <Badge variant="secondary" className="text-xs">
-                                        {getTypeLabel(system.type)}
-                                      </Badge>
-                                      <Badge variant="secondary" className="text-xs">
-                                        {getScaleLabel(system.scale)}
-                                      </Badge>
-                                      <Badge variant="secondary" className="text-xs">
-                                        {system.temperature}
-                                      </Badge>
-                                    </div>
-                                    <div className="mt-2 flex items-center justify-between">
-                                      <div className="flex items-center text-sm text-muted-foreground">
-                                        <Download className="h-3 w-3 mr-1" />
-                                        {system.downloads}
+                                      <div className="mt-2 flex flex-wrap gap-1">
+                                        <Badge variant="secondary" className="text-xs">
+                                          {container.creater}
+                                        </Badge>
+                                        <Badge variant="secondary" className="text-xs">
+                                          {getScaleLabel(container.scale)}
+                                        </Badge>
+                                        <Badge variant="secondary" className="text-xs">
+                                          {container.hit_range}
+                                        </Badge>
                                       </div>
-                                      <div className="flex items-center">{renderRating(system.rating)}</div>
+                                      <div className="mt-2 flex items-center justify-between">
+                                        <div className="flex items-center text-sm text-muted-foreground">
+                                          <Download className="h-3 w-3 mr-1" />
+                                          {container.download_count}
+                                        </div>
+                                        <div className="flex items-center">{renderRating(container.stars)}</div>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              </CardContent>
-                            </Card>
-                          ))}
-
-                          {filteredSystems.length === 0 && (
+                                </CardContent>
+                              </Card>
+                            ))
+                          ) : (
                             <div className="flex flex-col items-center justify-center p-8 text-center border rounded-lg">
                               <Info className="h-12 w-12 text-muted-foreground mb-4" />
                               <h3 className="text-lg font-medium mb-2">검색 결과가 없습니다</h3>
@@ -805,20 +667,20 @@ export default function IaaSPage() {
                       </div>
 
                       {/* 시스템 상세 정보 */}
-                      {selectedSystem && (
+                      {selectedContainer && (
                         <div className="w-full md:w-1/2">
                           <Card className="bg-white/90 dark:bg-gray-950/90 backdrop-blur-sm shadow-lg">
                             <CardHeader>
                               <div className="flex justify-between items-start">
                                 <div>
-                                  <CardTitle>{selectedSystem.name}</CardTitle>
-                                  <CardDescription>by {selectedSystem.creator}</CardDescription>
+                                  <CardTitle>{selectedContainer.name}</CardTitle>
+                                  <CardDescription>by {selectedContainer.creater}</CardDescription>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                  {renderRating(selectedSystem.rating)}
+                                  {renderRating(selectedContainer.stars)}
                                   <Badge variant="outline" className="ml-2">
                                     <Download className="h-3 w-3 mr-1" />
-                                    {selectedSystem.downloads}
+                                    {selectedContainer.download_count}
                                   </Badge>
                                 </div>
                               </div>
@@ -826,41 +688,47 @@ export default function IaaSPage() {
                             <CardContent className="space-y-6">
                               <div className="flex flex-col md:flex-row gap-6">
                                 <div className="w-full md:w-1/3 h-48 rounded-md bg-muted overflow-hidden shadow-md relative">
-                                  <Image
-                                    src={selectedSystem.imageUrl || "/placeholder.svg"}
-                                    alt={selectedSystem.name}
-                                    fill
-                                    className="object-cover"
+                                  <div
+                                    className="w-full h-full"
+                                    style={{
+                                      backgroundImage: `url(${selectedContainer.imageUrl || "/smart-farm-system.png"})`,
+                                      backgroundSize: "cover",
+                                      backgroundPosition: "center",
+                                    }}
                                   />
                                 </div>
                                 <div className="w-full md:w-2/3">
                                   <h3 className="text-lg font-medium mb-2">설명</h3>
-                                  <p className="text-muted-foreground mb-4">{selectedSystem.description}</p>
+                                  <p className="text-muted-foreground mb-4">
+                                    {selectedContainer.setting_file.description || "설명이 없습니다."}
+                                  </p>
 
                                   <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                      <h4 className="text-sm font-medium mb-1">시스템 유형</h4>
-                                      <p className="text-sm">{getTypeLabel(selectedSystem.type)}</p>
+                                      <h4 className="text-sm font-medium mb-1">제작자</h4>
+                                      <p className="text-sm">{selectedContainer.creater}</p>
                                     </div>
                                     <div>
                                       <h4 className="text-sm font-medium mb-1">규모</h4>
-                                      <p className="text-sm">{getScaleLabel(selectedSystem.scale)}</p>
+                                      <p className="text-sm">{getScaleLabel(selectedContainer.scale)}</p>
                                     </div>
                                     <div>
                                       <h4 className="text-sm font-medium mb-1">온도 범위</h4>
-                                      <p className="text-sm">{selectedSystem.temperature}</p>
+                                      <p className="text-sm">{selectedContainer.hit_range}</p>
                                     </div>
                                     <div>
                                       <h4 className="text-sm font-medium mb-1">습도 범위</h4>
-                                      <p className="text-sm">{selectedSystem.humidity}</p>
+                                      <p className="text-sm">{selectedContainer.humid}</p>
                                     </div>
                                     <div>
                                       <h4 className="text-sm font-medium mb-1">전력 소비</h4>
-                                      <p className="text-sm">{selectedSystem.power}</p>
+                                      <p className="text-sm">{selectedContainer.electricity}</p>
                                     </div>
                                     <div>
                                       <h4 className="text-sm font-medium mb-1">최종 업데이트</h4>
-                                      <p className="text-sm">{selectedSystem.lastUpdated}</p>
+                                      <p className="text-sm">
+                                        {new Date(selectedContainer.updated_at).toLocaleDateString()}
+                                      </p>
                                     </div>
                                   </div>
                                 </div>
@@ -883,39 +751,51 @@ export default function IaaSPage() {
                                 </TabsList>
                                 <TabsContent value="features" className="pt-4">
                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                    {selectedSystem.features.map((feature, index) => (
-                                      <div key={index} className="flex items-center gap-2">
-                                        <div className="h-2 w-2 rounded-full bg-green-500" />
-                                        <span>{feature}</span>
+                                    {selectedContainer.functions && selectedContainer.functions.length > 0 ? (
+                                      selectedContainer.functions.map((feature, index) => (
+                                        <div key={index} className="flex items-center gap-2">
+                                          <div className="h-2 w-2 rounded-full bg-green-500" />
+                                          <span>{feature}</span>
+                                        </div>
+                                      ))
+                                    ) : (
+                                      <div className="col-span-2 text-center py-4 text-muted-foreground">
+                                        등록된 기능 정보가 없습니다.
                                       </div>
-                                    ))}
+                                    )}
                                   </div>
                                 </TabsContent>
                                 <TabsContent value="compatibility" className="pt-4">
                                   <h3 className="text-sm font-medium mb-2">호환 환경</h3>
                                   <div className="flex flex-wrap gap-1">
-                                    {selectedSystem.compatibility.map((comp) => (
-                                      <Badge key={comp} variant="outline" className="mr-1 mb-1">
-                                        {getCompatibilityLabel(comp)}
+                                    {selectedContainer.setting_file.env && (
+                                      <Badge variant="outline" className="mr-1 mb-1">
+                                        {selectedContainer.setting_file.env}
                                       </Badge>
-                                    ))}
+                                    )}
+                                    {selectedContainer.setting_file.plants &&
+                                      selectedContainer.setting_file.plants.map((plant, index) => (
+                                        <Badge key={index} variant="outline" className="mr-1 mb-1">
+                                          {plant.name}
+                                        </Badge>
+                                      ))}
                                   </div>
 
                                   <h3 className="text-sm font-medium mt-4 mb-2">추천 조합</h3>
                                   <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-                                    {systemItems
-                                      .filter((c) => c.id !== selectedSystem.id)
+                                    {containers
+                                      .filter((c) => c.id !== selectedContainer.id)
                                       .slice(0, 3)
-                                      .map((system) => (
+                                      .map((container) => (
                                         <Card
-                                          key={system.id}
+                                          key={container.id}
                                           className="cursor-pointer hover:border-green-500 bg-white/70 dark:bg-gray-950/70"
-                                          onClick={() => handleSystemSelect(system)}
+                                          onClick={() => handleContainerSelect(container)}
                                         >
                                           <CardContent className="p-3">
-                                            <div className="text-sm font-medium truncate">{system.name}</div>
-                                            <div className="text-xs text-muted-foreground">{system.creator}</div>
-                                            <div className="mt-1">{renderRating(system.rating)}</div>
+                                            <div className="text-sm font-medium truncate">{container.name}</div>
+                                            <div className="text-xs text-muted-foreground">{container.creater}</div>
+                                            <div className="mt-1">{renderRating(container.stars)}</div>
                                           </CardContent>
                                         </Card>
                                       ))}
@@ -924,43 +804,48 @@ export default function IaaSPage() {
                                 <TabsContent value="specs" className="pt-4">
                                   <div className="space-y-4">
                                     <div>
-                                      <h3 className="text-sm font-medium mb-2">인증</h3>
-                                      <div className="flex flex-wrap gap-1">
-                                        {selectedSystem.certifications.map((cert) => (
-                                          <Badge key={cert} variant="outline">
-                                            {cert}
-                                          </Badge>
-                                        ))}
-                                      </div>
-                                    </div>
-
-                                    <div>
-                                      <h3 className="text-sm font-medium mb-2">기술 사양</h3>
+                                      <h3 className="text-sm font-medium mb-2">하드웨어 사양</h3>
                                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-                                        <div className="flex justify-between">
-                                          <span className="text-muted-foreground">센서 정확도:</span>
-                                          <span>±0.1°C</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                          <span className="text-muted-foreground">응답 시간:</span>
-                                          <span>{"<"} 1초</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                          <span className="text-muted-foreground">데이터 전송:</span>
-                                          <span>Wi-Fi, Bluetooth, LoRa</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                          <span className="text-muted-foreground">배터리 수명:</span>
-                                          <span>최대 5년</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                          <span className="text-muted-foreground">작동 온도:</span>
-                                          <span>-30°C ~ 80°C</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                          <span className="text-muted-foreground">방수 등급:</span>
-                                          <span>IP67</span>
-                                        </div>
+                                        {selectedContainer.setting_file.hardware && (
+                                          <>
+                                            <div className="flex justify-between">
+                                              <span className="text-muted-foreground">레이어 수:</span>
+                                              <span>{selectedContainer.setting_file.hardware.layers}</span>
+                                            </div>
+                                            <div className="flex justify-between">
+                                              <span className="text-muted-foreground">레이어당 베드:</span>
+                                              <span>{selectedContainer.setting_file.hardware.beds_per_layer}</span>
+                                            </div>
+                                            <div className="flex justify-between">
+                                              <span className="text-muted-foreground">센서 수:</span>
+                                              <span>
+                                                {selectedContainer.setting_file.hardware.sensors?.length || 0}
+                                              </span>
+                                            </div>
+                                            <div className="flex justify-between">
+                                              <span className="text-muted-foreground">액추에이터 수:</span>
+                                              <span>
+                                                {selectedContainer.setting_file.hardware.actuators?.length || 0}
+                                              </span>
+                                            </div>
+                                          </>
+                                        )}
+                                        {selectedContainer.setting_file.dimensions && (
+                                          <>
+                                            <div className="flex justify-between">
+                                              <span className="text-muted-foreground">너비:</span>
+                                              <span>{selectedContainer.setting_file.dimensions.width}</span>
+                                            </div>
+                                            <div className="flex justify-between">
+                                              <span className="text-muted-foreground">길이:</span>
+                                              <span>{selectedContainer.setting_file.dimensions.length}</span>
+                                            </div>
+                                            <div className="flex justify-between">
+                                              <span className="text-muted-foreground">높이:</span>
+                                              <span>{selectedContainer.setting_file.dimensions.height}</span>
+                                            </div>
+                                          </>
+                                        )}
                                       </div>
                                     </div>
 
@@ -969,7 +854,7 @@ export default function IaaSPage() {
                                       <div className="text-sm space-y-1">
                                         <p>• FWCS Hub 플랫폼 v2.0 이상</p>
                                         <p>• 인터넷 연결 (최소 1Mbps)</p>
-                                        <p>• 호환 가능한 전원 공급 장치 (12V DC)</p>
+                                        <p>• 호환 가능한 전원 공급 장치 ({selectedContainer.electricity})</p>
                                         <p>• 최소 100MB 저장 공간</p>
                                       </div>
                                     </div>
@@ -988,6 +873,16 @@ export default function IaaSPage() {
                       )}
                     </div>
 
+                    {!selectedContainer && !loading && filteredContainers.length > 0 && (
+                      <div className="flex flex-col items-center justify-center p-12 text-center border rounded-lg mt-6">
+                        <Server className="h-16 w-16 text-muted-foreground mb-6" />
+                        <h3 className="text-xl font-medium mb-2">시스템을 선택해주세요</h3>
+                        <p className="text-muted-foreground mb-6 max-w-md">
+                          왼쪽 목록에서 원하는 스마트팜 시스템을 선택하면 상세 정보를 확인할 수 있습니다.
+                        </p>
+                      </div>
+                    )}
+
                     <div className="flex justify-between mt-8">
                       <Button variant="outline" onClick={() => setActiveTab("instance")}>
                         이전: 인스턴스 선택
@@ -995,7 +890,7 @@ export default function IaaSPage() {
                       <Button
                         className="bg-green-600 hover:bg-green-700"
                         onClick={handleCreateInstance}
-                        disabled={!selectedSystem}
+                        disabled={!selectedContainer}
                       >
                         인스턴스 생성
                         <ArrowRight className="ml-2 h-4 w-4" />

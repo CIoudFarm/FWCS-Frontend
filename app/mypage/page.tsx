@@ -32,8 +32,9 @@ import {
   User,
   CreditCard,
   BarChart,
+  Router,
 } from "lucide-react"
-
+import { useRouter } from "next/navigation"
 // 인스턴스 타입 정의
 interface Instance {
   id: string
@@ -52,9 +53,10 @@ export default function MyPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("all")
   const [typeFilter, setTypeFilter] = useState<string>("all")
+  const router = useRouter();
 
   const getdata = async ()=>{
-    const datas = await axios.get("http://3.39.205.6:8300/mypage/instances/")
+    const datas = await axios.get("https://devcjs.co.kr/mypage/instances/")
     console.log(datas.data)
     setInstances(datas.data)
   }
@@ -66,7 +68,7 @@ export default function MyPage() {
   // 인스턴스 데이터
   const [instances, setInstances] = useState<Instance[]>([
     {
-      id: "inst-1234",
+      id: "1234",
       name: "인스턴스 1",
       type: "basic",
       status: "running",
@@ -74,7 +76,7 @@ export default function MyPage() {
       createdAt: "2025-05-07",
     },
     {
-      id: "inst-2345",
+      id: "2345",
       name: "인스턴스 2",
       type: "standard",
       status: "running",
@@ -82,7 +84,7 @@ export default function MyPage() {
       createdAt: "2025-03-03",
     },
     {
-      id: "inst-4567",
+      id: "4567",
       name: "인스턴스 4",
       type: "basic",
       status: "stopped",
@@ -166,8 +168,6 @@ export default function MyPage() {
           </div>
 
           <div className="flex items-center gap-4 mr-5">
-            <Button variant="ghost">Documentation</Button>
-            <Button variant="ghost">Pricing</Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="icon" className="rounded-full">
@@ -206,8 +206,8 @@ export default function MyPage() {
             </div>
             <div className="mt-4 md:mt-0">
               <Button className="bg-green-600 hover:bg-green-700">
-                <Link href="/iaaspage" className="flex items-center">
-                  <Plus className="mr-2 h-4 w-4" />새 인스턴스 생성
+                <Link href="/instanceselectpage" className="flex items-center">
+                  <Plus className="mr-2 h-4 w-4"/>새 인스턴스 생성
                 </Link>
               </Button>
             </div>
@@ -216,9 +216,6 @@ export default function MyPage() {
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
             <TabsList>
               <TabsTrigger value="instances">인스턴스</TabsTrigger>
-              <TabsTrigger value="monitoring">모니터링</TabsTrigger>
-              <TabsTrigger value="billing">결제 및 사용량</TabsTrigger>
-              <TabsTrigger value="settings">설정</TabsTrigger>
             </TabsList>
 
             <TabsContent value="instances" className="space-y-4">
@@ -300,7 +297,7 @@ export default function MyPage() {
                               <Link href={`/instance/${instance.id}`} className="hover:underline">
                                 {instance.name}
                               </Link>
-                              <div className="text-xs text-muted-foreground">{instance.id}</div>
+                              <div className="text-xs text-muted-foreground">inst-{instance.id}</div>
                             </TableCell>
                             <TableCell>{getInstanceTypeLabel(instance.type)}</TableCell>
                             <TableCell>{renderStatusBadge(instance.status)}</TableCell>
