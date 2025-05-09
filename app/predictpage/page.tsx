@@ -71,6 +71,7 @@ export default function PredictPage() {
 
     return (
       <div className="flex flex-col items-center">
+        <h3 className="font-bold mb-2"> 생장곡선 </h3>
         <svg width="400" height="130" className="border rounded-md bg-gray-50">
           {/* X축 */}
           <line
