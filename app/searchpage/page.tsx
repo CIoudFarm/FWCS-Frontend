@@ -37,6 +37,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
+import { BrandIcon } from "@/components/ui/brand-icon";
 
 export default function Home() {
   // 상태 예시 (실제로는 useState로 관리되고 있어야 함)
@@ -77,8 +78,8 @@ export default function Home() {
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="w-full flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 ml-5">
-            <Leaf className="h-6 w-6 text-green-600" />
-            <span className="text-xl font-bold">CloudFarm Hub</span>
+            <BrandIcon className="h-6 w-6 text-green-600" />
+            <span className="text-xl font-bold">FWCS Hub</span>
           </div>
         </div>
       </header>
@@ -195,8 +196,8 @@ export default function Home() {
       <footer className="border-t bg-background">
         <div className="w-full flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-12">
           <div className="flex items-center gap-2 ml-5">
-            <Leaf className="h-6 w-6 text-green-600" />
-            <span className="text-xl font-bold">CloudFarm Hub</span>
+            <BrandIcon className="h-6 w-6 text-green-600" />
+            <span className="text-xl font-bold">FWCS Hub</span>
           </div>
           <div className="flex flex-col md:flex-row gap-4 md:gap-6">
             <Link
@@ -237,7 +238,7 @@ export default function Home() {
             </Link>
           </div>
           <div className="text-sm text-muted-foreground mr-5">
-            © 2025 CloudFarm Hub. All rights reserved.
+            © 2025 FWCS Hub. All rights reserved.
           </div>
         </div>
       </footer>

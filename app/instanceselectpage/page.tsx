@@ -31,6 +31,7 @@ import {
   Shield,
   BarChart,
 } from "lucide-react"
+import { BrandIcon } from "@/components/ui/brand-icon"
 
 // 시스템 타입 정의
 interface SystemItem {
@@ -366,8 +367,8 @@ export default function IaaSPage() {
         <div className="w-full flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 ml-5">
             <Link href="/" className="flex items-center gap-2">
-              <Leaf className="h-6 w-6 text-green-600" />
-              <span className="text-xl font-bold">SmartFarm Hub</span>
+              <BrandIcon className="h-6 w-6 text-green-600" />
+              <span className="text-xl font-bold">FWCS Hub</span>
             </Link>
           </div>
 
@@ -968,7 +969,7 @@ export default function IaaSPage() {
                                     <div>
                                       <h3 className="text-sm font-medium mb-2">시스템 요구사항</h3>
                                       <div className="text-sm space-y-1">
-                                        <p>• SmartFarm Hub 플랫폼 v2.0 이상</p>
+                                        <p>• FWCS Hub 플랫폼 v2.0 이상</p>
                                         <p>• 인터넷 연결 (최소 1Mbps)</p>
                                         <p>• 호환 가능한 전원 공급 장치 (12V DC)</p>
                                         <p>• 최소 100MB 저장 공간</p>
@@ -1013,8 +1014,8 @@ export default function IaaSPage() {
       <footer className="border-t bg-background/80 backdrop-blur-sm">
         <div className="w-full flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-12">
           <div className="flex items-center gap-2 ml-5">
-            <Leaf className="h-6 w-6 text-green-600" />
-            <span className="text-xl font-bold">SmartFarm Hub</span>
+            <BrandIcon className="h-6 w-6 text-green-600" />
+            <span className="text-xl font-bold">FWCS Hub</span>
           </div>
           <div className="flex flex-col md:flex-row gap-4 md:gap-6">
             <Link href="#" className="text-sm hover:underline underline-offset-4">
@@ -1036,7 +1037,7 @@ export default function IaaSPage() {
               Contact
             </Link>
           </div>
-          <div className="text-sm text-muted-foreground mr-5">© 2025 SmartFarm Hub. All rights reserved.</div>
+          <div className="text-sm text-muted-foreground mr-5">© 2025 FWCS Hub. All rights reserved.</div>
         </div>
       </footer>
     </div>

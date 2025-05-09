@@ -25,6 +25,7 @@ import {
   Bot,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { BrandIcon } from "@/components/ui/brand-icon";
 
 interface Message {
   id: string;
@@ -254,9 +255,9 @@ export default function AIEditorPage() {
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="w-full flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 ml-5">
-            <Leaf className="h-6 w-6 text-green-600" />
+            <BrandIcon className="h-6 w-6 text-green-600" />
             <Link href="/" className="text-xl font-bold">
-              CloudFarm Hub
+              FWCS Hub
             </Link>
           </div>
 
@@ -507,11 +508,11 @@ export default function AIEditorPage() {
       <footer className="border-t bg-background/80 backdrop-blur-sm relative z-10">
         <div className="w-full flex flex-col gap-6 py-4 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-2 ml-5">
-            <Leaf className="h-5 w-5 text-green-600" />
-            <span className="text-sm font-semibold">CloudFarm Hub</span>
+            <BrandIcon className="h-5 w-5 text-green-600" />
+            <span className="text-sm font-semibold">FWCS Hub</span>
           </div>
           <div className="text-sm text-muted-foreground mr-5">
-            © 2025 CloudFarm Hub. All rights reserved.
+            © 2025 FWCS Hub. All rights reserved.
           </div>
         </div>
       </footer>

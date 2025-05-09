@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
 import { Leaf, X, Upload, Tag, Plus, ArrowRight, FileText, Cloud, Sprout, Droplet, Sun } from "lucide-react"
+import { BrandIcon } from "@/components/ui/brand-icon"
 
 export default function FileUploadPage() {
   const router = useRouter()
@@ -114,7 +115,7 @@ export default function FileUploadPage() {
           <Sun className="h-14 w-14 text-yellow-600 dark:text-yellow-500" />
         </div>
         <div className="absolute top-1/3 right-1/4 opacity-20">
-          <Leaf className="h-16 w-16 text-green-600 dark:text-green-500" />
+          <BrandIcon className="h-16 w-16 text-green-600 dark:text-green-500" />
         </div>
 
         {/* 격자 패턴 */}
@@ -124,9 +125,9 @@ export default function FileUploadPage() {
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="w-full flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 ml-5">
-            <Leaf className="h-6 w-6 text-green-600" />
+            <BrandIcon className="h-6 w-6 text-green-600" />
             <Link href="/" className="text-xl font-bold">
-              SmartFarm Hub
+              FWCS Hub
             </Link>
           </div>
 
@@ -267,10 +268,10 @@ export default function FileUploadPage() {
       <footer className="border-t bg-background/80 backdrop-blur-sm relative z-10">
         <div className="w-full flex flex-col gap-6 py-4 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-2 ml-5">
-            <Leaf className="h-5 w-5 text-green-600" />
-            <span className="text-sm font-semibold">SmartFarm Hub</span>
+            <BrandIcon className="h-5 w-5 text-green-600" />
+            <span className="text-sm font-semibold">FWCS Hub</span>
           </div>
-          <div className="text-sm text-muted-foreground mr-5">© 2025 SmartFarm Hub. All rights reserved.</div>
+          <div className="text-sm text-muted-foreground mr-5">© 2025 FWCS Hub. All rights reserved.</div>
         </div>
       </footer>
     </div>
