@@ -36,8 +36,6 @@ export default function Home() {
           <div className="flex items-center gap-4 mr-5">
             <Button variant="ghost">Documentation</Button>
             <Button variant="ghost">Pricing</Button>
-            <Button variant="outline">Sign In</Button>
-            <Button className="bg-green-600 hover:bg-green-700">Sign Up</Button>
           </div>
         </div>
       </header>
