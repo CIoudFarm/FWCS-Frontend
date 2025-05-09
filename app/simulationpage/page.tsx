@@ -1,7 +1,7 @@
 "use client";
 import { Slider } from "@/components/ui/slider"; // shadcn slider 컴포넌트
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -131,6 +131,56 @@ const baseConfig = {
       { id: "robot1", name: "로봇 1", layer: 1, position: { x: 0.5, y: 0.5 } },
       { id: "robot2", name: "로봇 2", layer: 2, position: { x: 0.3, y: 0.7 } },
     ],
+    plants: [
+      {
+        type: "tomato",
+        name: "토마토",
+        minTemp: 18,
+        maxTemp: 30,
+        minHumidity: 50,
+        maxHumidity: 80,
+        positions: [
+          { x: 0.2, y: 0.2, layer: 1 },
+          { x: 0.4, y: 0.2, layer: 1 },
+          { x: 0.6, y: 0.2, layer: 1 },
+          { x: 0.3, y: 0.4, layer: 2 },
+          { x: 0.5, y: 0.4, layer: 2 },
+        ],
+        growthStage: 70,
+      },
+      {
+        type: "lettuce",
+        name: "상추",
+        minTemp: 15,
+        maxTemp: 25,
+        minHumidity: 60,
+        maxHumidity: 85,
+        positions: [
+          { x: 0.2, y: 0.6, layer: 1 },
+          { x: 0.4, y: 0.6, layer: 1 },
+          { x: 0.6, y: 0.6, layer: 1 },
+          { x: 0.3, y: 0.7, layer: 2 },
+          { x: 0.5, y: 0.7, layer: 2 },
+        ],
+        growthStage: 85,
+      },
+      {
+        type: "pepper",
+        name: "고추",
+        minTemp: 20,
+        maxTemp: 32,
+        minHumidity: 45,
+        maxHumidity: 75,
+        positions: [
+          { x: 0.2, y: 0.8, layer: 1 },
+          { x: 0.4, y: 0.8, layer: 1 },
+          { x: 0.6, y: 0.8, layer: 1 },
+          { x: 0.7, y: 0.6, layer: 2 },
+          { x: 0.7, y: 0.8, layer: 2 },
+        ],
+        growthStage: 60,
+      },
+    ],
   },
 };
 
@@ -149,6 +199,21 @@ const userConfig = {
 export default function SimulationPage() {
   const [day, setDay] = useState(1);
   const [time, setTime] = useState(12); // 24-hour format
+  const [containerId, setContainerId] = useState<string>("");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const idParam = params.get("id");
+      if (idParam) {
+        try {
+          const parsedId = JSON.parse(decodeURIComponent(idParam));
+          setContainerId(parsedId);
+        } catch (error) {
+          console.error("JSON 파싱 오류:", error);
+        }
+      }
+    }
+  }, []);
 
   // 설정 파일 다운로드
   const handleDownload = () => {

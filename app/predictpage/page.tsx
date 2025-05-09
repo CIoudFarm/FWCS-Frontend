@@ -41,12 +41,324 @@ import {
   Gauge,
   Scale,
   Recycle,
+  Nut,
 } from "lucide-react";
 
 export default function PredictPage() {
   const [timeRange, setTimeRange] = useState("week");
   const [cropType, setCropType] = useState("all");
+  const GrowthCurve = () => {
+    // 샘플 데이터 (x: 시간, y: 생장률)
 
+    const growthData = [
+      { x: 0, y: 10 },
+      { x: 1, y: 20 },
+      { x: 2, y: 35 },
+      { x: 3, y: 50 },
+      { x: 4, y: 68 },
+      { x: 5, y: 85 },
+      { x: 6, y: 95 },
+    ];
+
+    // SVG 경로 생성
+    const pathData = growthData
+      .map((point, index) =>
+        index === 0
+          ? `M ${point.x * 50} ${100 - point.y}`
+          : `L ${point.x * 50} ${100 - point.y}`
+      )
+      .join(" ");
+
+    return (
+      <div className="flex flex-col items-center">
+        <svg width="400" height="130" className="border rounded-md bg-gray-50">
+          {/* X축 */}
+          <line
+            x1="0"
+            y1="100"
+            x2="400"
+            y2="100"
+            stroke="#ccc"
+            strokeWidth="1"
+          />
+          {/* Y축 */}
+          <line x1="0" y1="0" x2="0" y2="100" stroke="#ccc" strokeWidth="1" />
+          {/* 곡선 */}
+          <path d={pathData} fill="none" stroke="#4caf50" strokeWidth="2" />
+          {/* 데이터 포인트 */}
+          {growthData.map((point, index) => (
+            <circle
+              key={index}
+              cx={point.x * 50}
+              cy={100 - point.y}
+              r="3"
+              fill="#4caf50"
+            />
+          ))}
+        </svg>
+      </div>
+    );
+  };
+  const WaterCurve = () => {
+    // 샘플 데이터 (x: 시간, y: 생장률)
+
+    const growthData = [
+      { x: 0, y: 10 },
+      { x: 1, y: 10 },
+      { x: 2, y: 25 },
+      { x: 3, y: 60 },
+      { x: 4, y: 88 },
+      { x: 5, y: 92 },
+      { x: 6, y: 95 },
+    ];
+
+    // SVG 경로 생성
+    const pathData = growthData
+      .map((point, index) =>
+        index === 0
+          ? `M ${point.x * 50} ${100 - point.y}`
+          : `L ${point.x * 50} ${100 - point.y}`
+      )
+      .join(" ");
+
+    return (
+      <div className="flex flex-col items-center">
+        <svg width="400" height="130" className="border rounded-md bg-gray-50">
+          {/* X축 */}
+          <line
+            x1="0"
+            y1="100"
+            x2="400"
+            y2="100"
+            stroke="#ccc"
+            strokeWidth="1"
+          />
+          {/* Y축 */}
+          <line x1="0" y1="0" x2="0" y2="100" stroke="#ccc" strokeWidth="1" />
+          {/* 곡선 */}
+          <path d={pathData} fill="none" stroke="#4caf50" strokeWidth="2" />
+          {/* 데이터 포인트 */}
+          {growthData.map((point, index) => (
+            <circle
+              key={index}
+              cx={point.x * 50}
+              cy={100 - point.y}
+              r="3"
+              fill="#4caf50"
+            />
+          ))}
+        </svg>
+      </div>
+    );
+  };
+  const ElecCurve = () => {
+    // 샘플 데이터 (x: 시간, y: 생장률)
+
+    const growthData = [
+      { x: 0, y: 1 },
+      { x: 1, y: 5 },
+      { x: 2, y: 19 },
+      { x: 3, y: 30 },
+      { x: 4, y: 40 },
+      { x: 5, y: 50 },
+      { x: 6, y: 80 },
+    ];
+
+    // SVG 경로 생성
+    const pathData = growthData
+      .map((point, index) =>
+        index === 0
+          ? `M ${point.x * 50} ${100 - point.y}`
+          : `L ${point.x * 50} ${100 - point.y}`
+      )
+      .join(" ");
+
+    return (
+      <div className="flex flex-col items-center">
+        <svg width="400" height="130" className="border rounded-md bg-gray-50">
+          {/* X축 */}
+          <line
+            x1="0"
+            y1="100"
+            x2="400"
+            y2="100"
+            stroke="#ccc"
+            strokeWidth="1"
+          />
+          {/* Y축 */}
+          <line x1="0" y1="0" x2="0" y2="100" stroke="#ccc" strokeWidth="1" />
+          {/* 곡선 */}
+          <path d={pathData} fill="none" stroke="#4caf50" strokeWidth="2" />
+          {/* 데이터 포인트 */}
+          {growthData.map((point, index) => (
+            <circle
+              key={index}
+              cx={point.x * 50}
+              cy={100 - point.y}
+              r="3"
+              fill="#4caf50"
+            />
+          ))}
+        </svg>
+      </div>
+    );
+  };
+  const NutriCurve = () => {
+    // 샘플 데이터 (x: 시간, y: 생장률)
+
+    const growthData = [
+      { x: 0, y: 1 },
+      { x: 1, y: 10 },
+      { x: 2, y: 29 },
+      { x: 3, y: 30 },
+      { x: 4, y: 40 },
+      { x: 5, y: 50 },
+      { x: 6, y: 60 },
+    ];
+
+    // SVG 경로 생성
+    const pathData = growthData
+      .map((point, index) =>
+        index === 0
+          ? `M ${point.x * 50} ${100 - point.y}`
+          : `L ${point.x * 50} ${100 - point.y}`
+      )
+      .join(" ");
+
+    return (
+      <div className="flex flex-col items-center">
+        <svg width="400" height="130" className="border rounded-md bg-gray-50">
+          {/* X축 */}
+          <line
+            x1="0"
+            y1="100"
+            x2="400"
+            y2="100"
+            stroke="#ccc"
+            strokeWidth="1"
+          />
+          {/* Y축 */}
+          <line x1="0" y1="0" x2="0" y2="100" stroke="#ccc" strokeWidth="1" />
+          {/* 곡선 */}
+          <path d={pathData} fill="none" stroke="#4caf50" strokeWidth="2" />
+          {/* 데이터 포인트 */}
+          {growthData.map((point, index) => (
+            <circle
+              key={index}
+              cx={point.x * 50}
+              cy={100 - point.y}
+              r="3"
+              fill="#4caf50"
+            />
+          ))}
+        </svg>
+      </div>
+    );
+  };
+  const ProduceCurve = () => {
+    // 샘플 데이터 (x: 시간, y: 생장률)
+
+    const growthData = [
+      { x: 0, y: 1 },
+      { x: 1, y: 30 },
+      { x: 2, y: 49 },
+      { x: 3, y: 50 },
+      { x: 4, y: 60 },
+      { x: 5, y: 70 },
+      { x: 6, y: 90 },
+    ];
+
+    // SVG 경로 생성
+    const pathData = growthData
+      .map((point, index) =>
+        index === 0
+          ? `M ${point.x * 100} ${200 - point.y * 2}`
+          : `L ${point.x * 100} ${200 - point.y * 2}`
+      )
+      .join(" ");
+
+    return (
+      <div className="flex flex-col items-center">
+        <svg width="640" height="200" className="border rounded-md bg-gray-50">
+          {/* X축 */}
+          <line
+            x1="0"
+            y1="200"
+            x2="600"
+            y2="200"
+            stroke="#ccc"
+            strokeWidth="2"
+          />
+          {/* Y축 */}
+          <line x1="0" y1="0" x2="0" y2="200" stroke="#ccc" strokeWidth="2" />
+          {/* 곡선 */}
+          <path d={pathData} fill="none" stroke="#4caf50" strokeWidth="2" />
+          {/* 데이터 포인트 */}
+          {growthData.map((point, index) => (
+            <circle
+              key={index}
+              cx={point.x * 100}
+              cy={200 - point.y * 2}
+              r="5"
+              fill="#4caf50"
+            />
+          ))}
+        </svg>
+      </div>
+    );
+  };
+  const MoneyCurve = () => {
+    // 샘플 데이터 (x: 시간, y: 생장률)
+
+    const growthData = [
+      { x: 0, y: 1 },
+      { x: 1, y: 5 },
+      { x: 2, y: 19 },
+      { x: 3, y: 30 },
+      { x: 4, y: 40 },
+      { x: 5, y: 50 },
+      { x: 6, y: 80 },
+    ];
+
+    // SVG 경로 생성
+    const pathData = growthData
+      .map((point, index) =>
+        index === 0
+          ? `M ${point.x * 100} ${200 - point.y * 2}`
+          : `L ${point.x * 100} ${200 - point.y * 2}`
+      )
+      .join(" ");
+
+    return (
+      <div className="flex flex-col items-center">
+        <svg width="640" height="200" className="border rounded-md bg-gray-50">
+          {/* X축 */}
+          <line
+            x1="0"
+            y1="200"
+            x2="600"
+            y2="200"
+            stroke="#ccc"
+            strokeWidth="2"
+          />
+          {/* Y축 */}
+          <line x1="0" y1="0" x2="0" y2="200" stroke="#ccc" strokeWidth="2" />
+          {/* 곡선 */}
+          <path d={pathData} fill="none" stroke="#4caf50" strokeWidth="2" />
+          {/* 데이터 포인트 */}
+          {growthData.map((point, index) => (
+            <circle
+              key={index}
+              cx={point.x * 100}
+              cy={200 - point.y * 2}
+              r="5"
+              fill="#4caf50"
+            />
+          ))}
+        </svg>
+      </div>
+    );
+  };
   return (
     <div className="flex min-h-screen items-center flex-col bg-white">
       <main className="flex-1 container py-6">
@@ -90,13 +402,13 @@ export default function PredictPage() {
 
         <Tabs defaultValue="environment" className="space-y-6">
           <TabsList className="grid grid-cols-3 w-full">
-            <TabsTrigger
+            {/* <TabsTrigger
               value="environment"
               className="flex items-center gap-1"
             >
               <Thermometer className="h-4 w-4" />
               <span className="hidden md:inline">환경 데이터</span>
-            </TabsTrigger>
+            </TabsTrigger> */}
             <TabsTrigger value="growth" className="flex items-center gap-1">
               <Sprout className="h-4 w-4" />
               <span className="hidden md:inline">작물 생장</span>
@@ -105,10 +417,10 @@ export default function PredictPage() {
               <Droplets className="h-4 w-4" />
               <span className="hidden md:inline">자원 소비</span>
             </TabsTrigger>
-            {/* <TabsTrigger value="cost" className="flex items-center gap-1">
+            <TabsTrigger value="cost" className="flex items-center gap-1">
               <DollarSign className="h-4 w-4" />
               <span className="hidden md:inline">비용/효율</span>
-            </TabsTrigger> */}
+            </TabsTrigger>
             {/* <TabsTrigger value="alerts" className="flex items-center gap-1">
               <AlertTriangle className="h-4 w-4" />
               <span className="hidden md:inline">이상 탐지</span>
@@ -116,7 +428,7 @@ export default function PredictPage() {
           </TabsList>
 
           {/* 1. 환경 데이터 변화 */}
-          <TabsContent value="environment" className="space-y-6">
+          {/* <TabsContent value="environment" className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Card>
                 <CardHeader className="pb-2">
@@ -296,7 +608,7 @@ export default function PredictPage() {
                 </CardContent>
               </Card>
             </div>
-          </TabsContent>
+          </TabsContent> */}
 
           {/* 2. 작물 생장 예측 */}
           <TabsContent value="growth" className="space-y-6">
@@ -390,9 +702,8 @@ export default function PredictPage() {
                     </div>
                   </div>
                   <div className="mt-6">
-                    <div className="h-[150px] flex items-center justify-center bg-gray-100 rounded-md">
-                      <LineChart className="h-8 w-8 text-gray-400" />
-                      <span className="ml-2 text-gray-500">생장 곡선</span>
+                    <div className="h-[200px] flex items-center justify-center bg-gray-100 rounded-md">
+                      <GrowthCurve></GrowthCurve>
                     </div>
                   </div>
                 </CardContent>
@@ -505,8 +816,7 @@ export default function PredictPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="h-[200px] flex items-center justify-center bg-gray-100 rounded-md mb-4">
-                    <BarChart className="h-8 w-8 text-gray-400" />
-                    <span className="ml-2 text-gray-500">물 사용량 차트</span>
+                    <WaterCurve></WaterCurve>
                   </div>
                   <div className="grid grid-cols-3 gap-2 text-center">
                     <div className="p-2 bg-blue-50 rounded-md">
@@ -578,8 +888,7 @@ export default function PredictPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="h-[200px] flex items-center justify-center bg-gray-100 rounded-md mb-4">
-                    <BarChart className="h-8 w-8 text-gray-400" />
-                    <span className="ml-2 text-gray-500">전력 소비량 차트</span>
+                    <ElecCurve></ElecCurve>
                   </div>
                   <div className="grid grid-cols-3 gap-2 text-center">
                     <div className="p-2 bg-yellow-50 rounded-md">
@@ -651,10 +960,7 @@ export default function PredictPage() {
                 </CardHeader>
                 <CardContent>
                   <div className="h-[200px] flex items-center justify-center bg-gray-100 rounded-md mb-4">
-                    <PieChart className="h-8 w-8 text-gray-400" />
-                    <span className="ml-2 text-gray-500">
-                      영양제 투입량 차트
-                    </span>
+                    <NutriCurve></NutriCurve>
                   </div>
                   <div className="grid grid-cols-3 gap-2 text-center">
                     <div className="p-2 bg-green-50 rounded-md">
@@ -717,7 +1023,109 @@ export default function PredictPage() {
               </Card>
             </div>
           </TabsContent>
+          <TabsContent value="cost" className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <DollarSign className="h-5 w-5 text-green-500" />
+                    자원 소비 대비 작물 생산량
+                  </CardTitle>
+                  <CardDescription>자원 효율성 분석</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-[250px] flex items-center justify-center bg-gray-100 rounded-md mb-4">
+                    <ProduceCurve></ProduceCurve>
+                  </div>
+                  <div className="space-y-4">
+                    <div>
+                      <p className="text-sm font-medium">물 효율성</p>
+                      <div className="flex items-center justify-between mt-1">
+                        <span className="text-sm">1L당 생산량</span>
+                        <span className="text-sm font-medium">42g</span>
+                      </div>
+                      <div className="flex items-center justify-between mt-1">
+                        <span className="text-sm">업계 평균</span>
+                        <span className="text-sm font-medium">35g</span>
+                      </div>
+                      <div className="flex items-center justify-between mt-1">
+                        <span className="text-sm">효율성 향상</span>
+                        <span className="text-sm font-medium text-green-600">
+                          +20%
+                        </span>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium">전력 효율성</p>
+                      <div className="flex items-center justify-between mt-1">
+                        <span className="text-sm">1kWh당 생산량</span>
+                        <span className="text-sm font-medium">150g</span>
+                      </div>
+                      <div className="flex items-center justify-between mt-1">
+                        <span className="text-sm">업계 평균</span>
+                        <span className="text-sm font-medium">120g</span>
+                      </div>
+                      <div className="flex items-center justify-between mt-1">
+                        <span className="text-sm">효율성 향상</span>
+                        <span className="text-sm font-medium text-green-600">
+                          +25%
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Scale className="h-5 w-5 text-blue-500" />
+                    자동화 전/후 비용 차이
+                  </CardTitle>
+                  <CardDescription>자동화 도입 효과 분석</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-[250px] flex items-center justify-center bg-gray-100 rounded-md mb-4">
+                    <MoneyCurve></MoneyCurve>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="p-3 bg-red-50 rounded-md">
+                        <p className="text-sm text-gray-500">
+                          자동화 전 월 비용
+                        </p>
+                        <p className="text-xl font-medium">₩2,850,000</p>
+                      </div>
+                      <div className="p-3 bg-green-50 rounded-md">
+                        <p className="text-sm text-gray-500">
+                          자동화 후 월 비용
+                        </p>
+                        <p className="text-xl font-medium">₩1,650,000</p>
+                      </div>
+                    </div>
+                    <div className="p-3 bg-blue-50 rounded-md">
+                      <div className="flex justify-between">
+                        <p className="text-sm text-gray-500">월 절감액</p>
+                        <p className="text-sm font-medium text-green-600">
+                          ₩1,200,000
+                        </p>
+                      </div>
+                      <div className="flex justify-between mt-1">
+                        <p className="text-sm text-gray-500">연간 절감액</p>
+                        <p className="text-sm font-medium text-green-600">
+                          ₩14,400,000
+                        </p>
+                      </div>
+                      <div className="flex justify-between mt-1">
+                        <p className="text-sm text-gray-500">투자 회수 기간</p>
+                        <p className="text-sm font-medium">8.5개월</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
           {/* 4. 비용/효율 분석 */}
         </Tabs>
       </main>

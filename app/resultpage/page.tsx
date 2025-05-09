@@ -54,7 +54,7 @@ type CompatibilityType =
 interface Container {
   id: string; // 컨테이너의 고유 ID
   name: string;
-  creator: string; // 컨테이너 제작자
+  creater: string; // 컨테이너 제작자
   scale: string; // 컨테이너 크기 (예: "중형")
   hit_range: string; // 작동 범위 (예: "5-10m")
   electricity: string; // 전력 사양 (예: "220V")
@@ -121,9 +121,8 @@ export default function ResultsPage() {
   const [containers, setContainerList] = useState<Container[]>([]);
   const [containerId, setContainerId] = useState<string>("");
 
-  const [selectedContainer, setSelectedContainer] = useState<Container | null>(
-    containers[0]
-  );
+  const [selectedContainer, setSelectedContainer] =
+    useState<Container>();
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   // containerId를 기반으로 컨테이너 리스트 가져오기
@@ -139,6 +138,7 @@ export default function ResultsPage() {
       } catch (error) {
         console.error("컨테이너 리스트 가져오기 실패:", error);
       } finally {
+        setSelectedContainer(containers[0]); // 첫 번째 컨테이너를 선택
         setLoading(false);
       }
     };
@@ -451,7 +451,7 @@ export default function ResultsPage() {
                                 {container.name}
                               </h3>
                               <p className="text-sm text-muted-foreground">
-                                {container.creator}
+                                {container.creater}
                               </p>
                             </div>
                             <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
@@ -493,7 +493,7 @@ export default function ResultsPage() {
                       <div>
                         <CardTitle>{selectedContainer.name}</CardTitle>
                         <CardDescription>
-                          by {selectedContainer.creator}
+                          by {selectedContainer.creater}
                         </CardDescription>
                       </div>
                       <div className="flex items-center gap-2">
@@ -619,7 +619,7 @@ export default function ResultsPage() {
                                     {container.name}
                                   </div>
                                   <div className="text-xs text-muted-foreground">
-                                    {container.creator}
+                                    {container.creater}
                                   </div>
                                   <div className="mt-1">
                                     {renderRating(container.stars)}
