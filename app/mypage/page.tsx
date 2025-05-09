@@ -98,7 +98,7 @@ export default function MyPage() {
       type: "basic",
       status: "running",
       region: "seoul",
-      createdAt: "2025-05-07",
+      start_date: "2025-05-07",
     },
     {
       id: "2345",
@@ -106,7 +106,7 @@ export default function MyPage() {
       type: "standard",
       status: "running",
       region: "busan",
-      createdAt: "2025-03-03",
+      start_date: "2025-03-03",
     },
     {
       id: "4567",
@@ -114,7 +114,7 @@ export default function MyPage() {
       type: "basic",
       status: "stopped",
       region: "daegu",
-      createdAt: "2025-04-15",
+      start_date: "2025-04-15",
     },
   ]);
 
@@ -351,7 +351,7 @@ export default function MyPage() {
                               {renderStatusBadge(instance.status)}
                             </TableCell>
                             <TableCell>{instance.region}</TableCell>
-                            <TableCell>{instance.createdAt}</TableCell>
+                            <TableCell>{instance.start_date}</TableCell>
                             <TableCell className="text-right">
                               <div className="flex justify-end gap-2">
                                 {instance.status === "running" ? (
