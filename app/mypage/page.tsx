@@ -59,12 +59,14 @@ import { BrandIcon } from "@/components/ui/brand-icon";
 
 // 인스턴스 타입 정의
 interface Instance {
+
   id: string
   name: string
   type: "basic" | "standard" | "premium"
   status: "시작" | "중지됨"
   region: string
   start_date: string
+
 }
 
 export default function MyPage() {
@@ -98,8 +100,10 @@ export default function MyPage() {
     setInstances(
       instances.map((instance:any) => {
         if (instance.id === id) {
+
           const newStatus = instance.status === "시작" ? "중지됨" : "시작"
           return { ...instance, status: newStatus }
+
         }
         return instance;
       })
@@ -146,6 +150,7 @@ export default function MyPage() {
   // 상태 배지 렌더링 함수
   const renderStatusBadge = (status: string) => {
     switch (status) {
+
       case "시작":
         return <Badge className="bg-green-500">실행 중</Badge>
       case "중지됨":
@@ -266,8 +271,8 @@ export default function MyPage() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="all">모든 상태</SelectItem>
-                        <SelectItem value="시작">실행 중</SelectItem>
-                        <SelectItem value="중지됨">중지됨</SelectItem>
+                        <SelectItem value="running">실행 중</SelectItem>
+                        <SelectItem value="stopped">중지됨</SelectItem>
                         <SelectItem value="starting">시작 중</SelectItem>
                         <SelectItem value="error">오류</SelectItem>
                       </SelectContent>
@@ -351,6 +356,7 @@ export default function MyPage() {
                             <TableCell>{instance.start_date}</TableCell>
                             <TableCell className="text-right">
                               <div className="flex justify-end gap-2">
+
                                 {instance.status === "시작" ? (
                                   <Button variant="outline" size="sm" onClick={() => toggleInstanceStatus(instance.id,"시작")}>
                                     <Pause className="h-4 w-4 mr-1" />
@@ -358,6 +364,7 @@ export default function MyPage() {
                                   </Button>
                                 ) : instance.status === "중지됨" ? (
                                   <Button variant="outline" size="sm" onClick={() => toggleInstanceStatus(instance.id,"중지됨")}>
+
                                     <Play className="h-4 w-4 mr-1" />
                                     시작
                                   </Button>
@@ -369,8 +376,7 @@ export default function MyPage() {
                                     </Button>
                                   </DropdownMenuTrigger>
                                   <DropdownMenuContent align="end">
-                                   
-                                
+
                                     <DropdownMenuItem>
                                       <h2
                                         className="flex w-full"
@@ -383,7 +389,7 @@ export default function MyPage() {
                                         모니터링
                                       </h2>
                                     </DropdownMenuItem>
-                                    
+
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem
                                       className="text-red-600"
