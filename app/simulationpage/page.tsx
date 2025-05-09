@@ -1,6 +1,6 @@
 "use client";
 import { Slider } from "@/components/ui/slider"; // shadcn slider 컴포넌트
-
+import axios from "axios";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -237,6 +237,15 @@ export default function SimulationPage() {
     URL.revokeObjectURL(url);
   };
 
+  const fetchSmartFarmConfig = async () => {
+    try {
+      const response = await axios.get(`http://3.39.205.6:8300/config`);
+      return response.data;
+    } catch (error) {
+      console.error("스마트팜 설정 불러오기 실패:", error);
+      throw error;
+    }
+  };
   // 시간 포맷팅
   const formatTime = (time: number) => {
     const hour = Math.floor(time);
@@ -245,6 +254,18 @@ export default function SimulationPage() {
     const hour12 = hour % 12 || 12;
     return `${hour12}:${minute.toString().padStart(2, "0")} ${period}`;
   };
+  const [config, setConfig] = useState(null);
+
+  useEffect(() => {
+    fetchSmartFarmConfig()
+      .then((data) => {
+        setConfig(data);
+        console.log("받아온 설정:", data);
+      })
+      .catch((err) => {
+        alert("설정 정보를 불러오지 못했습니다.");
+      });
+  }, []);
 
   return (
     <div className="flex min-h-screen items-center flex-col bg-white">
