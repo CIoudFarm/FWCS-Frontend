@@ -79,10 +79,10 @@ export default function Home() {
             <span className="text-xl font-bold">FWCS Hub</span>
           </div>
           <div className="flex items-center gap-4 mr-5">
-            <Button variant="outline" onClick={() => router.push("/mypage")}>
+            <Button variant="outline">
               이전
             </Button>
-            <Button className="bg-green-600 hover:bg-green-700">마이페이지</Button>
+            <Button className="bg-green-600 hover:bg-green-700" onClick={() => router.push("/mypage")}>마이페이지</Button>
           </div>
         </div>
       </header>

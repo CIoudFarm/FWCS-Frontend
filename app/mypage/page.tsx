@@ -54,15 +54,14 @@ export default function MyPage() {
   const [typeFilter, setTypeFilter] = useState<string>("all")
 
   const getdata = async ()=>{
-    const datas = await axios.get("http://3.39.205.6:8300/mypage/instances")
-    console.log(datas)
+    const datas = await axios.get("http://3.39.205.6:8300/mypage/instances/")
+    console.log(datas.data)
     setInstances(datas.data)
-
   }
 
   useEffect(()=>{
     getdata();
-  })
+  },[])
 
   // 인스턴스 데이터
   const [instances, setInstances] = useState<Instance[]>([
