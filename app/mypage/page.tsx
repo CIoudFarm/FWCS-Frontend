@@ -33,6 +33,7 @@ import {
   CreditCard,
   BarChart,
 } from "lucide-react"
+import { BrandIcon } from "@/components/ui/brand-icon"
 
 // 인스턴스 타입 정의
 interface Instance {
@@ -54,7 +55,7 @@ export default function MyPage() {
   const [typeFilter, setTypeFilter] = useState<string>("all")
 
   const getdata = async ()=>{
-    const datas = await axios.get("http://3.39.205.6:8300/mypage/instances/")
+    const datas = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/mypage/instances/`)
     console.log(datas.data)
     setInstances(datas.data)
   }
@@ -160,7 +161,7 @@ export default function MyPage() {
         <div className="w-full flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 ml-5">
             <Link href="/" className="flex items-center gap-2">
-              <Leaf className="h-6 w-6 text-green-600" />
+              <BrandIcon className="h-6 w-6 text-green-600" />
               <span className="text-xl font-bold">FWCS Hub</span>
             </Link>
           </div>
@@ -458,8 +459,8 @@ export default function MyPage() {
       <footer className="border-t bg-background/80 backdrop-blur-sm">
         <div className="w-full flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-12">
           <div className="flex items-center gap-2 ml-5">
-            <Leaf className="h-6 w-6 text-green-600" />
-            <span className="text-xl font-bold">SmartFarm Hub</span>
+            <BrandIcon className="h-6 w-6 text-green-600" />
+            <span className="text-xl font-bold">FWCS Hub</span>
           </div>
           <div className="flex flex-col md:flex-row gap-4 md:gap-6">
             <Link href="#" className="text-sm hover:underline underline-offset-4">

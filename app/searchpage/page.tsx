@@ -59,7 +59,7 @@ export default function Home() {
 
     try {
       const response = await axios.post(
-        "http://3.39.205.6:8300/crops/search/",
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/crops/search/`,
         requestData
       );
       const result = response.data;
