@@ -87,6 +87,7 @@ export default function FileUploadPage() {
     
 
     console.log("서버 응답:", response)
+    router.push("/")
   } catch (error) {
     console.error("업로드 실패:", error)
   }
