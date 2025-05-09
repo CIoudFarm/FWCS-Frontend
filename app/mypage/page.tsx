@@ -59,13 +59,12 @@ import { BrandIcon } from "@/components/ui/brand-icon";
 
 // 인스턴스 타입 정의
 interface Instance {
-  id: string;
-  name: string;
-  type: "basic" | "standard" | "premium";
-  status: "running" | "stopped";
-  region: string;
-  createdAt: string;
-  start_date: string; // Add this line
+  id: string
+  name: string
+  type: "basic" | "standard" | "premium"
+  status: "running" | "stopped"
+  region: string
+  createdAt: string
 }
 
 export default function MyPage() {
@@ -99,9 +98,8 @@ export default function MyPage() {
     setInstances(
       instances.map((instance) => {
         if (instance.id === id) {
-          const newStatus =
-            instance.status === "running" ? "stopped" : "running";
-          return { ...instance, status: newStatus };
+          const newStatus = instance.status === "running" ? "stopped" : "running"
+          return { ...instance, status: newStatus }
         }
         return instance;
       })
@@ -148,9 +146,9 @@ export default function MyPage() {
   const renderStatusBadge = (status: string) => {
     switch (status) {
       case "running":
-        return <Badge className="bg-green-500">실행 중</Badge>;
+        return <Badge className="bg-green-500">실행 중</Badge>
       case "stopped":
-        return <Badge variant="outline">중지됨</Badge>;
+        return <Badge variant="outline">중지됨</Badge>
       case "starting":
         return <Badge className="bg-blue-500">시작 중</Badge>;
       case "error":
@@ -267,8 +265,8 @@ export default function MyPage() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="all">모든 상태</SelectItem>
-                        <SelectItem value="running">실행 중</SelectItem>
-                        <SelectItem value="stopped">중지됨</SelectItem>
+                        <SelectItem value="시작">실행 중</SelectItem>
+                        <SelectItem value="중지됨">중지됨</SelectItem>
                         <SelectItem value="starting">시작 중</SelectItem>
                         <SelectItem value="error">오류</SelectItem>
                       </SelectContent>
@@ -353,24 +351,12 @@ export default function MyPage() {
                             <TableCell className="text-right">
                               <div className="flex justify-end gap-2">
                                 {instance.status === "running" ? (
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() =>
-                                      toggleInstanceStatus(instance.id)
-                                    }
-                                  >
+                                  <Button variant="outline" size="sm" onClick={() => toggleInstanceStatus(instance.id)}>
                                     <Pause className="h-4 w-4 mr-1" />
                                     중지
                                   </Button>
                                 ) : instance.status === "stopped" ? (
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() =>
-                                      toggleInstanceStatus(instance.id)
-                                    }
-                                  >
+                                  <Button variant="outline" size="sm" onClick={() => toggleInstanceStatus(instance.id)}>
                                     <Play className="h-4 w-4 mr-1" />
                                     시작
                                   </Button>
@@ -383,21 +369,11 @@ export default function MyPage() {
                                   </DropdownMenuTrigger>
                                   <DropdownMenuContent align="end">
                                     <DropdownMenuItem>
-                                      <Link
-                                        href={`/instance/${instance.id}`}
-                                        className="flex w-full"
-                                      >
+                                      <Link href={`/instance/${instance.id}`} className="flex w-full">
                                         세부 정보
                                       </Link>
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem
-                                      onClick={() =>
-                                        togglestate(
-                                          instance.id,
-                                          instance.status
-                                        )
-                                      }
-                                    >
+                                    <DropdownMenuItem onClick={() => togglestate(instance.id,instance.status)}>
                                       {instance.status}
                                     </DropdownMenuItem>
                                     <DropdownMenuItem>
@@ -413,10 +389,7 @@ export default function MyPage() {
                                       </h2>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem>
-                                      <Link
-                                        href={`/instance/${instance.id}/settings`}
-                                        className="flex w-full"
-                                      >
+                                      <Link href={`/instance/${instance.id}/settings`} className="flex w-full">
                                         설정
                                       </Link>
                                     </DropdownMenuItem>
