@@ -609,7 +609,7 @@ export default function IaaSPage() {
                                       <div
                                         className="w-full h-full"
                                         style={{
-                                          backgroundImage: `url(${container.imageUrl || "/smart-farm.png"})`,
+                                          backgroundImage: `url(${process.env.NEXT_PUBLIC_API_BASE_URL}/photos/${container.id}/)`,
                                           backgroundSize: "cover",
                                           backgroundPosition: "center",
                                         }}
@@ -691,7 +691,7 @@ export default function IaaSPage() {
                                   <div
                                     className="w-full h-full"
                                     style={{
-                                      backgroundImage: `url(${selectedContainer.imageUrl || "/smart-farm-system.png"})`,
+                                      backgroundImage: `url(${process.env.NEXT_PUBLIC_API_BASE_URL}/photos/${selectedContainer.id}/)`,
                                       backgroundSize: "cover",
                                       backgroundPosition: "center",
                                     }}
