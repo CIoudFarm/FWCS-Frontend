@@ -37,6 +37,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
+import { BrandIcon } from "@/components/ui/brand-icon";
 
 export default function Home() {
   // 상태 예시 (실제로는 useState로 관리되고 있어야 함)
@@ -62,9 +63,10 @@ export default function Home() {
         requestData
       );
       const result = response.data;
-      const id = result.results.map((item: any) => item.container.id);
+      const id = result.results.map((item: any) => item.container);
       console.log("서버 응답:", result);
-      router.push(`/resultPage?ids=${encodeURIComponent(JSON.stringify(id))}`);
+      console.log("ID:", id);
+      router.push(`/resultpage?id=${encodeURIComponent(JSON.stringify(id))}`);
     } catch (error) {
       console.error("POST 요청 실패:", error);
     }
@@ -75,8 +77,8 @@ export default function Home() {
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="w-full flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 ml-5">
-            <Leaf className="h-6 w-6 text-green-600" />
-            <span className="text-xl font-bold" onClick={() => router.push("/")}>FWCS Hub</span>
+            <BrandIcon className="h-6 w-6 text-green-600" />
+            <span className="text-xl font-bold">FWCS Hub</span>
           </div>
           <div className="flex items-center gap-4 mr-5">
             <Button variant="outline">
@@ -106,10 +108,10 @@ export default function Home() {
               <form className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="crop-type">직물 종류</Label>
+                    <Label htmlFor="crop-type">작작물 종류</Label>
                     <Input
                       type="string"
-                      placeholder="직물 종류를 입력하세요..."
+                      placeholder="작물 종류를 입력하세요..."
                       value={CropType ?? ""}
                       onChange={(e) => setCropType(e.target.value)}
                     />
@@ -199,8 +201,8 @@ export default function Home() {
       <footer className="border-t bg-background">
         <div className="w-full flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-12">
           <div className="flex items-center gap-2 ml-5">
-            <Leaf className="h-6 w-6 text-green-600" />
-            <span className="text-xl font-bold">CloudFarm Hub</span>
+            <BrandIcon className="h-6 w-6 text-green-600" />
+            <span className="text-xl font-bold">FWCS Hub</span>
           </div>
           <div className="flex flex-col md:flex-row gap-4 md:gap-6">
             <Link
@@ -241,7 +243,7 @@ export default function Home() {
             </Link>
           </div>
           <div className="text-sm text-muted-foreground mr-5">
-            © 2025 CloudFarm Hub. All rights reserved.
+            © 2025 FWCS Hub. All rights reserved.
           </div>
         </div>
       </footer>

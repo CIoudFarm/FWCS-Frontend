@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import { Leaf, X, Upload, Tag, Plus, ArrowRight } from "lucide-react"
+import { BrandIcon } from "@/components/ui/brand-icon"
 
 export default function FileUploadPage() {
   const router = useRouter()
@@ -83,9 +84,9 @@ export default function FileUploadPage() {
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
-            <Leaf className="h-6 w-6 text-green-600" />
+            <BrandIcon className="h-6 w-6 text-green-600" />
             <Link href="/" className="text-xl font-bold">
-              SmartFarm Hub
+              FWCS Hub
             </Link>
           </div>
 
@@ -202,10 +203,10 @@ export default function FileUploadPage() {
       <footer className="border-t bg-background mt-auto">
         <div className="container flex flex-col gap-6 py-4 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-2">
-            <Leaf className="h-5 w-5 text-green-600" />
-            <span className="text-sm font-semibold">SmartFarm Hub</span>
+            <BrandIcon className="h-5 w-5 text-green-600" />
+            <span className="text-sm font-semibold">FWCS Hub</span>
           </div>
-          <div className="text-sm text-muted-foreground">© 2025 SmartFarm Hub. All rights reserved.</div>
+          <div className="text-sm text-muted-foreground">© 2025 FWCS Hub. All rights reserved.</div>
         </div>
       </footer>
     </div>

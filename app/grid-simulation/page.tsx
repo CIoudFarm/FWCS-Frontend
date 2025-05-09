@@ -23,6 +23,7 @@ import {
   Save,
   Layers,
 } from "lucide-react"
+import { BrandIcon } from "@/components/ui/brand-icon"
 
 // Define types for our grid items
 type SensorType = "temperature" | "humidity" | "soil" | "light"
@@ -401,9 +402,9 @@ export default function GridSimulationPage() {
       <header className="sticky top-0 z-50 w-full border-b bg-white shadow-sm">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
-            <Leaf className="h-6 w-6 text-green-600" />
+            <BrandIcon className="h-6 w-6 text-green-600" />
             <Link href="/" className="text-xl font-bold">
-              SmartFarm Hub
+              FWCS Hub
             </Link>
           </div>
 
@@ -761,7 +762,7 @@ export default function GridSimulationPage() {
       </main>
 
       <footer className="border-t bg-white py-4">
-        <div className="container text-center text-sm text-gray-500">© 2025 SmartFarm Hub. All rights reserved.</div>
+        <div className="container text-center text-sm text-gray-500">© 2025 FWCS Hub. All rights reserved.</div>
       </footer>
     </div>
   )

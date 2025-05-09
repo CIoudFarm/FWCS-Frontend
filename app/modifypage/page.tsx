@@ -25,6 +25,7 @@ import {
   Bot,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { BrandIcon } from "@/components/ui/brand-icon";
 
 interface Message {
   id: string;
@@ -48,6 +49,7 @@ export default function AIEditorPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [containerId, setContainerId] = useState<string | null>(null);
 
   // 샘플 JSON 데이터 (이전 화면에서 선택한 파일)
   const [fileContent, setFileContent] = useState(`{
@@ -65,6 +67,13 @@ export default function AIEditorPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const idParam = params.get("id");
+      setContainerId(idParam);
+    }
+  }, []);
   // 메시지 전송 처리
   const handleSendMessage = () => {
     if (!inputValue.trim()) return;
@@ -159,9 +168,9 @@ export default function AIEditorPage() {
   };
 
   // 완료 버튼 처리
-  const handleComplete = () => {
+  const handleComplete = (id: string) => {
     // 실제로는 수정된 파일을 저장하고 다음 페이지로 이동
-    router.push("/simulationpage");
+    router.push(`/simulationpage?id=${id}`);
   };
 
   // 메시지 포맷팅
@@ -246,7 +255,7 @@ export default function AIEditorPage() {
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="w-full flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 ml-5">
-            <Leaf className="h-6 w-6 text-green-600" />
+            <BrandIcon className="h-6 w-6 text-green-600" />
             <Link href="/" className="text-xl font-bold">
               FWCS Hub
             </Link>
@@ -484,7 +493,7 @@ export default function AIEditorPage() {
               <div className="mt-4 flex justify-end">
                 <Button
                   className="bg-green-600 hover:bg-green-700 gap-2"
-                  onClick={handleComplete}
+                  onClick={() => handleComplete(containerId!)}
                 >
                   완료
                   <ArrowRight className="h-4 w-4" />
@@ -498,11 +507,11 @@ export default function AIEditorPage() {
       <footer className="border-t bg-background/80 backdrop-blur-sm relative z-10">
         <div className="w-full flex flex-col gap-6 py-4 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-2 ml-5">
-            <Leaf className="h-5 w-5 text-green-600" />
-            <span className="text-sm font-semibold">CloudFarm Hub</span>
+            <BrandIcon className="h-5 w-5 text-green-600" />
+            <span className="text-sm font-semibold">FWCS Hub</span>
           </div>
           <div className="text-sm text-muted-foreground mr-5">
-            © 2025 CloudFarm Hub. All rights reserved.
+            © 2025 FWCS Hub. All rights reserved.
           </div>
         </div>
       </footer>

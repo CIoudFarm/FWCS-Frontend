@@ -63,6 +63,7 @@ interface Hardware {
   sensors: Sensor[];
   actuators: Actuator[];
   robots: Robot[];
+  plants: PlantInfo[];
 }
 
 interface Dimensions {
@@ -118,66 +119,13 @@ interface PlantInfo {
 interface SmartFarmEmulatorProps {
   userConfig: UserConfig;
   baseConfig: BaseConfig;
-  plants?: PlantInfo[];
 }
 
 interface SmartFarmEmulatorProps {
   userConfig: UserConfig;
   baseConfig: BaseConfig;
-  plants?: PlantInfo[];
 }
 
-// 기본 식물 데이터 추가 (drawHardware 함수 위에 추가)
-const defaultPlants: PlantInfo[] = [
-  {
-    type: "tomato",
-    name: "토마토",
-    minTemp: 18,
-    maxTemp: 30,
-    minHumidity: 50,
-    maxHumidity: 80,
-    positions: [
-      { x: 0.2, y: 0.2, layer: 1 },
-      { x: 0.4, y: 0.2, layer: 1 },
-      { x: 0.6, y: 0.2, layer: 1 },
-      { x: 0.3, y: 0.4, layer: 2 },
-      { x: 0.5, y: 0.4, layer: 2 },
-    ],
-    growthStage: 70,
-  },
-  {
-    type: "lettuce",
-    name: "상추",
-    minTemp: 15,
-    maxTemp: 25,
-    minHumidity: 60,
-    maxHumidity: 85,
-    positions: [
-      { x: 0.2, y: 0.6, layer: 1 },
-      { x: 0.4, y: 0.6, layer: 1 },
-      { x: 0.6, y: 0.6, layer: 1 },
-      { x: 0.3, y: 0.7, layer: 2 },
-      { x: 0.5, y: 0.7, layer: 2 },
-    ],
-    growthStage: 85,
-  },
-  {
-    type: "pepper",
-    name: "고추",
-    minTemp: 20,
-    maxTemp: 32,
-    minHumidity: 45,
-    maxHumidity: 75,
-    positions: [
-      { x: 0.2, y: 0.8, layer: 1 },
-      { x: 0.4, y: 0.8, layer: 1 },
-      { x: 0.6, y: 0.8, layer: 1 },
-      { x: 0.7, y: 0.6, layer: 2 },
-      { x: 0.7, y: 0.8, layer: 2 },
-    ],
-    growthStage: 60,
-  },
-];
 
 // 식물 상태 평가 함수 추가 (drawHardware 함수 위에 추가)
 const evaluatePlantHealth = (
@@ -241,7 +189,6 @@ const plantColors = {
 export default function SmartFarmEmulator({
   userConfig,
   baseConfig,
-  plants = defaultPlants,
 }: SmartFarmEmulatorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<any>(null);
@@ -268,6 +215,7 @@ export default function SmartFarmEmulator({
   const sensors = baseConfig?.hardware?.sensors || [];
   const robots = baseConfig?.hardware?.robots || [];
   const layers = baseConfig?.hardware?.layers || 1;
+  const plants = baseConfig?.hardware?.plants || []; // baseConfig에서 plants 가져오기
   const bedsPerLayer = baseConfig?.hardware?.beds_per_layer || 0;
   const dimensions = baseConfig?.dimensions || {
     width: "14m",

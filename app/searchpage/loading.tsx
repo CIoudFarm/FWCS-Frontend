@@ -1,3 +1,4 @@
+import { BrandIcon } from "@/components/ui/brand-icon"
 import { Leaf, Loader2, Sprout, Cloud, Sun, Droplet } from "lucide-react"
 
 export default function Loading() {
@@ -44,13 +45,13 @@ export default function Loading() {
             <Loader2 className="h-16 w-16 animate-spin text-green-600 opacity-75" />
           </div>
           <div className="flex items-center justify-center h-16 w-16 rounded-full bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm shadow-lg">
-            <Leaf className="h-8 w-8 text-green-600" />
+            <BrandIcon className="h-8 w-8 text-green-600" />
           </div>
         </div>
 
         {/* 로딩 텍스트 */}
         <div className="space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">SmartFarm Hub</h1>
+          <h1 className="text-2xl font-bold tracking-tight">FWCS Hub</h1>
           <p className="text-muted-foreground">데이터를 불러오는 중입니다...</p>
         </div>
 

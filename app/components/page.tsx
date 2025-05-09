@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Search, Leaf, Droplet, Thermometer, Wind, BarChart, Download, Star, Clock, Filter, X } from "lucide-react"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { BrandIcon } from "@/components/ui/brand-icon"
 
 export default function Home() {
   return (
@@ -14,8 +15,8 @@ export default function Home() {
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
-            <Leaf className="h-6 w-6 text-green-600" />
-            <span className="text-xl font-bold">SmartFarm Hub</span>
+            <BrandIcon className="h-6 w-6 text-green-600" />
+            <span className="text-xl font-bold">FWCS Hub</span>
           </div>
 
           <div className="relative w-full max-w-sm px-4">
@@ -432,8 +433,8 @@ export default function Home() {
       <footer className="border-t bg-background">
         <div className="container flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-12">
           <div className="flex items-center gap-2">
-            <Leaf className="h-6 w-6 text-green-600" />
-            <span className="text-xl font-bold">SmartFarm Hub</span>
+            <BrandIcon className="h-6 w-6 text-green-600" />
+            <span className="text-xl font-bold">FWCS Hub</span>
           </div>
           <div className="flex flex-col md:flex-row gap-4 md:gap-6">
             <Link href="#" className="text-sm hover:underline underline-offset-4">
@@ -455,7 +456,7 @@ export default function Home() {
               Contact
             </Link>
           </div>
-          <div className="text-sm text-muted-foreground">© 2025 SmartFarm Hub. All rights reserved.</div>
+          <div className="text-sm text-muted-foreground">© 2025 FWCS Hub. All rights reserved.</div>
         </div>
       </footer>
     </div>
