@@ -70,8 +70,13 @@ export default function PredictPage() {
       .join(" ");
 
     return (
-      <div className="flex flex-col items-center">
-        <svg width="400" height="130" className="border rounded-md bg-gray-50">
+      <div className="flex flex-col items-center w-full h-full">
+        <h3 className="font-bold mb-2"> 생장곡선 </h3>
+        <svg
+          viewBox="0 0 320 100"
+          preserveAspectRatio="none"
+          className="w-full h-full border rounded-md bg-gray-50"
+        >
           {/* X축 */}
           <line
             x1="0"
@@ -122,8 +127,12 @@ export default function PredictPage() {
       .join(" ");
 
     return (
-      <div className="flex flex-col items-center">
-        <svg width="400" height="130" className="border rounded-md bg-gray-50">
+      <div className="flex flex-col items-center w-full h-full">
+        <svg
+          viewBox="0 0 320 100"
+          preserveAspectRatio="none"
+          className="w-full h-full border rounded-md bg-gray-50"
+        >
           {/* X축 */}
           <line
             x1="0"
@@ -174,13 +183,17 @@ export default function PredictPage() {
       .join(" ");
 
     return (
-      <div className="flex flex-col items-center">
-        <svg width="400" height="130" className="border rounded-md bg-gray-50">
+      <div className="flex flex-col items-center w-full h-full">
+        <svg
+          viewBox="0 0 320 100"
+          preserveAspectRatio="none"
+          className="w-full h-full border rounded-md bg-gray-50"
+        >
           {/* X축 */}
           <line
             x1="0"
             y1="100"
-            x2="400"
+            x2="320"
             y2="100"
             stroke="#ccc"
             strokeWidth="1"
@@ -226,8 +239,12 @@ export default function PredictPage() {
       .join(" ");
 
     return (
-      <div className="flex flex-col items-center">
-        <svg width="400" height="130" className="border rounded-md bg-gray-50">
+      <div className="flex flex-col items-center w-full h-full">
+        <svg
+          viewBox="0 0 320 100"
+          preserveAspectRatio="none"
+          className="w-full h-full border rounded-md bg-gray-50"
+        >
           {/* X축 */}
           <line
             x1="0"
@@ -278,8 +295,12 @@ export default function PredictPage() {
       .join(" ");
 
     return (
-      <div className="flex flex-col items-center">
-        <svg width="640" height="200" className="border rounded-md bg-gray-50">
+      <div className="flex flex-col items-center w-full h-full">
+        <svg
+          viewBox="0 0 620 200"
+          preserveAspectRatio="none"
+          className="w-full h-full border rounded-md bg-gray-50"
+        >
           {/* X축 */}
           <line
             x1="0"
@@ -330,8 +351,12 @@ export default function PredictPage() {
       .join(" ");
 
     return (
-      <div className="flex flex-col items-center">
-        <svg width="640" height="200" className="border rounded-md bg-gray-50">
+      <div className="flex flex-col items-center w-full h-full">
+        <svg
+          viewBox="0 0 620 200"
+          preserveAspectRatio="none"
+          className="w-full h-full border rounded-md bg-gray-50"
+        >
           {/* X축 */}
           <line
             x1="0"
@@ -400,7 +425,7 @@ export default function PredictPage() {
           </div>
         </div>
 
-        <Tabs defaultValue="environment" className="space-y-6">
+        <Tabs defaultValue="growth" className="space-y-6">
           <TabsList className="grid grid-cols-3 w-full">
             {/* <TabsTrigger
               value="environment"
