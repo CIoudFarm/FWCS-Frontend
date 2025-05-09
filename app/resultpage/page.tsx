@@ -1,16 +1,22 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
-import { Slider } from "@/components/ui/slider"
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 import {
   Leaf,
   Search,
@@ -28,7 +34,7 @@ import {
   Thermometer,
   Wind,
   Sun,
-} from "lucide-react"
+} from "lucide-react";
 
 // 호환성 타입을 정의합니다
 type CompatibilityType =
@@ -41,26 +47,26 @@ type CompatibilityType =
   | "dairy_farm"
   | "cattle_ranch"
   | "poultry_farm"
-  | "reforestation"
+  | "reforestation";
 
 // 컨테이너 타입을 정의합니다
 interface Container {
-  id: number
-  name: string
-  creator: string
-  type: string
-  scale: string
-  temperature: string
-  humidity: string
-  power: string
-  rating: number
-  downloads: number
-  lastUpdated: string
-  description: string
-  features: string[]
-  compatibility: CompatibilityType[]
-  certifications: string[]
-  imageUrl: string
+  id: number;
+  name: string;
+  creator: string;
+  type: string;
+  scale: string;
+  temperature: string;
+  humidity: string;
+  power: string;
+  rating: number;
+  downloads: number;
+  lastUpdated: string;
+  description: string;
+  features: string[];
+  compatibility: CompatibilityType[];
+  certifications: string[];
+  imageUrl: string;
 }
 
 // 샘플 컨테이너 데이터의 타입을 Container[]로 변경합니다
@@ -273,24 +279,26 @@ const containers: Container[] = [
     certifications: ["ISO 9001", "CE", "Animal Welfare Approved"],
     imageUrl: "/livestock-monitor.png",
   },
-]
+];
 
 // 상태 관리 부분도 타입을 명시합니다
 export default function ResultsPage() {
-  const router = useRouter()
-  const [selectedContainer, setSelectedContainer] = useState<Container | null>(containers[0])
-  const [searchTerm, setSearchTerm] = useState("")
-  const [showFilters, setShowFilters] = useState(false)
+  const router = useRouter();
+  const [selectedContainer, setSelectedContainer] = useState<Container | null>(
+    containers[0]
+  );
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showFilters, setShowFilters] = useState(false);
 
   // 컨테이너 선택 처리 함수도 타입을 명시합니다
   const handleSelectContainer = (container: Container) => {
-    setSelectedContainer(container)
-  }
+    setSelectedContainer(container);
+  };
 
   // 필터링된 컨테이너 목록
   const filteredContainers = containers.filter((container) =>
-    container.name.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+    container.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // 호환성 표시 함수를 수정합니다
   const renderCompatibility = (compatibility: CompatibilityType[]) => {
@@ -305,14 +313,14 @@ export default function ResultsPage() {
       cattle_ranch: "목장",
       poultry_farm: "양계장",
       reforestation: "재조림",
-    }
+    };
 
     return compatibility.map((item) => (
       <Badge key={item} variant="outline" className="mr-1 mb-1">
         {compatibilityMap[item]}
       </Badge>
-    ))
-  }
+    ));
+  };
 
   // 등급 표시 함수
   const renderRating = (rating: any) => {
@@ -321,13 +329,17 @@ export default function ResultsPage() {
         {[...Array(5)].map((_, i) => (
           <Star
             key={i}
-            className={`h-4 w-4 ${i < Math.floor(rating) ? "text-yellow-500 fill-yellow-500" : "text-gray-300"}`}
+            className={`h-4 w-4 ${
+              i < Math.floor(rating)
+                ? "text-yellow-500 fill-yellow-500"
+                : "text-gray-300"
+            }`}
           />
         ))}
         <span className="ml-1 text-sm font-medium">{rating}</span>
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <div className="flex min-h-screen flex-col relative overflow-hidden">
@@ -376,7 +388,7 @@ export default function ResultsPage() {
           <div className="flex items-center gap-2 ml-5">
             <Leaf className="h-6 w-6 text-green-600" />
             <Link href="/" className="text-xl font-bold">
-              SmartFarm Hub
+              CloudFarm Hub
             </Link>
           </div>
 
@@ -392,7 +404,10 @@ export default function ResultsPage() {
           </div>
 
           <div className="flex items-center gap-4 mr-5">
-            <Button variant="outline" onClick={() => setShowFilters(!showFilters)}>
+            <Button
+              variant="outline"
+              onClick={() => setShowFilters(!showFilters)}
+            >
               <Filter className="h-4 w-4 mr-2" />
               필터
             </Button>
@@ -407,7 +422,9 @@ export default function ResultsPage() {
         <div className="container mx-auto px-4">
           <div className="mb-6 text-center">
             <h1 className="text-2xl font-bold">농사 컨테이너 검색 결과</h1>
-            <p className="text-muted-foreground">최적의 농업 인프라 컴포넌트를 찾아보세요</p>
+            <p className="text-muted-foreground">
+              최적의 농업 인프라 컴포넌트를 찾아보세요
+            </p>
           </div>
 
           <div className="flex flex-col md:flex-row gap-6">
@@ -418,7 +435,11 @@ export default function ResultsPage() {
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
                       <CardTitle className="text-lg">필터</CardTitle>
-                      <Button variant="ghost" size="icon" onClick={() => setShowFilters(false)}>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setShowFilters(false)}
+                      >
                         <X className="h-4 w-4" />
                       </Button>
                     </div>
@@ -428,21 +449,34 @@ export default function ResultsPage() {
                       <div className="space-y-2">
                         <Label>직물 종류</Label>
                         <div className="space-y-2">
-                          {["cotton", "polyester", "nylon", "wool", "silk", "hemp"].map((type) => (
-                            <div key={type} className="flex items-center space-x-2">
+                          {[
+                            "cotton",
+                            "polyester",
+                            "nylon",
+                            "wool",
+                            "silk",
+                            "hemp",
+                          ].map((type) => (
+                            <div
+                              key={type}
+                              className="flex items-center space-x-2"
+                            >
                               <Checkbox id={`type-${type}`} />
-                              <Label htmlFor={`type-${type}`} className="text-sm font-normal">
+                              <Label
+                                htmlFor={`type-${type}`}
+                                className="text-sm font-normal"
+                              >
                                 {type === "cotton"
                                   ? "면직물 (Cotton)"
                                   : type === "polyester"
-                                    ? "폴리에스터 (Polyester)"
-                                    : type === "nylon"
-                                      ? "나일론 (Nylon)"
-                                      : type === "wool"
-                                        ? "양모 (Wool)"
-                                        : type === "silk"
-                                          ? "실크 (Silk)"
-                                          : "대마 (Hemp)"}
+                                  ? "폴리에스터 (Polyester)"
+                                  : type === "nylon"
+                                  ? "나일론 (Nylon)"
+                                  : type === "wool"
+                                  ? "양모 (Wool)"
+                                  : type === "silk"
+                                  ? "실크 (Silk)"
+                                  : "대마 (Hemp)"}
                               </Label>
                             </div>
                           ))}
@@ -452,27 +486,40 @@ export default function ResultsPage() {
                       <div className="space-y-2">
                         <Label>규모</Label>
                         <div className="space-y-2">
-                          {["small", "medium", "large", "industrial"].map((scale) => (
-                            <div key={scale} className="flex items-center space-x-2">
-                              <Checkbox id={`scale-${scale}`} />
-                              <Label htmlFor={`scale-${scale}`} className="text-sm font-normal">
-                                {scale === "small"
-                                  ? "소규모 (Small)"
-                                  : scale === "medium"
+                          {["small", "medium", "large", "industrial"].map(
+                            (scale) => (
+                              <div
+                                key={scale}
+                                className="flex items-center space-x-2"
+                              >
+                                <Checkbox id={`scale-${scale}`} />
+                                <Label
+                                  htmlFor={`scale-${scale}`}
+                                  className="text-sm font-normal"
+                                >
+                                  {scale === "small"
+                                    ? "소규모 (Small)"
+                                    : scale === "medium"
                                     ? "중규모 (Medium)"
                                     : scale === "large"
-                                      ? "대규모 (Large)"
-                                      : "산업용 (Industrial)"}
-                              </Label>
-                            </div>
-                          ))}
+                                    ? "대규모 (Large)"
+                                    : "산업용 (Industrial)"}
+                                </Label>
+                              </div>
+                            )
+                          )}
                         </div>
                       </div>
 
                       <div className="space-y-2">
                         <Label>평점</Label>
                         <div className="pt-2">
-                          <Slider defaultValue={[4]} min={1} max={5} step={0.1} />
+                          <Slider
+                            defaultValue={[4]}
+                            min={1}
+                            max={5}
+                            step={0.1}
+                          />
                           <div className="flex justify-between text-xs text-muted-foreground mt-1">
                             <span>1</span>
                             <span>2</span>
@@ -484,7 +531,9 @@ export default function ResultsPage() {
                       </div>
 
                       <div className="pt-2">
-                        <Button className="w-full bg-green-600 hover:bg-green-700">필터 적용</Button>
+                        <Button className="w-full bg-green-600 hover:bg-green-700">
+                          필터 적용
+                        </Button>
                       </div>
                     </div>
                   </CardContent>
@@ -493,10 +542,16 @@ export default function ResultsPage() {
             )}
 
             {/* 컨테이너 목록 (왼쪽) */}
-            <div className={`w-full ${selectedContainer ? "md:w-1/3" : "md:w-2/3"}`}>
+            <div
+              className={`w-full ${
+                selectedContainer ? "md:w-1/3" : "md:w-2/3"
+              }`}
+            >
               <div className="mb-4">
                 <h2 className="text-xl font-bold">추천 농사 컨테이너</h2>
-                <p className="text-muted-foreground">검색 조건에 맞는 {filteredContainers.length}개의 컨테이너</p>
+                <p className="text-muted-foreground">
+                  검색 조건에 맞는 {filteredContainers.length}개의 컨테이너
+                </p>
               </div>
 
               <div className="grid grid-cols-1 gap-4">
@@ -504,7 +559,9 @@ export default function ResultsPage() {
                   <Card
                     key={container.id}
                     className={`cursor-pointer transition-all hover:border-green-500 shadow-sm hover:shadow-md bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm ${
-                      selectedContainer?.id === container.id ? "border-green-500 bg-green-50 dark:bg-green-950/20" : ""
+                      selectedContainer?.id === container.id
+                        ? "border-green-500 bg-green-50 dark:bg-green-950/20"
+                        : ""
                     }`}
                     onClick={() => handleSelectContainer(container)}
                   >
@@ -521,8 +578,12 @@ export default function ResultsPage() {
                         <div className="flex-1 min-w-0">
                           <div className="flex justify-between items-start">
                             <div>
-                              <h3 className="font-medium truncate">{container.name}</h3>
-                              <p className="text-sm text-muted-foreground">{container.creator}</p>
+                              <h3 className="font-medium truncate">
+                                {container.name}
+                              </h3>
+                              <p className="text-sm text-muted-foreground">
+                                {container.creator}
+                              </p>
                             </div>
                             <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
                           </div>
@@ -542,7 +603,9 @@ export default function ResultsPage() {
                               <Download className="h-3 w-3 mr-1" />
                               {container.downloads}
                             </div>
-                            <div className="flex items-center">{renderRating(container.rating)}</div>
+                            <div className="flex items-center">
+                              {renderRating(container.rating)}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -560,7 +623,9 @@ export default function ResultsPage() {
                     <div className="flex justify-between items-start">
                       <div>
                         <CardTitle>{selectedContainer.name}</CardTitle>
-                        <CardDescription>by {selectedContainer.creator}</CardDescription>
+                        <CardDescription>
+                          by {selectedContainer.creator}
+                        </CardDescription>
                       </div>
                       <div className="flex items-center gap-2">
                         {renderRating(selectedContainer.rating)}
@@ -583,11 +648,15 @@ export default function ResultsPage() {
                       />
                       <div className="w-full md:w-2/3">
                         <h3 className="text-lg font-medium mb-2">설명</h3>
-                        <p className="text-muted-foreground mb-4">{selectedContainer.description}</p>
+                        <p className="text-muted-foreground mb-4">
+                          {selectedContainer.description}
+                        </p>
 
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <h4 className="text-sm font-medium mb-1">직물 종류</h4>
+                            <h4 className="text-sm font-medium mb-1">
+                              직물 종류
+                            </h4>
                             <p className="text-sm">{selectedContainer.type}</p>
                           </div>
                           <div>
@@ -595,20 +664,34 @@ export default function ResultsPage() {
                             <p className="text-sm">{selectedContainer.scale}</p>
                           </div>
                           <div>
-                            <h4 className="text-sm font-medium mb-1">온도 범위</h4>
-                            <p className="text-sm">{selectedContainer.temperature}</p>
+                            <h4 className="text-sm font-medium mb-1">
+                              온도 범위
+                            </h4>
+                            <p className="text-sm">
+                              {selectedContainer.temperature}
+                            </p>
                           </div>
                           <div>
-                            <h4 className="text-sm font-medium mb-1">습도 범위</h4>
-                            <p className="text-sm">{selectedContainer.humidity}</p>
+                            <h4 className="text-sm font-medium mb-1">
+                              습도 범위
+                            </h4>
+                            <p className="text-sm">
+                              {selectedContainer.humidity}
+                            </p>
                           </div>
                           <div>
-                            <h4 className="text-sm font-medium mb-1">전력 소비</h4>
+                            <h4 className="text-sm font-medium mb-1">
+                              전력 소비
+                            </h4>
                             <p className="text-sm">{selectedContainer.power}</p>
                           </div>
                           <div>
-                            <h4 className="text-sm font-medium mb-1">최종 업데이트</h4>
-                            <p className="text-sm">{selectedContainer.lastUpdated}</p>
+                            <h4 className="text-sm font-medium mb-1">
+                              최종 업데이트
+                            </h4>
+                            <p className="text-sm">
+                              {selectedContainer.lastUpdated}
+                            </p>
                           </div>
                         </div>
                       </div>
@@ -632,7 +715,10 @@ export default function ResultsPage() {
                       <TabsContent value="features" className="pt-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                           {selectedContainer.features.map((feature, index) => (
-                            <div key={index} className="flex items-center gap-2">
+                            <div
+                              key={index}
+                              className="flex items-center gap-2"
+                            >
                               <div className="h-2 w-2 rounded-full bg-green-500" />
                               <span>{feature}</span>
                             </div>
@@ -641,9 +727,13 @@ export default function ResultsPage() {
                       </TabsContent>
                       <TabsContent value="compatibility" className="pt-4">
                         <h3 className="text-sm font-medium mb-2">호환 환경</h3>
-                        <div className="flex flex-wrap">{renderCompatibility(selectedContainer.compatibility)}</div>
+                        <div className="flex flex-wrap">
+                          {renderCompatibility(selectedContainer.compatibility)}
+                        </div>
 
-                        <h3 className="text-sm font-medium mt-4 mb-2">추천 조합</h3>
+                        <h3 className="text-sm font-medium mt-4 mb-2">
+                          추천 조합
+                        </h3>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
                           {containers
                             .filter((c) => c.id !== selectedContainer.id)
@@ -654,9 +744,15 @@ export default function ResultsPage() {
                                 className="cursor-pointer hover:border-green-500 bg-white/70 dark:bg-gray-950/70"
                               >
                                 <CardContent className="p-3">
-                                  <div className="text-sm font-medium truncate">{container.name}</div>
-                                  <div className="text-xs text-muted-foreground">{container.creator}</div>
-                                  <div className="mt-1">{renderRating(container.rating)}</div>
+                                  <div className="text-sm font-medium truncate">
+                                    {container.name}
+                                  </div>
+                                  <div className="text-xs text-muted-foreground">
+                                    {container.creator}
+                                  </div>
+                                  <div className="mt-1">
+                                    {renderRating(container.rating)}
+                                  </div>
                                 </CardContent>
                               </Card>
                             ))}
@@ -676,37 +772,53 @@ export default function ResultsPage() {
                           </div>
 
                           <div>
-                            <h3 className="text-sm font-medium mb-2">기술 사양</h3>
+                            <h3 className="text-sm font-medium mb-2">
+                              기술 사양
+                            </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
                               <div className="flex justify-between">
-                                <span className="text-muted-foreground">센서 정확도:</span>
+                                <span className="text-muted-foreground">
+                                  센서 정확도:
+                                </span>
                                 <span>±0.1°C</span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-muted-foreground">응답 시간:</span>
+                                <span className="text-muted-foreground">
+                                  응답 시간:
+                                </span>
                                 <span>{"<"} 1초</span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-muted-foreground">데이터 전송:</span>
+                                <span className="text-muted-foreground">
+                                  데이터 전송:
+                                </span>
                                 <span>Wi-Fi, Bluetooth, LoRa</span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-muted-foreground">배터리 수명:</span>
+                                <span className="text-muted-foreground">
+                                  배터리 수명:
+                                </span>
                                 <span>최대 5년</span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-muted-foreground">작동 온도:</span>
+                                <span className="text-muted-foreground">
+                                  작동 온도:
+                                </span>
                                 <span>-30°C ~ 80°C</span>
                               </div>
                               <div className="flex justify-between">
-                                <span className="text-muted-foreground">방수 등급:</span>
+                                <span className="text-muted-foreground">
+                                  방수 등급:
+                                </span>
                                 <span>IP67</span>
                               </div>
                             </div>
                           </div>
 
                           <div>
-                            <h3 className="text-sm font-medium mb-2">시스템 요구사항</h3>
+                            <h3 className="text-sm font-medium mb-2">
+                              시스템 요구사항
+                            </h3>
                             <div className="text-sm space-y-1">
                               <p>• SmartFarm Hub 플랫폼 v2.0 이상</p>
                               <p>• 인터넷 연결 (최소 1Mbps)</p>
@@ -743,11 +855,13 @@ export default function ResultsPage() {
         <div className="w-full flex flex-col gap-6 py-4 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-2 ml-5">
             <Leaf className="h-5 w-5 text-green-600" />
-            <span className="text-sm font-semibold">SmartFarm Hub</span>
+            <span className="text-sm font-semibold">CloudFarm Hub</span>
           </div>
-          <div className="text-sm text-muted-foreground mr-5">© 2025 SmartFarm Hub. All rights reserved.</div>
+          <div className="text-sm text-muted-foreground mr-5">
+            © 2025 CloudFarm Hub. All rights reserved.
+          </div>
         </div>
       </footer>
     </div>
-  )
+  );
 }

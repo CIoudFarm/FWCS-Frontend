@@ -11,7 +11,7 @@
 /build
 
 # debug
-npm-debug.log*
+npm-debug.log*next
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
