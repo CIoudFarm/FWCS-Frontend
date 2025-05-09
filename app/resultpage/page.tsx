@@ -130,7 +130,7 @@ export default function ResultsPage() {
     const fetchContainerListById = async (id: string): Promise<void> => {
       try {
         const response = await axios.get<Container[]>(
-          `http://3.39.205.6:8300/containers/${id}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/containers/${id}`
         );
         console.log("컨테이너 리스트 가져오기 성공:", response.data);
         setContainerList(response.data); // 컨테이너 리스트 저장
