@@ -204,10 +204,10 @@ export default function SimulationPage() {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       const idParam = params.get("id");
+
       if (idParam) {
         try {
-          const parsedId = JSON.parse(decodeURIComponent(idParam));
-          setContainerId(parsedId);
+          setContainerId(idParam);
         } catch (error) {
           console.error("JSON 파싱 오류:", error);
         }
