@@ -74,31 +74,6 @@ export default function MyPage() {
 
   // 인스턴스 데이터
   const [instances, setInstances] = useState<Instance[]>([
-    {
-      id: "1234",
-      name: "인스턴스 1",
-      type: "basic",
-      status: "running",
-      region: "seoul",
-      createdAt: "2025-05-07",
-    },
-    {
-      id: "2345",
-      name: "인스턴스 2",
-      type: "standard",
-      status: "running",
-      region: "busan",
-      createdAt: "2025-03-03",
-    },
-    {
-      id: "4567",
-      name: "인스턴스 4",
-      type: "basic",
-      status: "stopped",
-      region: "daegu",
-      createdAt: "2025-04-15",
-    },
-    
     
   ])
 
