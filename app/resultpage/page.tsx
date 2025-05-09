@@ -302,47 +302,53 @@ export default function ResultsPage() {
 
   const [containerData, setContainerData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [containerId, setContainerId] = useState<string | null>(null);
+  const [containerList, setContainerList] = useState<Container[]>([]);
+  const [containerId, setContainerId] = useState<string>("");
 
   const [selectedContainer, setSelectedContainer] = useState<Container | null>(
     containers[0]
   );
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
-
-
-  // containerId를 기반으로 데이터 가져오기
+  // containerId를 기반으로 컨테이너 리스트 가져오기
   useEffect(() => {
-    const fetchContainerData = async () => {
-      if (!containerId) return;
-
+    const fetchContainerListById = async (id: string): Promise<void> => {
       try {
-        const response = await axios.get(
-          `http://3.39.205.6:8300/crops/${containerId}`
+        const response = await axios.get<Container[]>(
+          `http://3.39.205.6:8300/crops/${id}`
         );
-        setContainerData(response.data);
+        console.log("컨테이너 리스트 가져오기 성공:", response.data);
+        setContainerList(response.data); // 컨테이너 리스트 저장
       } catch (error) {
-        console.error("데이터 가져오기 실패:", error);
+        console.error("컨테이너 리스트 가져오기 실패:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchContainerData();
+    if (containerId) {
+      fetchContainerListById(containerId);
+    }
   }, [containerId]);
 
+  // if (loading) {
+  //   return <div>로딩 중...</div>;
+  // }
+  // if (containerList.length === 0) {
+  //   return <div>검색 결과가 없습니다.</div>;
+  // }
 
   // 컨테이너 선택 처리 함수도 타입을 명시합니다
   const handleSelectContainer = (container: Container) => {
     setSelectedContainer(container);
   };
 
-  // 필터링된 컨테이너 목록
+  // 필터링된 컨테이너 목록 이건쓸듯듯
   const filteredContainers = containers.filter((container) =>
     container.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // 호환성 표시 함수를 수정합니다
+  // 호환성 표시 함수를 수정합니다 아마 안쓸듯듯
   const renderCompatibility = (compatibility: CompatibilityType[]) => {
     const compatibilityMap: Record<CompatibilityType, string> = {
       greenhouse: "온실",
@@ -364,7 +370,7 @@ export default function ResultsPage() {
     ));
   };
 
-  // 등급 표시 함수
+  // 등급 표시 함수 이건쓸듯듯
   const renderRating = (rating: any) => {
     return (
       <div className="flex items-center">
