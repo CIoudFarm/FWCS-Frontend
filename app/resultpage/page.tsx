@@ -63,40 +63,18 @@ interface Container {
   setting_file: {
     env: string; // 환경 설정 (예: "greenhouse")
     temp: number; // 온도 설정 (예: 24.5)
+    plants: plants[];
   };
+
   added_at: string; // 추가된 날짜 (ISO 8601 형식)
   updated_at: string; // 업데이트된 날짜 (ISO 8601 형식)
   download_count: number; // 다운로드 횟수
   stars: number; // 평점 (예: 4.7)
 }
 
-// 샘플 컨테이너 데이터의 타입을 Container[]로 변경합니다
-// const containers: Container[] = [
-//   {
-//     id: "1",
-//     name: "asd",
-//     creator: "asd",
-//     scale: "medium",
-//     hit_range: "5-10m",
-//     electricity: "220V",
-//     humid: "70%",
-//     functions: [
-//       "온도 모니터링",
-//       "습도 조절",
-//       "전력 소비 분석",
-//       "환경 데이터 기록",
-//     ],
-//     setting_file: {
-//       env: "greenhouse",
-//       temp: 24.5,
-//     },
-//     added_at: "2025-03-15",
-//     updated_at: "2025-03-15",
-//     download_count: 1245,
-//     stars: 4.8,
-//   },
-// ];
-
+interface plants {
+  name: string;
+}
 // 상태 관리 부분도 타입을 명시합니다
 export default function ResultsPage() {
   const router = useRouter();
@@ -116,13 +94,11 @@ export default function ResultsPage() {
     }
   }, []);
 
-  const [containerData, setContainerData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [containers, setContainerList] = useState<Container[]>([]);
   const [containerId, setContainerId] = useState<string>("");
 
-  const [selectedContainer, setSelectedContainer] =
-    useState<Container>();
+  const [selectedContainer, setSelectedContainer] = useState<Container>();
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   // containerId를 기반으로 컨테이너 리스트 가져오기
@@ -316,7 +292,7 @@ export default function ResultsPage() {
                   <CardContent>
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label>직물 종류</Label>
+                        <Label>작물 종류</Label>
                         <div className="space-y-2">
                           {[
                             "cotton",
@@ -524,9 +500,13 @@ export default function ResultsPage() {
                         <div className="grid grid-cols-2 gap-4">
                           <div>
                             <h4 className="text-sm font-medium mb-1">
-                              직물 종류
+                              작물 종류
                             </h4>
-                            {/* <p className="text-sm">{selectedContainer.type}</p> */}
+                            <p className="text-sm">
+                              {selectedContainer.setting_file.plants
+                                .map((plant) => plant.name)
+                                .join(", ")}
+                            </p>
                           </div>
                           <div>
                             <h4 className="text-sm font-medium mb-1">규모</h4>

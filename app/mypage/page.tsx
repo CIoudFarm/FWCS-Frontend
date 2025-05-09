@@ -323,12 +323,7 @@ export default function MyPage() {
                     <TableBody>
                       {filteredInstances.length > 0 ? (
                         filteredInstances.map((instance) => (
-                          <TableRow
-                            key={instance.id}
-                            onClick={() =>
-                              router.push(`/instance?id=${instance.id}`)
-                            }
-                          >
+                          <TableRow key={instance.id}>
                             <TableCell className="font-medium">
                               <h2
                                 onClick={() =>
