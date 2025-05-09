@@ -59,13 +59,14 @@ import { BrandIcon } from "@/components/ui/brand-icon";
 
 // 인스턴스 타입 정의
 interface Instance {
-  id: string;
-  name: string;
-  type: "basic" | "standard" | "premium";
-  status: "running" | "stopped";
-  region: string;
-  createdAt: string;
-  start_date: string; // Add this line
+
+  id: string
+  name: string
+  type: "basic" | "standard" | "premium"
+  status: "시작" | "중지됨"
+  region: string
+  start_date: string
+
 }
 
 export default function MyPage() {
@@ -95,23 +96,25 @@ export default function MyPage() {
   const [instances, setInstances] = useState<Instance[]>([]);
 
   // 인스턴스 상태 변경 함수
-  const toggleInstanceStatus = (id: string) => {
+  const toggleInstanceStatus = (id: string,status : string) => {
     setInstances(
-      instances.map((instance) => {
+      instances.map((instance:any) => {
         if (instance.id === id) {
-          const newStatus =
-            instance.status === "running" ? "stopped" : "running";
-          return { ...instance, status: newStatus };
+
+          const newStatus = instance.status === "시작" ? "중지됨" : "시작"
+          return { ...instance, status: newStatus }
+
         }
         return instance;
       })
     );
+    togglestate(id,(status === "시작" ? "중지됨": "시작"));
   };
 
   // 인스턴스 삭제 함수
   const deleteInstance = (id: string) => {
     if (confirm("정말로 이 인스턴스를 삭제하시겠습니까?")) {
-      setInstances(instances.filter((instance) => instance.id !== id));
+      setInstances(instances.filter((instance:any) => instance.id !== id));
     }
   };
 
@@ -120,7 +123,7 @@ export default function MyPage() {
       .put(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}/mypage/instances/${id}/status/`,
         {
-          status: status === "시작" ? "중지됨" : "시작",
+          status: status
         }
       )
       .then((res) => {
@@ -147,10 +150,11 @@ export default function MyPage() {
   // 상태 배지 렌더링 함수
   const renderStatusBadge = (status: string) => {
     switch (status) {
-      case "running":
-        return <Badge className="bg-green-500">실행 중</Badge>;
-      case "stopped":
-        return <Badge variant="outline">중지됨</Badge>;
+
+      case "시작":
+        return <Badge className="bg-green-500">실행 중</Badge>
+      case "중지됨":
+        return <Badge variant="outline">중지됨</Badge>
       case "starting":
         return <Badge className="bg-blue-500">시작 중</Badge>;
       case "error":
@@ -325,9 +329,9 @@ export default function MyPage() {
                         filteredInstances.map((instance) => (
                           <TableRow
                             key={instance.id}
-                            onClick={() =>
-                              router.push(`/instance?id=${instance.id}`)
-                            }
+                            // onClick={() =>
+                            //   router.push(`/instance?id=${instance.id}`)
+                            // }
                           >
                             <TableCell className="font-medium">
                               <h2
@@ -352,25 +356,15 @@ export default function MyPage() {
                             <TableCell>{instance.start_date}</TableCell>
                             <TableCell className="text-right">
                               <div className="flex justify-end gap-2">
-                                {instance.status === "running" ? (
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() =>
-                                      toggleInstanceStatus(instance.id)
-                                    }
-                                  >
+
+                                {instance.status === "시작" ? (
+                                  <Button variant="outline" size="sm" onClick={() => toggleInstanceStatus(instance.id,"시작")}>
                                     <Pause className="h-4 w-4 mr-1" />
                                     중지
                                   </Button>
-                                ) : instance.status === "stopped" ? (
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() =>
-                                      toggleInstanceStatus(instance.id)
-                                    }
-                                  >
+                                ) : instance.status === "중지됨" ? (
+                                  <Button variant="outline" size="sm" onClick={() => toggleInstanceStatus(instance.id,"중지됨")}>
+
                                     <Play className="h-4 w-4 mr-1" />
                                     시작
                                   </Button>
@@ -382,24 +376,7 @@ export default function MyPage() {
                                     </Button>
                                   </DropdownMenuTrigger>
                                   <DropdownMenuContent align="end">
-                                    <DropdownMenuItem>
-                                      <Link
-                                        href={`/instance/${instance.id}`}
-                                        className="flex w-full"
-                                      >
-                                        세부 정보
-                                      </Link>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem
-                                      onClick={() =>
-                                        togglestate(
-                                          instance.id,
-                                          instance.status
-                                        )
-                                      }
-                                    >
-                                      {instance.status}
-                                    </DropdownMenuItem>
+
                                     <DropdownMenuItem>
                                       <h2
                                         className="flex w-full"
@@ -412,14 +389,7 @@ export default function MyPage() {
                                         모니터링
                                       </h2>
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem>
-                                      <Link
-                                        href={`/instance/${instance.id}/settings`}
-                                        className="flex w-full"
-                                      >
-                                        설정
-                                      </Link>
-                                    </DropdownMenuItem>
+
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem
                                       className="text-red-600"
