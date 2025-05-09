@@ -144,7 +144,7 @@ export default function FileUploadPage() {
           <div className="flex items-center gap-2 ml-5">
             <Leaf className="h-6 w-6 text-green-600" />
             <Link href="/" className="text-xl font-bold">
-              SmartFarm Hub
+              FWCS Hub
             </Link>
           </div>
 
@@ -152,7 +152,7 @@ export default function FileUploadPage() {
             <Button variant="outline" onClick={() => router.push("/results")}>
               이전
             </Button>
-            <Button className="bg-green-600 hover:bg-green-700">도움말</Button>
+            <Button className="bg-green-600 hover:bg-green-700" onClick={() => router.push("/mypage")}>마이페이지</Button>
           </div>
         </div>
       </header>

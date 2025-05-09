@@ -248,7 +248,7 @@ export default function AIEditorPage() {
           <div className="flex items-center gap-2 ml-5">
             <Leaf className="h-6 w-6 text-green-600" />
             <Link href="/" className="text-xl font-bold">
-              CloudFarm Hub
+              FWCS Hub
             </Link>
           </div>
 
@@ -266,9 +266,12 @@ export default function AIEditorPage() {
               )}
               {copied ? "복사됨" : "복사"}
             </Button>
-            <Button variant="outline" onClick={() => router.push("/results")}>
+
+            <Button variant="outline" onClick={() => router.push("/mypage")}>
               이전
             </Button>
+            <Button className="bg-green-600 hover:bg-green-700">마이페이지</Button>
+
           </div>
         </div>
       </header>
@@ -295,18 +298,16 @@ export default function AIEditorPage() {
                     {messages.map((message) => (
                       <div
                         key={message.id}
-                        className={`flex ${
-                          message.role === "user"
+                        className={`flex ${message.role === "user"
                             ? "justify-end"
                             : "justify-start"
-                        }`}
+                          }`}
                       >
                         <div
-                          className={`flex gap-3 max-w-[80%] ${
-                            message.role === "user"
+                          className={`flex gap-3 max-w-[80%] ${message.role === "user"
                               ? "flex-row-reverse"
                               : "flex-row"
-                          }`}
+                            }`}
                         >
                           <Avatar
                             className={
@@ -324,20 +325,18 @@ export default function AIEditorPage() {
                           </Avatar>
                           <div>
                             <div
-                              className={`rounded-lg p-3 ${
-                                message.role === "user"
+                              className={`rounded-lg p-3 ${message.role === "user"
                                   ? "bg-green-600 text-white"
                                   : "bg-white dark:bg-gray-800 shadow-sm"
-                              }`}
+                                }`}
                             >
                               {message.content}
                             </div>
                             <div
-                              className={`text-xs text-gray-500 mt-1 ${
-                                message.role === "user"
+                              className={`text-xs text-gray-500 mt-1 ${message.role === "user"
                                   ? "text-right"
                                   : "text-left"
-                              }`}
+                                }`}
                             >
                               {formatTime(message.timestamp)}
                             </div>

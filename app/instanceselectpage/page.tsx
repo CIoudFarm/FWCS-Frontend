@@ -367,7 +367,7 @@ export default function IaaSPage() {
           <div className="flex items-center gap-2 ml-5">
             <Link href="/" className="flex items-center gap-2">
               <Leaf className="h-6 w-6 text-green-600" />
-              <span className="text-xl font-bold">SmartFarm Hub</span>
+              <span className="text-xl font-bold">FWCS Hub</span>
             </Link>
           </div>
 

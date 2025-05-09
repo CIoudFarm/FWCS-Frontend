@@ -54,9 +54,18 @@ export default function SelectPage() {
         <div className="w-full flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 ml-5">
             <Leaf className="h-6 w-6 text-green-600" />
-            <span className="text-xl font-bold">CloudFarm Hub</span>
+            <span className="text-xl font-bold">FWCS Hub</span>
+          </div>
+
+          <div className="flex items-center gap-4 mr-5">
+            <Button variant="outline" onClick={() => router.push("/results")}>
+              이전
+            </Button>
+            <Button className="bg-green-600 hover:bg-green-700" onClick={() => router.push("/mypage")}>마이페이지</Button>
           </div>
         </div>
+
+
       </header>
 
       <main className="flex-1 w-full py-12 md:py-24 relative z-10">
@@ -78,11 +87,10 @@ export default function SelectPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {/* 인프라 검색 옵션 */}
             <Card
-              className={`relative overflow-hidden group cursor-pointer transition-all duration-300 border-2 shadow-lg hover:shadow-xl ${
-                hoveredOption === "search"
+              className={`relative overflow-hidden group cursor-pointer transition-all duration-300 border-2 shadow-lg hover:shadow-xl ${hoveredOption === "search"
                   ? "border-green-500"
                   : "border-transparent hover:border-green-300"
-              }`}
+                }`}
               onClick={() => router.push("/searchpage")}
               onMouseEnter={() => setHoveredOption("search")}
               onMouseLeave={() => setHoveredOption(null)}
@@ -107,11 +115,10 @@ export default function SelectPage() {
 
             {/* 업로드 옵션 */}
             <Card
-              className={`relative overflow-hidden group cursor-pointer transition-all duration-300 border-2 shadow-lg hover:shadow-xl ${
-                hoveredOption === "upload"
+              className={`relative overflow-hidden group cursor-pointer transition-all duration-300 border-2 shadow-lg hover:shadow-xl ${hoveredOption === "upload"
                   ? "border-green-500"
                   : "border-transparent hover:border-green-300"
-              }`}
+                }`}
               onClick={() => router.push("/uploadpage")}
               onMouseEnter={() => setHoveredOption("upload")}
               onMouseLeave={() => setHoveredOption(null)}
@@ -136,9 +143,8 @@ export default function SelectPage() {
 
             {/* 스마트팜 IaaS 옵션 */}
             <Card
-              className={`relative overflow-hidden group cursor-pointer transition-all duration-300 border-2 shadow-lg hover:shadow-xl ${
-                hoveredOption === "iaas" ? "border-green-500" : "border-transparent hover:border-green-300"
-              }`}
+              className={`relative overflow-hidden group cursor-pointer transition-all duration-300 border-2 shadow-lg hover:shadow-xl ${hoveredOption === "iaas" ? "border-green-500" : "border-transparent hover:border-green-300"
+                }`}
               onClick={() => router.push("/instanceselectpage")}
               onMouseEnter={() => setHoveredOption("iaas")}
               onMouseLeave={() => setHoveredOption(null)}
