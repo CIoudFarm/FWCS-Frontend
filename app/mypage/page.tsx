@@ -1,16 +1,34 @@
-"use client"
+"use client";
 
-
-import axios from "axios"
-import { useEffect, useState } from "react"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,7 +36,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   Leaf,
   Server,
@@ -33,44 +51,44 @@ import {
   CreditCard,
   BarChart,
   Router,
-} from "lucide-react"
+} from "lucide-react";
 
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
 
-import { BrandIcon } from "@/components/ui/brand-icon"
-
+import { BrandIcon } from "@/components/ui/brand-icon";
 
 // 인스턴스 타입 정의
 interface Instance {
-  id: string
-  name: string
-  type: "basic" | "standard" | "premium"
-  status: "running" | "stopped"
-  region: string
-  createdAt: string
+  id: string;
+  name: string;
+  type: "basic" | "standard" | "premium";
+  status: "running" | "stopped";
+  region: string;
+  createdAt: string;
 }
 
 export default function MyPage() {
   // 탭 상태 관리
-  const [activeTab, setActiveTab] = useState("instances")
+  const [activeTab, setActiveTab] = useState("instances");
 
   // 검색 및 필터링 상태
-  const [searchQuery, setSearchQuery] = useState("")
-  const [statusFilter, setStatusFilter] = useState<string>("all")
-  const [typeFilter, setTypeFilter] = useState<string>("all")
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [typeFilter, setTypeFilter] = useState<string>("all");
   const router = useRouter();
 
-  const getdata = async ()=>{
+  const getdata = async () => {
+    const datas = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}/mypage/instances/`
+    );
 
-    const datas = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/mypage/instances/`)
+    console.log(datas.data);
+    setInstances(datas.data);
+  };
 
-    console.log(datas.data)
-    setInstances(datas.data)
-  }
-
-  useEffect(()=>{
+  useEffect(() => {
     getdata();
-  },[])
+  }, []);
 
   // 인스턴스 데이터
   const [instances, setInstances] = useState<Instance[]>([
@@ -98,70 +116,70 @@ export default function MyPage() {
       region: "daegu",
       createdAt: "2025-04-15",
     },
-    
-    
-  ])
+  ]);
 
   // 인스턴스 상태 변경 함수
   const toggleInstanceStatus = (id: string) => {
     setInstances(
       instances.map((instance) => {
         if (instance.id === id) {
-          const newStatus = instance.status === "running" ? "stopped" : "running"
-          return { ...instance, status: newStatus }
+          const newStatus =
+            instance.status === "running" ? "stopped" : "running";
+          return { ...instance, status: newStatus };
         }
-        return instance
-      }),
-    )
-  }
+        return instance;
+      })
+    );
+  };
 
   // 인스턴스 삭제 함수
   const deleteInstance = (id: string) => {
     if (confirm("정말로 이 인스턴스를 삭제하시겠습니까?")) {
-      setInstances(instances.filter((instance) => instance.id !== id))
+      setInstances(instances.filter((instance) => instance.id !== id));
     }
-  }
+  };
 
   // 필터링된 인스턴스 목록
   const filteredInstances = instances.filter((instance) => {
     const matchesSearch =
       instance.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      instance.id.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesStatus = statusFilter === "all" || instance.status === statusFilter
-    const matchesType = typeFilter === "all" || instance.type === typeFilter
+      instance.id.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesStatus =
+      statusFilter === "all" || instance.status === statusFilter;
+    const matchesType = typeFilter === "all" || instance.type === typeFilter;
 
-    return matchesSearch && matchesStatus && matchesType
-  })
+    return matchesSearch && matchesStatus && matchesType;
+  });
 
   // 상태 배지 렌더링 함수
   const renderStatusBadge = (status: string) => {
     switch (status) {
       case "running":
-        return <Badge className="bg-green-500">실행 중</Badge>
+        return <Badge className="bg-green-500">실행 중</Badge>;
       case "stopped":
-        return <Badge variant="outline">중지됨</Badge>
+        return <Badge variant="outline">중지됨</Badge>;
       case "starting":
-        return <Badge className="bg-blue-500">시작 중</Badge>
+        return <Badge className="bg-blue-500">시작 중</Badge>;
       case "error":
-        return <Badge className="bg-red-500">오류</Badge>
+        return <Badge className="bg-red-500">오류</Badge>;
       default:
-        return <Badge variant="outline">{status}</Badge>
+        return <Badge variant="outline">{status}</Badge>;
     }
-  }
+  };
 
   // 인스턴스 유형 표시 함수
   const getInstanceTypeLabel = (type: string) => {
     switch (type) {
       case "basic":
-        return "기본형"
+        return "기본형";
       case "standard":
-        return "표준형"
+        return "표준형";
       case "premium":
-        return "고급형"
+        return "고급형";
       default:
-        return type
+        return type;
     }
-  }
+  };
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -208,19 +226,27 @@ export default function MyPage() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold tracking-tighter">마이 페이지</h1>
-              <p className="text-muted-foreground">스마트팜 인스턴스를 관리하고 모니터링하세요</p>
+              <h1 className="text-3xl font-bold tracking-tighter">
+                마이 페이지
+              </h1>
+              <p className="text-muted-foreground">
+                스마트팜 인스턴스를 관리하고 모니터링하세요
+              </p>
             </div>
             <div className="mt-4 md:mt-0">
               <Button className="bg-green-600 hover:bg-green-700">
                 <Link href="/instanceselectpage" className="flex items-center">
-                  <Plus className="mr-2 h-4 w-4"/>새 인스턴스 생성
+                  <Plus className="mr-2 h-4 w-4" />새 인스턴스 생성
                 </Link>
               </Button>
             </div>
           </div>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="space-y-4"
+          >
             <TabsList>
               <TabsTrigger value="instances">인스턴스</TabsTrigger>
             </TabsList>
@@ -239,7 +265,10 @@ export default function MyPage() {
                     />
                   </div>
                   <div className="flex gap-2">
-                    <Select value={statusFilter} onValueChange={setStatusFilter}>
+                    <Select
+                      value={statusFilter}
+                      onValueChange={setStatusFilter}
+                    >
                       <SelectTrigger className="w-[150px]">
                         <SelectValue placeholder="상태 필터" />
                       </SelectTrigger>
@@ -269,9 +298,9 @@ export default function MyPage() {
                     variant="outline"
                     size="sm"
                     onClick={() => {
-                      setSearchQuery("")
-                      setStatusFilter("all")
-                      setTypeFilter("all")
+                      setSearchQuery("");
+                      setStatusFilter("all");
+                      setTypeFilter("all");
                     }}
                   >
                     필터 초기화
@@ -288,7 +317,9 @@ export default function MyPage() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="w-[200px]">인스턴스 이름</TableHead>
+                        <TableHead className="w-[200px]">
+                          인스턴스 이름
+                        </TableHead>
                         <TableHead>유형</TableHead>
                         <TableHead>상태</TableHead>
                         <TableHead>지역</TableHead>
@@ -301,24 +332,47 @@ export default function MyPage() {
                         filteredInstances.map((instance) => (
                           <TableRow key={instance.id}>
                             <TableCell className="font-medium">
-                              <Link href={`/instance/${instance.id}`} className="hover:underline">
+                              <h2
+                                onClick={() =>
+                                  router.push(`/instance?id=${instance.id}`)
+                                }
+                                className="hover:underline"
+                              >
                                 {instance.name}
-                              </Link>
-                              <div className="text-xs text-muted-foreground">inst-{instance.id}</div>
+                              </h2>
+                              <div className="text-xs text-muted-foreground">
+                                inst-{instance.id}
+                              </div>
                             </TableCell>
-                            <TableCell>{getInstanceTypeLabel(instance.type)}</TableCell>
-                            <TableCell>{renderStatusBadge(instance.status)}</TableCell>
+                            <TableCell>
+                              {getInstanceTypeLabel(instance.type)}
+                            </TableCell>
+                            <TableCell>
+                              {renderStatusBadge(instance.status)}
+                            </TableCell>
                             <TableCell>{instance.region}</TableCell>
                             <TableCell>{instance.createdAt}</TableCell>
                             <TableCell className="text-right">
                               <div className="flex justify-end gap-2">
                                 {instance.status === "running" ? (
-                                  <Button variant="outline" size="sm" onClick={() => toggleInstanceStatus(instance.id)}>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() =>
+                                      toggleInstanceStatus(instance.id)
+                                    }
+                                  >
                                     <Pause className="h-4 w-4 mr-1" />
                                     중지
                                   </Button>
                                 ) : instance.status === "stopped" ? (
-                                  <Button variant="outline" size="sm" onClick={() => toggleInstanceStatus(instance.id)}>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() =>
+                                      toggleInstanceStatus(instance.id)
+                                    }
+                                  >
                                     <Play className="h-4 w-4 mr-1" />
                                     시작
                                   </Button>
@@ -331,24 +385,35 @@ export default function MyPage() {
                                   </DropdownMenuTrigger>
                                   <DropdownMenuContent align="end">
                                     <DropdownMenuItem>
-                                      <Link href={`/instance/${instance.id}`} className="flex w-full">
+                                      <Link
+                                        href={`/instance/${instance.id}`}
+                                        className="flex w-full"
+                                      >
                                         세부 정보
                                       </Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem>
-                                      <Link href={`/instance/${instance.id}/monitoring`} className="flex w-full">
+                                      <Link
+                                        href={`/instance/${instance.id}/monitoring`}
+                                        className="flex w-full"
+                                      >
                                         모니터링
                                       </Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem>
-                                      <Link href={`/instance/${instance.id}/settings`} className="flex w-full">
+                                      <Link
+                                        href={`/instance/${instance.id}/settings`}
+                                        className="flex w-full"
+                                      >
                                         설정
                                       </Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem
                                       className="text-red-600"
-                                      onClick={() => deleteInstance(instance.id)}
+                                      onClick={() =>
+                                        deleteInstance(instance.id)
+                                      }
                                     >
                                       삭제
                                     </DropdownMenuItem>
@@ -363,27 +428,37 @@ export default function MyPage() {
                           <TableCell colSpan={7} className="text-center py-8">
                             <div className="flex flex-col items-center justify-center">
                               <Server className="h-12 w-12 text-muted-foreground mb-4" />
-                              <h3 className="text-lg font-medium mb-2">인스턴스가 없습니다</h3>
+                              <h3 className="text-lg font-medium mb-2">
+                                인스턴스가 없습니다
+                              </h3>
                               <p className="text-muted-foreground mb-4">
-                                {searchQuery || statusFilter !== "all" || typeFilter !== "all"
+                                {searchQuery ||
+                                statusFilter !== "all" ||
+                                typeFilter !== "all"
                                   ? "검색 조건에 맞는 인스턴스가 없습니다. 필터를 변경해보세요."
                                   : "새 인스턴스를 생성하여 스마트팜을 시작하세요."}
                               </p>
-                              {searchQuery || statusFilter !== "all" || typeFilter !== "all" ? (
+                              {searchQuery ||
+                              statusFilter !== "all" ||
+                              typeFilter !== "all" ? (
                                 <Button
                                   variant="outline"
                                   onClick={() => {
-                                    setSearchQuery("")
-                                    setStatusFilter("all")
-                                    setTypeFilter("all")
+                                    setSearchQuery("");
+                                    setStatusFilter("all");
+                                    setTypeFilter("all");
                                   }}
                                 >
                                   필터 초기화
                                 </Button>
                               ) : (
                                 <Button className="bg-green-600 hover:bg-green-700">
-                                  <Link href="/iaaspage" className="flex items-center">
-                                    <Plus className="mr-2 h-4 w-4" />새 인스턴스 생성
+                                  <Link
+                                    href="/iaaspage"
+                                    className="flex items-center"
+                                  >
+                                    <Plus className="mr-2 h-4 w-4" />새 인스턴스
+                                    생성
                                   </Link>
                                 </Button>
                               )}
@@ -401,13 +476,17 @@ export default function MyPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>통합 모니터링 대시보드</CardTitle>
-                  <CardDescription>모든 인스턴스의 상태를 한눈에 확인하세요</CardDescription>
+                  <CardDescription>
+                    모든 인스턴스의 상태를 한눈에 확인하세요
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="h-[400px] flex items-center justify-center border-2 border-dashed rounded-lg">
                     <div className="text-center">
                       <BarChart className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-                      <h3 className="text-lg font-medium mb-2">모니터링 대시보드</h3>
+                      <h3 className="text-lg font-medium mb-2">
+                        모니터링 대시보드
+                      </h3>
                       <p className="text-muted-foreground mb-4">
                         인스턴스를 선택하여 실시간 모니터링 데이터를 확인하세요
                       </p>
@@ -422,14 +501,18 @@ export default function MyPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>결제 및 사용량</CardTitle>
-                  <CardDescription>결제 내역 및 리소스 사용량을 확인하세요</CardDescription>
+                  <CardDescription>
+                    결제 내역 및 리소스 사용량을 확인하세요
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="h-[400px] flex items-center justify-center border-2 border-dashed rounded-lg">
                     <div className="text-center">
                       <CreditCard className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
                       <h3 className="text-lg font-medium mb-2">결제 정보</h3>
-                      <p className="text-muted-foreground mb-4">결제 방법을 등록하고 사용량에 따른 요금을 확인하세요</p>
+                      <p className="text-muted-foreground mb-4">
+                        결제 방법을 등록하고 사용량에 따른 요금을 확인하세요
+                      </p>
                       <Button variant="outline">결제 방법 관리</Button>
                     </div>
                   </div>
@@ -441,14 +524,18 @@ export default function MyPage() {
               <Card>
                 <CardHeader>
                   <CardTitle>계정 설정</CardTitle>
-                  <CardDescription>계정 정보 및 알림 설정을 관리하세요</CardDescription>
+                  <CardDescription>
+                    계정 정보 및 알림 설정을 관리하세요
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="h-[400px] flex items-center justify-center border-2 border-dashed rounded-lg">
                     <div className="text-center">
                       <Settings className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
                       <h3 className="text-lg font-medium mb-2">설정</h3>
-                      <p className="text-muted-foreground mb-4">계정 정보, 보안 설정, 알림 환경설정을 관리하세요</p>
+                      <p className="text-muted-foreground mb-4">
+                        계정 정보, 보안 설정, 알림 환경설정을 관리하세요
+                      </p>
                       <Button variant="outline">설정 관리</Button>
                     </div>
                   </div>
@@ -466,28 +553,48 @@ export default function MyPage() {
             <span className="text-xl font-bold">FWCS Hub</span>
           </div>
           <div className="flex flex-col md:flex-row gap-4 md:gap-6">
-            <Link href="#" className="text-sm hover:underline underline-offset-4">
+            <Link
+              href="#"
+              className="text-sm hover:underline underline-offset-4"
+            >
               About
             </Link>
-            <Link href="#" className="text-sm hover:underline underline-offset-4">
+            <Link
+              href="#"
+              className="text-sm hover:underline underline-offset-4"
+            >
               Features
             </Link>
-            <Link href="#" className="text-sm hover:underline underline-offset-4">
+            <Link
+              href="#"
+              className="text-sm hover:underline underline-offset-4"
+            >
               Pricing
             </Link>
-            <Link href="#" className="text-sm hover:underline underline-offset-4">
+            <Link
+              href="#"
+              className="text-sm hover:underline underline-offset-4"
+            >
               Documentation
             </Link>
-            <Link href="#" className="text-sm hover:underline underline-offset-4">
+            <Link
+              href="#"
+              className="text-sm hover:underline underline-offset-4"
+            >
               Blog
             </Link>
-            <Link href="#" className="text-sm hover:underline underline-offset-4">
+            <Link
+              href="#"
+              className="text-sm hover:underline underline-offset-4"
+            >
               Contact
             </Link>
           </div>
-          <div className="text-sm text-muted-foreground mr-5">© 2025 SmartFarm Hub. All rights reserved.</div>
+          <div className="text-sm text-muted-foreground mr-5">
+            © 2025 SmartFarm Hub. All rights reserved.
+          </div>
         </div>
       </footer>
     </div>
-  )
+  );
 }
