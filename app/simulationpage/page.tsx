@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Leaf, Download, ArrowLeft, BarChart } from "lucide-react";
 import SmartFarmEmulator from "@/components/smart-farm-emulator";
 import PredictPage from "../predictpage/page";
+import { BrandIcon } from "@/components/ui/brand-icon";
 
 // 기본 설정 데이터
 const baseConfig = {
@@ -186,7 +187,7 @@ export default function SimulationPage() {
       <header className="sticky top-0 z-50 w-full border-b bg-white shadow-sm">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
-            <Leaf className="ml-10 h-6 w-6 text-green-600" />
+            <BrandIcon className="ml-10 h-6 w-6 text-green-600" />
             <Link href="/" className="text-xl font-bold">
               FWCS Hub
             </Link>
@@ -327,11 +328,11 @@ export default function SimulationPage() {
       <footer className="border-t bg-white mt-auto">
         <div className="container flex flex-col gap-6 py-4 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-2">
-            <Leaf className="h-5 w-5 text-green-600" />
-            <span className="text-sm font-semibold">SmartFarm Hub</span>
+            <BrandIcon className="h-5 w-5 text-green-600" />
+            <span className="text-sm font-semibold">FWCS Hub</span>
           </div>
           <div className="text-sm text-gray-500">
-            © 2025 SmartFarm Hub. All rights reserved.
+            © 2025 FWCS Hub. All rights reserved.
           </div>
         </div>
       </footer>

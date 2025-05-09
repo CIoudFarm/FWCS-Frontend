@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "SmartFarm Hub - Find and Deploy Smart Farming Infrastructure",
+  title: "FWCS Hub - Find and Deploy Smart Farming Infrastructure",
   description:
     "Search, discover, and deploy smart farming infrastructure components with our comprehensive IaaS platform.",
     generator: 'v0.dev'

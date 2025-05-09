@@ -18,6 +18,7 @@ import {
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
+import { BrandIcon } from "@/components/ui/brand-icon"
 
 export default function DashboardPage() {
   return (
@@ -26,8 +27,8 @@ export default function DashboardPage() {
       <div className="hidden md:flex w-64 flex-col border-r bg-background">
         <div className="p-4 border-b">
           <div className="flex items-center gap-2">
-            <Leaf className="h-6 w-6 text-green-600" />
-            <span className="text-xl font-bold">SmartFarm Hub</span>
+            <BrandIcon className="h-6 w-6 text-green-600" />
+            <span className="text-xl font-bold">FWCS Hub</span>
           </div>
         </div>
         <div className="flex-1 py-4">

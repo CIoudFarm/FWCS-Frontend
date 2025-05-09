@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Leaf, Search, Upload, ArrowRight, Cloud, Sun, Droplet, Server } from "lucide-react"
+import { BrandIcon } from "@/components/ui/brand-icon";
 
 export default function SelectPage() {
   const [hoveredOption, setHoveredOption] = useState<"search" | "upload" | "iaas" | null>(null)
@@ -29,10 +30,10 @@ export default function SelectPage() {
 
         {/* 패턴 요소들 */}
         <div className="hidden md:block absolute top-20 right-20">
-          <Leaf className="h-32 w-32 text-green-100 dark:text-green-900/20 rotate-15" />
+          <BrandIcon className="h-32 w-32 text-green-100 dark:text-green-900/20 rotate-15" />
         </div>
         <div className="hidden md:block absolute bottom-20 left-20">
-          <Leaf className="h-24 w-24 text-green-100 dark:text-green-900/20 -rotate-15" />
+          <BrandIcon className="h-24 w-24 text-green-100 dark:text-green-900/20 -rotate-15" />
         </div>
 
         {/* 작은 아이콘 패턴 */}
@@ -53,7 +54,7 @@ export default function SelectPage() {
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="w-full flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 ml-5">
-            <Leaf className="h-6 w-6 text-green-600" />
+            <BrandIcon className="h-6 w-6 text-green-600" />
             <span className="text-xl font-bold">FWCS Hub</span>
           </div>
 
@@ -72,7 +73,7 @@ export default function SelectPage() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center text-center space-y-4 mb-16">
             <div className="inline-block p-2 bg-green-100 dark:bg-green-900/30 rounded-full mb-4">
-              <Leaf className="h-8 w-8 text-green-600" />
+              <BrandIcon className="h-8 w-8 text-green-600" />
             </div>
             <div className="space-y-2">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -206,8 +207,8 @@ export default function SelectPage() {
       <footer className="border-t bg-background/80 backdrop-blur-sm relative z-10">
         <div className="w-full flex flex-col gap-6 py-8 md:flex-row md:items-center md:justify-between md:py-12">
           <div className="flex items-center gap-2 ml-5">
-            <Leaf className="h-6 w-6 text-green-600" />
-            <span className="text-xl font-bold">CloudFarm Hub</span>
+            <BrandIcon className="h-6 w-6 text-green-600" />
+            <span className="text-xl font-bold">FWCS Hub</span>
           </div>
           <div className="flex flex-col md:flex-row gap-4 md:gap-6">
             <Link
@@ -248,7 +249,7 @@ export default function SelectPage() {
             </Link>
           </div>
           <div className="text-sm text-muted-foreground mr-5">
-            © 2025 CloudFarm Hub. All rights reserved.
+            © 2025 FWCS Hub. All rights reserved.
           </div>
         </div>
       </footer>
