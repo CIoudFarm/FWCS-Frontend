@@ -813,7 +813,7 @@ for (const [key, value] of formData.entries()) {
                                       <div
                                         className="w-full h-full"
                                         style={{
-                                          backgroundImage: `url(${system.imageUrl || "/smart-farm-system.png"})`,
+                                          backgroundImage: `url(${process.env.NEXT_PUBLIC_API_BASE_URL}/photos/${system.id}/)`,
                                           backgroundSize: "cover",
                                           backgroundPosition: "center",
                                         }}
@@ -895,7 +895,7 @@ for (const [key, value] of formData.entries()) {
                                   <div
                                     className="w-full h-full"
                                     style={{
-                                      backgroundImage: `url(${selectedSystem.imageUrl || "/smart-farm-system.png"})`,
+                                      backgroundImage: `url(${process.env.NEXT_PUBLIC_API_BASE_URL}/photos/${selectedSystem.id}/)`,
                                       backgroundSize: "cover",
                                       backgroundPosition: "center",
                                     }}
