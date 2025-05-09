@@ -66,7 +66,6 @@ export default function Home() {
       console.log("서버 응답:", result);
       console.log("ID:", id);
       router.push(`/resultpage?id=${encodeURIComponent(JSON.stringify(id))}`);
-
     } catch (error) {
       console.error("POST 요청 실패:", error);
     }
@@ -102,10 +101,10 @@ export default function Home() {
               <form className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="crop-type">직물 종류</Label>
+                    <Label htmlFor="crop-type">작작물 종류</Label>
                     <Input
                       type="string"
-                      placeholder="직물 종류를 입력하세요..."
+                      placeholder="작물 종류를 입력하세요..."
                       value={CropType ?? ""}
                       onChange={(e) => setCropType(e.target.value)}
                     />
