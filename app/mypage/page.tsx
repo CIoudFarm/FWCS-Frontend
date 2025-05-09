@@ -45,7 +45,7 @@ interface Instance {
   id: string
   name: string
   type: "basic" | "standard" | "premium"
-  status: "running" | "stopped"
+  status: "시작" | "중지됨"
   region: string
   createdAt: string
 }
@@ -82,7 +82,7 @@ export default function MyPage() {
     setInstances(
       instances.map((instance) => {
         if (instance.id === id) {
-          const newStatus = instance.status === "running" ? "stopped" : "running"
+          const newStatus = instance.status === "시작" ? "중지됨" : "시작"
           return { ...instance, status: newStatus }
         }
         return instance
@@ -120,9 +120,9 @@ export default function MyPage() {
   // 상태 배지 렌더링 함수
   const renderStatusBadge = (status: string) => {
     switch (status) {
-      case "running":
+      case "시작":
         return <Badge className="bg-green-500">실행 중</Badge>
-      case "stopped":
+      case "중지됨":
         return <Badge variant="outline">중지됨</Badge>
       case "starting":
         return <Badge className="bg-blue-500">시작 중</Badge>
@@ -229,8 +229,8 @@ export default function MyPage() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="all">모든 상태</SelectItem>
-                        <SelectItem value="running">실행 중</SelectItem>
-                        <SelectItem value="stopped">중지됨</SelectItem>
+                        <SelectItem value="시작">실행 중</SelectItem>
+                        <SelectItem value="중지됨">중지됨</SelectItem>
                         <SelectItem value="starting">시작 중</SelectItem>
                         <SelectItem value="error">오류</SelectItem>
                       </SelectContent>
@@ -296,12 +296,12 @@ export default function MyPage() {
                             <TableCell>{instance.createdAt}</TableCell>
                             <TableCell className="text-right">
                               <div className="flex justify-end gap-2">
-                                {instance.status === "running" ? (
+                                {instance.status === "시작" ? (
                                   <Button variant="outline" size="sm" onClick={() => toggleInstanceStatus(instance.id)}>
                                     <Pause className="h-4 w-4 mr-1" />
                                     중지
                                   </Button>
-                                ) : instance.status === "stopped" ? (
+                                ) : instance.status === "중지됨" ? (
                                   <Button variant="outline" size="sm" onClick={() => toggleInstanceStatus(instance.id)}>
                                     <Play className="h-4 w-4 mr-1" />
                                     시작
@@ -314,24 +314,14 @@ export default function MyPage() {
                                     </Button>
                                   </DropdownMenuTrigger>
                                   <DropdownMenuContent align="end">
-                                    <DropdownMenuItem>
-                                      <Link href={`/instance/${instance.id}`} className="flex w-full">
-                                        세부 정보
-                                      </Link>
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => togglestate(instance.id,instance.status)}>
-                                      {instance.status}
-                                    </DropdownMenuItem>
+                                    
+                                   
                                     <DropdownMenuItem>
                                       <Link href={`/instance/${instance.id}/monitoring`} className="flex w-full">
                                         모니터링
                                       </Link>
                                     </DropdownMenuItem>
-                                    <DropdownMenuItem>
-                                      <Link href={`/instance/${instance.id}/settings`} className="flex w-full">
-                                        설정
-                                      </Link>
-                                    </DropdownMenuItem>
+                                    
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem
                                       className="text-red-600"
