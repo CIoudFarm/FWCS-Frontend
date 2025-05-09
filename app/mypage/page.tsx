@@ -122,6 +122,15 @@ export default function MyPage() {
     }
   }
 
+  const togglestate = async(id:any,status:any)=>{
+    await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/mypage/instances/${id}/status/`,{
+      "status": (status === "시작" ? "중지됨":"시작")
+    })
+    .then((res)=>{console.log(res)})
+    .catch((err)=>{console.log(err)})
+    getdata();
+  }
+
   // 필터링된 인스턴스 목록
   const filteredInstances = instances.filter((instance) => {
     const matchesSearch =
@@ -334,6 +343,9 @@ export default function MyPage() {
                                       <Link href={`/instance/${instance.id}`} className="flex w-full">
                                         세부 정보
                                       </Link>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => togglestate(instance.id,instance.status)}>
+                                      {instance.status}
                                     </DropdownMenuItem>
                                     <DropdownMenuItem>
                                       <Link href={`/instance/${instance.id}/monitoring`} className="flex w-full">
