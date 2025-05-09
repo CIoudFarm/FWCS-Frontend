@@ -1,6 +1,6 @@
 "use client";
-
-import { useState } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -284,11 +284,53 @@ const containers: Container[] = [
 // 상태 관리 부분도 타입을 명시합니다
 export default function ResultsPage() {
   const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const idParam = params.get("id");
+      if (idParam) {
+        try {
+          const parsedId = JSON.parse(decodeURIComponent(idParam));
+          setContainerId(parsedId);
+        } catch (error) {
+          console.error("JSON 파싱 오류:", error);
+        }
+      }
+    }
+  }, []);
+
+  const [containerData, setContainerData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [containerId, setContainerId] = useState<string | null>(null);
+
   const [selectedContainer, setSelectedContainer] = useState<Container | null>(
     containers[0]
   );
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+
+
+  // containerId를 기반으로 데이터 가져오기
+  useEffect(() => {
+    const fetchContainerData = async () => {
+      if (!containerId) return;
+
+      try {
+        const response = await axios.get(
+          `http://3.39.205.6:8300/crops/${containerId}`
+        );
+        setContainerData(response.data);
+      } catch (error) {
+        console.error("데이터 가져오기 실패:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContainerData();
+  }, [containerId]);
+
 
   // 컨테이너 선택 처리 함수도 타입을 명시합니다
   const handleSelectContainer = (container: Container) => {

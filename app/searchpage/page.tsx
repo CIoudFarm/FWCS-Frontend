@@ -1,6 +1,8 @@
 "use client";
-
+import axios from "axios";
 import Link from "next/link";
+import { useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -37,7 +39,36 @@ import {
 import { useRouter } from "next/navigation";
 
 export default function Home() {
+  // 상태 예시 (실제로는 useState로 관리되고 있어야 함)
+  const [notes, setNotes] = useState<string>("");
+  const [CropType, setCropType] = useState<string>("");
+  const [budget, setBudget] = useState<number>();
+  const [growingPeriod, setGrowingPeriod] = useState<number>();
+
   const router = useRouter();
+
+  // 🔽 onClick에 넣을 핸들러 함수 정의
+  const handleSearchClick = async () => {
+    const requestData = {
+      crop_type: CropType,
+      growing_period: growingPeriod,
+      budget: budget,
+      notes: notes,
+    };
+
+    try {
+      const response = await axios.post(
+        "http://3.39.205.6:8300/crops/search/",
+        requestData
+      );
+      const result = response.data;
+      const id = result.results.map((item: any) => item.container.id);
+      console.log("서버 응답:", result);
+      router.push(`/resultPage?ids=${encodeURIComponent(JSON.stringify(id))}`);
+    } catch (error) {
+      console.error("POST 요청 실패:", error);
+    }
+  };
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -69,141 +100,54 @@ export default function Home() {
               <form className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="fabric-type">직물 종류 (Fabric Type)</Label>
-                    <Select>
-                      <SelectTrigger id="fabric-type">
-                        <SelectValue placeholder="선택하세요" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="cotton">면직물 (Cotton)</SelectItem>
-                        <SelectItem value="polyester">
-                          폴리에스터 (Polyester)
-                        </SelectItem>
-                        <SelectItem value="nylon">나일론 (Nylon)</SelectItem>
-                        <SelectItem value="wool">양모 (Wool)</SelectItem>
-                        <SelectItem value="silk">실크 (Silk)</SelectItem>
-                        <SelectItem value="hemp">대마 (Hemp)</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Label htmlFor="crop-type">직물 종류</Label>
+                    <Input
+                      type="string"
+                      placeholder="직물 종류를 입력하세요..."
+                      value={CropType ?? ""}
+                      onChange={(e) => setCropType(e.target.value)}
+                    />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="scale">규모 (Scale)</Label>
-                    <Select>
-                      <SelectTrigger id="scale">
-                        <SelectValue placeholder="선택하세요" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="small">소규모 (Small)</SelectItem>
-                        <SelectItem value="medium">중규모 (Medium)</SelectItem>
-                        <SelectItem value="large">대규모 (Large)</SelectItem>
-                        <SelectItem value="industrial">
-                          산업용 (Industrial)
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Label htmlFor="growing_period">재배기간</Label>
+                    <Input
+                      placeholder="재배기간을 입력하세요..."
+                      type="number"
+                      value={growingPeriod ?? ""}
+                      onChange={(e) => setGrowingPeriod(Number(e.target.value))}
+                    />
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="temperature">
-                      온도 범위 (Temperature Range)
-                    </Label>
-                    <Select>
-                      <SelectTrigger id="temperature">
-                        <SelectValue placeholder="선택하세요" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="low">
-                          저온 (Low: -10°C ~ 10°C)
-                        </SelectItem>
-                        <SelectItem value="medium">
-                          중온 (Medium: 10°C ~ 25°C)
-                        </SelectItem>
-                        <SelectItem value="high">
-                          고온 (High: 25°C ~ 40°C)
-                        </SelectItem>
-                        <SelectItem value="extreme">
-                          극한 (Extreme: {">"}40°C)
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Label htmlFor="budget">예산</Label>
+                    <Input
+                      placeholder="예산을 입력하세요..."
+                      type="number"
+                      value={budget ?? ""}
+                      onChange={(e) => setBudget(Number(e.target.value))}
+                    />
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="humidity">습도 범위 (Humidity Range)</Label>
-                    <Select>
-                      <SelectTrigger id="humidity">
-                        <SelectValue placeholder="선택하세요" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="dry">
-                          건조 (Dry: {"<"} 30%)
-                        </SelectItem>
-                        <SelectItem value="normal">
-                          보통 (Normal: 30% ~ 60%)
-                        </SelectItem>
-                        <SelectItem value="humid">
-                          습함 (Humid: 60% ~ 80%)
-                        </SelectItem>
-                        <SelectItem value="very-humid">
-                          매우 습함 (Very Humid: {">"} 80%)
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="certification">인증 (Certification)</Label>
-                    <Select>
-                      <SelectTrigger id="certification">
-                        <SelectValue placeholder="선택하세요" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="none">없음 (None)</SelectItem>
-                        <SelectItem value="iso">
-                          ISO 인증 (ISO Certified)
-                        </SelectItem>
-                        <SelectItem value="organic">
-                          유기농 인증 (Organic Certified)
-                        </SelectItem>
-                        <SelectItem value="eco">
-                          친환경 인증 (Eco-Friendly)
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="power">전력 소비 (Power Consumption)</Label>
-                    <Select>
-                      <SelectTrigger id="power">
-                        <SelectValue placeholder="선택하세요" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="low">
-                          저전력 (Low: {"<"} 100W)
-                        </SelectItem>
-                        <SelectItem value="medium">
-                          중전력 (Medium: 100W ~ 500W)
-                        </SelectItem>
-                        <SelectItem value="high">
-                          고전력 (High: 500W ~ 1kW)
-                        </SelectItem>
-                        <SelectItem value="industrial">
-                          산업용 (Industrial: {">"} 1kW)
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                  <div className="space-y-2 md:col-span-2">
+                    <Label htmlFor="notes">메모 </Label>
+                    <Textarea
+                      id="notes"
+                      placeholder="작물 재배에 관한 특별한 요구사항이나 메모를 입력하세요..."
+                      className="min-h-[100px]"
+                      value={notes ?? ""}
+                      onChange={(e) => setNotes(e.target.value)}
+                    />
                   </div>
                 </div>
 
                 <Button
                   className="w-full bg-green-600 hover:bg-green-700 py-6 text-lg"
                   type="button"
-                  onClick={() => router.push("/resultpage")}
+                  onClick={() => handleSearchClick()}
                 >
                   <Search className="mr-2 h-5 w-5" />
-                  검색하기 (Search Components)
+                  검색하기
                 </Button>
               </form>
             </div>
