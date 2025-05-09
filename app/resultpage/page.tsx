@@ -439,7 +439,7 @@ export default function ResultsPage() {
                         <div
                           className="w-16 h-16 rounded-md bg-muted shrink-0 overflow-hidden shadow-sm"
                           style={{
-                            // backgroundImage: `url(${container.imageUrl})`,
+                            backgroundImage: `url(${process.env.NEXT_PUBLIC_API_BASE_URL}/photos/${container.id}/)`,
                             backgroundSize: "cover",
                             backgroundPosition: "center",
                           }}
@@ -510,7 +510,7 @@ export default function ResultsPage() {
                       <div
                         className="w-full md:w-1/3 h-48 rounded-md bg-muted overflow-hidden shadow-md"
                         style={{
-                          // backgroundImage: `url(${selectedContainer.imageUrl})`,
+                          backgroundImage: `url(${process.env.NEXT_PUBLIC_API_BASE_URL}/photos/${selectedContainer.id}/)`,
                           backgroundSize: "cover",
                           backgroundPosition: "center",
                         }}
