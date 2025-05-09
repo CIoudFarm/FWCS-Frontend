@@ -78,7 +78,13 @@ export default function Home() {
         <div className="w-full flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 ml-5">
             <Leaf className="h-6 w-6 text-green-600" />
-            <span className="text-xl font-bold">CloudFarm Hub</span>
+            <span className="text-xl font-bold">FWCS Hub</span>
+          </div>
+          <div className="flex items-center gap-4 mr-5">
+            <Button variant="outline">
+              이전
+            </Button>
+            <Button className="bg-green-600 hover:bg-green-700" onClick={() => router.push("/mypage")}>마이페이지</Button>
           </div>
         </div>
       </header>

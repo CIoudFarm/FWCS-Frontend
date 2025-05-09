@@ -31,6 +31,7 @@ import {
   Shield,
   BarChart,
 } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 // 시스템 타입 정의
 interface SystemItem {
@@ -360,6 +361,8 @@ export default function IaaSPage() {
     )
   }
 
+  const router = useRouter();
+
   return (
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -367,13 +370,15 @@ export default function IaaSPage() {
           <div className="flex items-center gap-2 ml-5">
             <Link href="/" className="flex items-center gap-2">
               <Leaf className="h-6 w-6 text-green-600" />
-              <span className="text-xl font-bold">SmartFarm Hub</span>
+              <span className="text-xl font-bold">FWCS Hub</span>
             </Link>
           </div>
 
           <div className="flex items-center gap-4 mr-5">
-            <Button variant="ghost">Documentation</Button>
-            <Button variant="ghost">Pricing</Button>
+            <Button variant="outline">
+              이전
+            </Button>
+            <Button className="bg-green-600 hover:bg-green-700" onClick={() => router.push("/mypage")}>마이페이지</Button>
           </div>
         </div>
       </header>
@@ -402,9 +407,8 @@ export default function IaaSPage() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* 기본형 인스턴스 */}
                   <Card
-                    className={`cursor-pointer transition-all ${
-                      selectedPlan === "basic" ? "border-green-500 shadow-lg" : "hover:border-green-200"
-                    }`}
+                    className={`cursor-pointer transition-all ${selectedPlan === "basic" ? "border-green-500 shadow-lg" : "hover:border-green-200"
+                      }`}
                     onClick={() => setSelectedPlan("basic")}
                   >
                     <CardHeader>
@@ -436,11 +440,10 @@ export default function IaaSPage() {
                     </CardContent>
                     <CardFooter>
                       <Button
-                        className={`w-full ${
-                          selectedPlan === "basic"
+                        className={`w-full ${selectedPlan === "basic"
                             ? "bg-green-600 hover:bg-green-700"
                             : "bg-gray-200 hover:bg-gray-300 text-gray-800"
-                        }`}
+                          }`}
                         onClick={() => setSelectedPlan("basic")}
                       >
                         {selectedPlan === "basic" ? "선택됨" : "선택"}
@@ -450,9 +453,8 @@ export default function IaaSPage() {
 
                   {/* 표준형 인스턴스 */}
                   <Card
-                    className={`cursor-pointer transition-all ${
-                      selectedPlan === "standard" ? "border-green-500 shadow-lg" : "hover:border-green-200"
-                    }`}
+                    className={`cursor-pointer transition-all ${selectedPlan === "standard" ? "border-green-500 shadow-lg" : "hover:border-green-200"
+                      }`}
                     onClick={() => setSelectedPlan("standard")}
                   >
                     <CardHeader>
@@ -488,11 +490,10 @@ export default function IaaSPage() {
                     </CardContent>
                     <CardFooter>
                       <Button
-                        className={`w-full ${
-                          selectedPlan === "standard"
+                        className={`w-full ${selectedPlan === "standard"
                             ? "bg-green-600 hover:bg-green-700"
                             : "bg-gray-200 hover:bg-gray-300 text-gray-800"
-                        }`}
+                          }`}
                         onClick={() => setSelectedPlan("standard")}
                       >
                         {selectedPlan === "standard" ? "선택됨" : "선택"}
@@ -502,9 +503,8 @@ export default function IaaSPage() {
 
                   {/* 고급형 인스턴스 */}
                   <Card
-                    className={`cursor-pointer transition-all ${
-                      selectedPlan === "premium" ? "border-green-500 shadow-lg" : "hover:border-green-200"
-                    }`}
+                    className={`cursor-pointer transition-all ${selectedPlan === "premium" ? "border-green-500 shadow-lg" : "hover:border-green-200"
+                      }`}
                     onClick={() => setSelectedPlan("premium")}
                   >
                     <CardHeader>
@@ -540,11 +540,10 @@ export default function IaaSPage() {
                     </CardContent>
                     <CardFooter>
                       <Button
-                        className={`w-full ${
-                          selectedPlan === "premium"
+                        className={`w-full ${selectedPlan === "premium"
                             ? "bg-green-600 hover:bg-green-700"
                             : "bg-gray-200 hover:bg-gray-300 text-gray-800"
-                        }`}
+                          }`}
                         onClick={() => setSelectedPlan("premium")}
                       >
                         {selectedPlan === "premium" ? "선택됨" : "선택"}
@@ -736,11 +735,10 @@ export default function IaaSPage() {
                           {filteredSystems.map((system) => (
                             <Card
                               key={system.id}
-                              className={`cursor-pointer transition-all hover:border-green-500 shadow-sm hover:shadow-md ${
-                                selectedSystem?.id === system.id
+                              className={`cursor-pointer transition-all hover:border-green-500 shadow-sm hover:shadow-md ${selectedSystem?.id === system.id
                                   ? "border-green-500 bg-green-50 dark:bg-green-950/20"
                                   : ""
-                              }`}
+                                }`}
                               onClick={() => handleSystemSelect(system)}
                             >
                               <CardContent className="p-4">

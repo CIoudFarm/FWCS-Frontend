@@ -188,7 +188,7 @@ export default function SimulationPage() {
           <div className="flex items-center gap-2">
             <Leaf className="ml-10 h-6 w-6 text-green-600" />
             <Link href="/" className="text-xl font-bold">
-              CloudFarm Hub
+              FWCS Hub
             </Link>
           </div>
 
