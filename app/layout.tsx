@@ -9,7 +9,10 @@ export const metadata = {
   title: "FWCS Hub - Find and Deploy Smart Farming Infrastructure",
   description:
     "Search, discover, and deploy smart farming infrastructure components with our comprehensive IaaS platform.",
-    generator: 'v0.dev'
+  generator: 'v0.dev',
+  icons: {
+		icon: "/icon.png",
+	},
 }
 
 export default function RootLayout({
