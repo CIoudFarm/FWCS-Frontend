@@ -140,7 +140,7 @@ export default function FileUploadPage() {
           <div className="flex items-center gap-2 ml-5">
             <Leaf className="h-6 w-6 text-green-600" />
             <Link href="/" className="text-xl font-bold">
-              SmartFarm Hub
+              FWCS Hub
             </Link>
           </div>
 
