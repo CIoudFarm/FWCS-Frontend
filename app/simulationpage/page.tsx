@@ -36,7 +36,7 @@ export default function SimulationPage() {
       setContainerId(idParam);
 
       axios
-        .get(`https://devcjs.co.kr/containers/${idParam}/`)
+        .get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/containers/${idParam}/`)
         .then((res) => {
           const settingFileValue = res.data?.setting_file;
           console.log(settingFileValue);
