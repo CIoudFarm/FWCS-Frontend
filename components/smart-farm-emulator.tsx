@@ -1,12 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-interface Plant {
-  id: string;
-  name: string;
-  position: Position;
-  status: "alive" | "dead";
-}
 interface Position {
   x: number;
   y: number;
@@ -63,7 +57,6 @@ interface Hardware {
   sensors: Sensor[];
   actuators: Actuator[];
   robots: Robot[];
-  plants: PlantInfo[];
 }
 
 interface Dimensions {
@@ -75,6 +68,7 @@ interface Dimensions {
 interface BaseConfig {
   dimensions: Dimensions;
   hardware: Hardware;
+  plants: PlantInfo[];
 }
 
 interface UserConfig {
@@ -215,7 +209,7 @@ export default function SmartFarmEmulator({
   const sensors = baseConfig?.hardware?.sensors || [];
   const robots = baseConfig?.hardware?.robots || [];
   const layers = baseConfig?.hardware?.layers || 1;
-  const plants = baseConfig?.hardware?.plants || []; // baseConfig에서 plants 가져오기
+  const plants = baseConfig?.plants || [];
   const bedsPerLayer = baseConfig?.hardware?.beds_per_layer || 0;
   const dimensions = baseConfig?.dimensions || {
     width: "14m",
@@ -277,7 +271,7 @@ export default function SmartFarmEmulator({
       if (!layer) return;
 
       const newShapes = { ...robotShapes };
-      Object.keys(robotShapes).forEach((id) => {
+      Object.keys(robotShapes)?.forEach((id) => {
         const entry = robotShapes[id];
         const robot = entry.robot;
         const newX = Math.max(
@@ -405,8 +399,8 @@ export default function SmartFarmEmulator({
     const meterToPixelY = stageHeight;
 
     // 센서
-    sensors.forEach((sensorType) => {
-      sensorType.positions.forEach((pos) => {
+    sensors?.forEach((sensorType) => {
+      sensorType.positions?.forEach((pos) => {
         const pixelX = pos.x * meterToPixelX - 5;
         const pixelY = pos.y * meterToPixelY - 5;
         const visible = activeLayer === pos.layer;
@@ -449,12 +443,15 @@ export default function SmartFarmEmulator({
       const items = actuators
         .filter((a) => a.type === type)
         .flatMap((a) =>
-          a.positions.map((pos) => ({
+          a.positions?.map((pos) => ({
             ...pos,
             control: pos.control ?? a.control,
             type,
           }))
         );
+      
+      if(!items || !items[0])
+        return;
 
       items.forEach((pos) => {
         const pixelX = pos.x * meterToPixelX - 5;
@@ -645,7 +642,9 @@ export default function SmartFarmEmulator({
 
       newRobotShapes[robot.id] = { circle, label, robot };
     });
-    setRobotShapes(newRobotShapes);
+    if (JSON.stringify(robotShapes) !== JSON.stringify(newRobotShapes)) {
+      setRobotShapes(newRobotShapes);
+    }
   };
 
   return (

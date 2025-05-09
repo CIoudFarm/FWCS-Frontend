@@ -59,7 +59,9 @@ export default function Home() {
 
     try {
       const response = await axios.post(
-        "https://devcjs.co.kr/crops/search/",
+
+
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/crops/search/`,
         requestData
       );
       const result = response.data;
