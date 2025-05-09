@@ -76,7 +76,7 @@ export default function Home() {
         <div className="w-full flex h-16 items-center justify-between">
           <div className="flex items-center gap-2 ml-5">
             <Leaf className="h-6 w-6 text-green-600" />
-            <span className="text-xl font-bold">FWCS Hub</span>
+            <span className="text-xl font-bold" onClick={() => router.push("/")}>FWCS Hub</span>
           </div>
           <div className="flex items-center gap-4 mr-5">
             <Button variant="outline">
