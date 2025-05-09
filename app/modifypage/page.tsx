@@ -48,6 +48,7 @@ export default function AIEditorPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [containerId, setContainerId] = useState<string | null>(null);
 
   // 샘플 JSON 데이터 (이전 화면에서 선택한 파일)
   const [fileContent, setFileContent] = useState(`{
@@ -65,6 +66,13 @@ export default function AIEditorPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const idParam = params.get("id");
+      setContainerId(idParam);
+    }
+  }, []);
   // 메시지 전송 처리
   const handleSendMessage = () => {
     if (!inputValue.trim()) return;
@@ -159,9 +167,9 @@ export default function AIEditorPage() {
   };
 
   // 완료 버튼 처리
-  const handleComplete = () => {
+  const handleComplete = (id: string) => {
     // 실제로는 수정된 파일을 저장하고 다음 페이지로 이동
-    router.push("/simulationpage");
+    router.push(`/simulationpage?id=${id}`);
   };
 
   // 메시지 포맷팅
@@ -485,7 +493,7 @@ export default function AIEditorPage() {
               <div className="mt-4 flex justify-end">
                 <Button
                   className="bg-green-600 hover:bg-green-700 gap-2"
-                  onClick={handleComplete}
+                  onClick={() => handleComplete(containerId!)}
                 >
                   완료
                   <ArrowRight className="h-4 w-4" />
