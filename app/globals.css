@@ -92,3 +92,12 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+body::after {
+  content: none !important;
+}
+
+#__next-build-watcher,
+.nextjs-build-watcher {
+  display: none !important;
+}
